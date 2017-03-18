@@ -290,8 +290,10 @@ gulp.task('zip', gulp.series(
 
 gulp.task('dev', gulp.series(
     'build',
-    'watch',
-    'serve'
+    gulp.parallel(
+        'watch',
+        'serve'
+    )
 ));
 
 // Default task
