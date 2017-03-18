@@ -285,7 +285,7 @@ gulp.task('vendor', gulp.series(
     'filter'
 ));
 
-gulp.task('build', gulp.series(gulp.parallel(
+gulp.task('build', gulp.series('clean', gulp.parallel(
     'build:html',
     'build:css',
     'build:js',
@@ -297,7 +297,6 @@ gulp.task('zip', gulp.series(
     'build',
     'build:zip'
 ));
-
 
 gulp.task('dev', gulp.series(
     'build',
