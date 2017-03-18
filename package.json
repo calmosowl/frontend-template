@@ -1,40 +1,40 @@
 {
-    "name": "frontend-template",
-    "version": "1.1.0",
-    "description": "The template for quick start of web project with Gulp, Bower etc.",
-    "author": "Kirdyashkin Egor <egorkir41@gmail.com> (https://github.com/egorkir)",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/egorkir/frontend-template.git"
-    },
-    "licenses": {
-        "type": "MIT",
-        "url": "https://github.com/egorkir/frontend-template/blob/master/LICENSE"
-    },
-    "main": "gulpfile.js",
-
-    "devDependencies": {
-        "gulp": "^3.9.1",
-        "gulp-bower": "^0.0.13",
-        "gulp-postcss": "^6.0.0",
-        "gulp-clean-css": "^2.0.7",
-        "gulp-rigger": "^0.5.8",
-        "gulp-sass": "^2.3.1",
-        "gulp-watch": "^4.3.5",
-        "gulp-filter": "^4.0.0",
-        "gulp-csscomb": "^3.0.8",
-        "gulp-plumber": "^1.1.0",
-        "gulp-util": "^3.0.8",
-        "gulp-merge-media-queries": "^0.2.1",
-        "gulp-zip": "^4.0.0",
-        "gulp-posthtml": "^2.0.0",
-        "autoprefixer": "^6.0.0",
-        "browser-sync": "^2.12.5",
-        "rimraf": "^2.5.2",
-        "eslint": "^3.9.1",
-        "eslint-config-yandex": "^1.0.6",
-        "posthtml-attrs-sorter": "^1.1.0"
-    }
-
+  "name": "frontend-template",
+  "version": "1.1.0",
+  "description": "The template for quick start of web project with Gulp, Bower etc.",
+  "author": "Kirdyashkin Egor <egorkir41@gmail.com> (https://github.com/egorkir)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/egorkir/frontend-template.git"
+  },
+  "licenses": {
+    "type": "MIT",
+    "url": "https://github.com/egorkir/frontend-template/blob/master/LICENSE"
+  },
+  "main": "gulpfile.js",
+  "devDependencies": {
+    "autoprefixer": "^6.0.0",
+    "browser-sync": "^2.12.5",
+    "eslint": "^3.9.1",
+    "eslint-config-yandex": "^1.0.6",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-bower": "^0.0.13",
+    "gulp-clean-css": "^2.0.7",
+    "gulp-csscomb": "^3.0.8",
+    "gulp-filter": "^4.0.0",
+    "gulp-merge-media-queries": "^0.2.1",
+    "gulp-plumber": "^1.1.0",
+    "gulp-postcss": "^6.0.0",
+    "gulp-posthtml": "^2.0.0",
+    "gulp-rigger": "^0.5.8",
+    "gulp-sass": "^2.3.1",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^4.3.5",
+    "gulp-zip": "^4.0.0",
+    "posthtml-attrs-sorter": "^1.1.0",
+    "rimraf": "^2.5.2"
+  },
+  "dependencies": {},
+  "optionalDependencies": {}
 }

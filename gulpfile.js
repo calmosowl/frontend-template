@@ -254,34 +254,6 @@ gulp.task('watch', function(){
 // -------- Main task ----------
 // =============================
 
-gulp.task('vendor', [
-    'bower',
-    'filter'
-]);
-
-gulp.task('zip', [
-    'build',
-    'build:zip'
-]);
-
-gulp.task('build', [
-    'build:html',
-    'build:css',
-    'build:js',
-    'build:img',
-    'build:fonts'
-]);
-
-gulp.task('dev', [
-    'build',
-    'watch',
-    'serve'
-]);
-
-// Default task
-gulp.task('default', ['dev']);
-
-
 // TODO: Разобрать таск и переписать
 // Фильтруем библиотеки и вынимаем только нужные файлы
 gulp.task('filter', function() {
@@ -308,3 +280,33 @@ gulp.task('filter', function() {
 
     return stream;
 });
+
+gulp.task('vendor', gulp.series(
+    'bower',
+    'filter'
+));
+
+gulp.task('build', gulp.series(gulp.parallel(
+    'build:html',
+    'build:css',
+    'build:js',
+    'build:img',
+    'build:fonts'
+)));
+
+gulp.task('zip', gulp.series(
+    'build',
+    'build:zip'
+));
+
+
+gulp.task('dev', gulp.series(
+    'build',
+    'watch',
+    'serve'
+));
+
+// Default task
+gulp.task('default', gulp.series('dev', function () {
+    console.log('Hello')
+}));
