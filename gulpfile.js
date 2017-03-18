@@ -306,6 +306,4 @@ gulp.task('dev', gulp.series(
 ));
 
 // Default task
-gulp.task('default', gulp.series('dev', function () {
-    console.log('Hello')
-}));
+gulp.task('default', gulp.series('dev'));
