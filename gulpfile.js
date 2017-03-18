@@ -182,7 +182,7 @@ gulp.task('build:html', function () {
 });
 
 gulp.task('build:js', function () {
-    return gulp.src(path.src.js)
+    return gulp.src(path.src.js, {since: gulp.lastRun('build:js')})
         .pipe(plumber(option.plumber))
         .pipe(rigger())
         .pipe(gulp.dest(path.build.js))
@@ -191,7 +191,7 @@ gulp.task('build:js', function () {
 
 gulp.task('build:css', function () {
     // style.css
-    return gulp.src(path.src.style, {since: gulp.lastRun('build:html')})
+    return gulp.src(path.src.style, {since: gulp.lastRun('build:css')})
         .pipe(plumber(option.plumber))
         .pipe(sass(option.sass))
         .pipe(postcss(option.postcss))
@@ -202,14 +202,14 @@ gulp.task('build:css', function () {
 });
 
 gulp.task('build:img', function () {
-    return gulp.src(path.src.img)
+    return gulp.src(path.src.img, {since: gulp.lastRun('build:img')})
         .pipe(plumber(option.plumber))
         .pipe(gulp.dest(path.build.img))
         .pipe(reload({stream: true}));
 });
 
 gulp.task('build:fonts', function() {
-    return gulp.src(path.src.fonts)
+    return gulp.src(path.src.fonts, {since: gulp.lastRun('build:fonts')})
         .pipe(plumber(option.plumber))
         .pipe(gulp.dest(path.build.fonts))
 });
