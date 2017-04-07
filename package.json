@@ -1,60 +1,60 @@
 {
-    "name": "frontend-template",
-    "version": "1.1.2",
-    "description": "The template for quick start of web project with Gulp, Bower etc.",
-    "keywords": [
-        "gulp",
-        "frontend",
-        "project",
-        "template"
-    ],
-    "homepage": "https://github.com/egorkir/frontend-template",
-    "author": "Kirdyashkin Egor <egorkir41@gmail.com> (https://github.com/egorkir)",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/egorkir/frontend-template.git"
-    },
-    "licenses": {
-        "type": "MIT",
-        "url": "https://github.com/egorkir/frontend-template/blob/master/LICENSE"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "gulp dev",
-        "amo": "node tools/module/add.js",
-        "rmo": "node tools/module/remove.js"
-    },
-    "engines": {
-        "node": ">=4.0.0",
-        "npm": "~3.0.0"
-    },
-    "main": "gulpfile.js",
-
-    "devDependencies": {
-        "gulp": "^3.9.1",
-        "gulp-bower": "^0.0.13",
-        "gulp-postcss": "^6.0.0",
-        "gulp-sourcemaps": "^2.4.1",
-        "gulp-rigger": "^0.5.8",
-        "gulp-sass": "^3.1.0",
-        "gulp-watch": "^4.3.5",
-        "gulp-filter": "^5.0.0",
-        "gulp-csscomb": "^3.0.8",
-        "gulp-plumber": "^1.1.0",
-        "gulp-rename": "^1.2.2",
-        "gulp-util": "^3.0.8",
-        "gulp-merge-media-queries": "^0.2.1",
-        "gulp-zip": "^4.0.0",
-        "gulp-posthtml": "^3.0.0",
-        "gulp-load-plugins": "^1.5.0",
-        "del": "^2.2.2",
-        "autoprefixer": "^6.0.0",
-        "run-sequence": "^1.2.2",
-        "browser-sync": "^2.12.5",
-        "eslint": "^3.9.1",
-        "eslint-config-yandex": "^1.0.6",
-        "posthtml-attrs-sorter": "^1.1.0"
-    }
-
+  "name": "frontend-template",
+  "version": "1.1.2",
+  "description": "The template for quick start of web project with Gulp, Bower etc.",
+  "keywords": [
+    "gulp",
+    "frontend",
+    "project",
+    "template"
+  ],
+  "homepage": "https://github.com/egorkir/frontend-template",
+  "author": "Kirdyashkin Egor <egorkir41@gmail.com> (https://github.com/egorkir)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/egorkir/frontend-template.git"
+  },
+  "licenses": {
+    "type": "MIT",
+    "url": "https://github.com/egorkir/frontend-template/blob/master/LICENSE"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp dev",
+    "amo": "node tools/module/add.js",
+    "rmo": "node tools/module/remove.js"
+  },
+  "engines": {
+    "node": ">=4.0.0",
+    "npm": "~3.0.0"
+  },
+  "main": "gulpfile.js",
+  "devDependencies": {
+    "autoprefixer": "^6.0.0",
+    "browser-sync": "^2.12.5",
+    "del": "^2.2.2",
+    "eslint": "^3.9.1",
+    "eslint-config-yandex": "^1.0.6",
+    "gulp": "^3.9.1",
+    "gulp-bower": "^0.0.13",
+    "gulp-csscomb": "^3.0.8",
+    "gulp-filter": "^5.0.0",
+    "gulp-html-beautify": "^1.0.1",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-merge-media-queries": "^0.2.1",
+    "gulp-plumber": "^1.1.0",
+    "gulp-postcss": "^6.0.0",
+    "gulp-posthtml": "^3.0.0",
+    "gulp-pug": "^3.3.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rigger": "^0.5.8",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^4.3.5",
+    "gulp-zip": "^4.0.0",
+    "posthtml-attrs-sorter": "^1.1.0",
+    "run-sequence": "^1.2.2"
+  }
 }

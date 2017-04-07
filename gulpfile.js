@@ -12,6 +12,8 @@ var autoprefixer = require('autoprefixer');
 var runSequence  = require('run-sequence');
 var browserSync  = require('browser-sync').create();
 var attrSorter   = require('posthtml-attrs-sorter');
+var pug          = require('gulp-pug');
+var htmlbeautify = require('gulp-html-beautify');
 var del          = require('del');
 var reload       = browserSync.reload;
 
@@ -58,6 +60,7 @@ var path = {
 
     src: {
         html:   'src/*.html',                 // Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
+        pug:    'src/*.pug',
         js:     'src/js/common.js',
         style:  'src/sass/style.scss',
         img:    'src/images/**/*.*',           // Синтаксис images/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
@@ -67,6 +70,7 @@ var path = {
 
     watch: {
         html:   'src/**/*.html',
+        pug:    'src/**/*.pug',
         js:     'src/js/**/*.js',
         style:  'src/sass/**/*.scss',
         img:    'src/images/**/*.*',
@@ -137,6 +141,8 @@ var option = {
 
     csscomb: 'csscomb.json',
 
+    htmlbeautify: '.jsbeautifyrc',
+
 }
 
 // =============================
@@ -159,11 +165,13 @@ gulp.task('bower', function() {
 // ------- Build tasks ---------
 // =============================
 
-gulp.task('build:html', function () {
-    return gulp.src(path.src.html)
+gulp.task('build:pug', function () {
+    return gulp.src(path.src.pug)
         .pipe($.plumber(option.plumber))
         .pipe($.rigger())
+        .pipe($.pug())
         .pipe($.posthtml(option.posthtml.plugins, option.posthtml.options))
+        .pipe(htmlbeautify(option.htmlbeautify))
         .pipe(gulp.dest(path.build.html));
 });
 
@@ -223,8 +231,12 @@ gulp.task('build:zip', function() {
 // =============================
 
 gulp.task('watch', function(){
-    $.watch([path.watch.html], function(event, cb) {
-        return runSequence('build:html', reload);
+    // $.watch([path.watch.html], function(event, cb) {
+    //     return runSequence('build:html', reload);
+    // });
+
+    $.watch([path.watch.pug], function(event, cb) {
+        return runSequence('build:pug', reload);
     });
 
     $.watch([path.watch.style], function(event, cb) {
@@ -257,7 +269,7 @@ gulp.task('build:style', function (cb) {
 });
 
 gulp.task('build', [
-    'build:html',
+    'build:pug',
     'build:style',
     'build:js',
     'build:img',
