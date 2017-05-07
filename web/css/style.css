@@ -147,17 +147,103 @@ main {
 }
 
 .top-panel {
+    font-size: 23.8px;
+    line-height: 34px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display:         flex;
-    min-height: 32px;
-    color: yellow;
+    height: 34px;
+    padding: 0 13px;
+    text-transform: uppercase;
+    color: #fbea5e;
+    background-color: #000;
+    text-shadow: 1px 1px 1px rgba(251, 234, 94, .6);
 
     -webkit-box-pack: justify;
     -webkit-justify-content: space-between;
     -ms-flex-pack: justify;
             justify-content: space-between;
+}
+
+.top-panel .left,
+.top-panel .right {
+            flex: 0;
+
+    -webkit-box-flex: 0;
+    -webkit-flex: 0;
+        -ms-flex: 0;
+}
+
+.top-panel .center {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+            flex: 1;
+
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+            justify-content: center;
+}
+
+.top-panel .center .jackpot-item {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+}
+
+.top-panel .center .jackpot-item .jackpot-name {
+    margin-right: 11px;
+}
+
+.top-panel .center .jackpot-item .jackpot-counter {
+    font-size: 19.04px;
+    position: relative;
+}
+
+.top-panel .center .jackpot-item .jackpot-counter .result {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    letter-spacing: 12.66px;
+}
+
+.top-panel .center .jackpot-item .jackpot-counter .row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+    overflow: hidden;
+}
+
+.top-panel .center .jackpot-item .jackpot-counter .row .cell {
+    position: relative;
+    width: 22.1px;
+    height: 34px;
+    border-radius: 3px;
+    background-color: #222;
+    background-image: -webkit-linear-gradient(top, rgba(200, 200, 200, .2) 0%, rgba(200, 200, 200, .2) 40%, black 45%, black 55%, black 100%);
+    background-image:         linear-gradient(top, rgba(200, 200, 200, .2) 0%, rgba(200, 200, 200, .2) 40%, black 45%, black 55%, black 100%);
+}
+
+.top-panel .center .jackpot-item .jackpot-counter .row .cell + .cell {
+    box-shadow: inset .09em 0 .1em 0 rgba(255, 255, 255, .2);
+}
+
+.top-panel .center .jackpot-item .jackpot-counter .row .cell::before {
+    line-height: 19px;
+    position: absolute;
+    content: '9 \a 0 \a 1 \a 2 \a 3 \a 4 \a 5 \a 6 \a 7 \a 8 \a 9';
+    -webkit-transform: translateY(-12px);
+        -ms-transform: translateY(-12px);
+            transform: translateY(-12px);
+    text-align: center;
 }
 
 /*# sourceMappingURL=style.css.map */

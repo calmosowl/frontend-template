@@ -1,38 +1,23 @@
-$(document).ready(function(){
-    //====================================
-    //--------- Functions ----------------
-    //====================================
+function makeCounter() {
+  var currentCount = 12345;
+  var currentCountString = currentCount.toString(10);
+  console.log(currentCountString);
 
-    //= source/debounce.js
-    //= source/equalHeight.js
-    //= source/miss-click.js
-    //= source/responsive-iframe.js
+  // возвращаемся к функции
+  function counter() {
+	  return currentCount++;
+	}
 
-    //====================================
-    //--------- Custom Scripts -----------
-    //====================================
+  // ...и добавляем ей методы!
+  counter.set = function(value) {
+	currentCount = value;
+  };
 
-    //= source/map.js
-    //= source/button-top.js
-    //= source/modal.js
+  counter.reset = function() {
+	currentCount = 1;
+  };
 
-    //====================================
-    //-------- Only this site ------------
-    //====================================
+  return counter;
+}
 
-
-
-    //====================================
-    //------ Listener functions ----------
-    //====================================
-
-    //= source/resizeListener.js
-    //= source/scrollListener.js
-
-    //====================================
-    //--------- Setting libs -------------
-    //====================================
-
-
-
-});
+var counter = makeCounter();
