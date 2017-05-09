@@ -19,4 +19,17 @@
 		</div>
 	</div>
 	<div class="right">right</div>
-</div>	
+</div>
+<script>
+var cellOne = document.querySelector("#cell-1");
+var cellTwo = document.querySelector("#cell-2");
+var cellThree = document.querySelector("#cell-3");
+var cellFour = document.querySelector("#cell-4");
+var cellFive = document.querySelector("#cell-5");
+
+var transform = window.getComputedStyle(
+	document.querySelector('#cell-5'), ':before'
+).getPropertyValue('transform');
+
+moveCell(cellFive, arr[4]*(-20));
+</script>

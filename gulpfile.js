@@ -55,18 +55,18 @@ var path = {
         html:    'web/',
         js:      'web/js/',
         css:     'web/css/',
-        img:     'web/images/',
-        sprites: 'web/images/sprites',
+        //img:     'web/images/',
+        //sprites: 'web/images/sprites',
         fonts:   'web/fonts/',
         libs:    'web/libs/'
     },
 
     src: {
         html:    'src/*.html',                 // Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
-        js:      'src/js/common.js',
+        js:      'src/js/counter.js',
         style:   'src/sass/style.scss',
-        img:     'src/images/content/**/*.*',           // Синтаксис images/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
-        sprites: 'src/images/sprites/**/*.*',           // Синтаксис images/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
+        //img:     'src/images/content/**/*.*',           // Синтаксис images/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
+        //sprites: 'src/images/sprites/**/*.*',           // Синтаксис images/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
         fonts:   'src/fonts/**/*.*',
         libs:    './bower_components/'
     },
@@ -75,8 +75,8 @@ var path = {
         html:    'src/**/*.html',
         js:      'src/js/**/*.js',
         style:   'src/sass/**/*.scss',
-        img:     'src/images/content/**/*.*',
-        sprites: 'src/images/sprites/**/*.*',
+        //img:     'src/images/content/**/*.*',
+        //sprites: 'src/images/sprites/**/*.*',
         fonts:   'src/fonts/**/*.*'
     },
 
