@@ -61,8 +61,8 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 h1,
@@ -71,31 +71,31 @@ h3,
 h4,
 h5,
 h6 {
-  font-size: 100%;
-  font-weight: normal;
+	font-size: 100%;
+	font-weight: normal;
 }
 
 ul {
-  list-style: none;
+	list-style: none;
 }
 
 button,
 input,
 select,
 textarea {
-  margin: 0;
+	margin: 0;
 }
 
 html {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 * {
-  box-sizing: inherit;
+	box-sizing: inherit;
 }
 
 *:before, *:after {
-  box-sizing: inherit;
+	box-sizing: inherit;
 }
 
 img,
@@ -103,38 +103,38 @@ embed,
 object,
 audio,
 video {
-  height: auto;
-  max-width: 100%;
+	height: auto;
+	max-width: 100%;
 }
 
 iframe {
-  border: 0;
+	border: 0;
 }
 
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
 td,
 th {
-  padding: 0;
-  text-align: left;
+	padding: 0;
+	text-align: left;
 }
 
 @font-face {
-    font-family: DinPro;
-    src: url(../fonts/DINPro.otf);
+	font-family: DinPro;
+	src: url(../fonts/DINPro.otf);
 }
 
 html,
 body {
-    font-family: DinPro;
+	font-family: DinPro, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 body {
-    display: flex;
-    flex-flow: column nowrap;
+	display: flex;
+	flex-flow: column nowrap;
 	min-height: 100vh;
 	justify-content: space-between;
 }
@@ -151,9 +151,62 @@ main {
 	background-color: rgb(233, 225, 217);
 }
 
+$top-panel-height: 34px;
+$font-family: DinPro, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$transition-property: transform;
+$transition-time: 1000ms;
+$method: ease-in-out;
 .top-panel {
 	display: flex;
 	justify-content: space-between;
-	min-height: 32px;
-	color: yellow;
+	font-family: $font-family;
+	height: $top-panel-height;
+	line-height: $top-panel-height;
+	padding: 0 13px;
+	background-color: #000;
+	color: #fbea5e;
+	font-size: $top-panel-height * 0.7;
+	text-shadow: 1px 1px 1px rgba(251, 234, 94, 0.6);
+	text-transform: uppercase;
+	.left, .right {flex: 0;}
+	.center {
+		flex: 1;
+		display: flex;
+		justify-content: center;
+		.jackpot-item {
+			display: flex;
+			.jackpot-name {
+				margin-right: 11px;
+			}
+			.jackpot-counter {
+				font-size: $top-panel-height * 0.56;
+				position: relative;
+				.row {
+					display: flex;
+					overflow: hidden;
+					background-image: linear-gradient(top, rgba(200, 200, 200, 0.2) 0%, rgba(200, 200, 200, 0.2) 40%, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 1) 55%, rgba(0, 0, 0, 1) 100%);
+					background-color: #222222;
+					border-radius: 3px;
+					.cell {
+						width: $top-panel-height * 0.65;
+						height: $top-panel-height;
+						position: relative;
+						transform: matrix(1, 0, 0, 1, 0, 0);
+						transition: $transition-property $transition-time $method;
+						& + .cell {
+							box-shadow: inset 0.09em 0 0.1em 0px rgba(255, 255, 255, 0.2)
+						}
+						&::before {
+							position: absolute;
+							content: '9 \a 0 \a 1 \a 2 \a 3 \a 4 \a 5 \a 6 \a 7 \a 8 \a 9 \a 1';
+							line-height: 20px;
+							text-align: center;
+							transform: matrix(1, 0, 0, 1, 0, -12);
+							transition: $transition-property $transition-time $method;
+						}
+					}
+				}
+			}
+		}
+	}
 }
