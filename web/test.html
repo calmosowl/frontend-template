@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>counter</title>
+	<link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <header role="banner">
+        <div id="idOfThisShit">hi</div>
+    </header>
+    <main role="main">
+    <script>
+ 
+
+
+	function Counter() {
+  this.sum = 0;
+  this.count = 0;
+}
+
+Counter.prototype.add = function(array) {
+  array.forEach(function(entry) {
+    this.sum += entry;
+    ++this.count;
+  }, this);
+  // ^---- Note
+};
+
+var obj = new Counter();
+obj.add([2, 5, 9, 10]);
+obj.count;
+// 3 
+obj.sum
+	
+
+
+
+    </script>
+    </main>
+</body>
+</html>

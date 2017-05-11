@@ -79,8 +79,9 @@ function generator() {
 	randomInteger(1, 100);
     countObject.count += rand;
 	prevArr = createArray(countObject.count);
+	moveCell(cellHundredth, randomInteger(1, 9)*(-lineHeight));
     elemArr.forEach(function(item, i, elemArr) {
-		moveCell(item, prevArr[i]*(-20));
+		moveCell(item, prevArr[i]*(-lineHeight));
 	});
     setTimeout(generator, 5000);
 }
@@ -90,10 +91,15 @@ var cellOne = document.querySelector("#cell-1"),
 	cellThree = document.querySelector("#cell-3"),
 	cellFour = document.querySelector("#cell-4"),
 	cellFive = document.querySelector("#cell-5");
+	cellHundredth = document.querySelector(".hundredth");
 
 var transform = window.getComputedStyle(
 	document.querySelector('#cell-5'), ':before'
 ).getPropertyValue('transform');
+
+var lineHeight = parseInt(window.getComputedStyle(
+	document.querySelector('#cell-5'), ':before'
+).getPropertyValue('line-height'));
 
 var elemArr = [cellOne, cellTwo, cellThree, cellFour, cellFive];
 
@@ -117,7 +123,7 @@ function moveCell(element, step) {
 }
 
 elemArr.forEach(function(item, i, elemArr) {
-	moveCell(item, prevArr[i]*(-20));
+	moveCell(item, prevArr[i]*(-lineHeight));
 });
 
 generator();

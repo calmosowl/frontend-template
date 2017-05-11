@@ -148,13 +148,13 @@ main {
 
 .top-panel {
     font-family: DinPro, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-    font-size: 23.8px;
-    line-height: 34px;
+    font-size: 21px;
+    line-height: 30px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display:         flex;
-    height: 34px;
+    height: 30px;
     padding: 0 13px;
     text-transform: uppercase;
     color: #fbea5e;
@@ -169,11 +169,15 @@ main {
 
 .top-panel .left,
 .top-panel .right {
-            flex: 0;
+            flex: 1;
 
-    -webkit-box-flex: 0;
-    -webkit-flex: 0;
-        -ms-flex: 0;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+}
+
+.top-panel .right {
+    text-align: right;
 }
 
 .top-panel .center {
@@ -186,10 +190,10 @@ main {
     -webkit-box-flex: 1;
     -webkit-flex: 1;
         -ms-flex: 1;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-            justify-content: center;
+    -webkit-box-pack: inherit;
+    -webkit-justify-content: inherit;
+    -ms-flex-pack: inherit;
+            justify-content: inherit;
 }
 
 .top-panel .center .jackpot-item {
@@ -204,7 +208,7 @@ main {
 }
 
 .top-panel .center .jackpot-item .jackpot-counter {
-    font-size: 19.04px;
+    font-size: 17px;
     position: relative;
 }
 
@@ -222,8 +226,8 @@ main {
 
 .top-panel .center .jackpot-item .jackpot-counter .row .cell {
     position: relative;
-    width: 22.1px;
-    height: 34px;
+    width: 19.5px;
+    height: 30px;
     -webkit-transition: -webkit-transform 1000ms ease-in-out;
             transition: -webkit-transform 1000ms ease-in-out;
             transition:         transform 1000ms ease-in-out;
@@ -238,7 +242,7 @@ main {
 }
 
 .top-panel .center .jackpot-item .jackpot-counter .row .cell::before {
-    line-height: 20px;
+    line-height: 1.1;
     position: absolute;
     content: '9 \a 0 \a 1 \a 2 \a 3 \a 4 \a 5 \a 6 \a 7 \a 8 \a 9 \a 1';
     -webkit-transition: -webkit-transform 1000ms ease-in-out;
