@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="utf-8">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>counter</title>
@@ -9,23 +9,75 @@
 </head>
 
 <body>
-    <header role="banner">
-        <div id="idOfThisShit">hi</div>
-    </header>
-    <main role="main">
-    <script>
+	<header role="banner">
+	<div class="top-panel">
+	<div class="left">535.98 EUR</div>
+	<div class="center">
+		<div class="jackpot-item">
+			<div class="jackpot-name">jackpot-5</div>
+				<div class="jackpot-counter">
+					<div class="row">
+						<!-- <div class="jackpot-counter-cell"></div>
+						<div class="jackpot-counter-cell"></div>
+						<div class="jackpot-counter-cell"></div>
+						<div class="jackpot-counter-cell"></div>
+						<div class="jackpot-counter-cell"></div>
+						<div>.</div>
+						<div class="jackpot-counter-cell"></div> -->
+						<div class="jackpot-counter-cell">
+							<span>0</span>
+							<span>1</span>
+							<span>2</span>
+							<span>3</span>
+							<span>4</span>
+							<span>5</span>
+							<span>6</span>
+							<span>7</span>
+							<span>8</span>
+							<span>9</span>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<div class="right">last jackpot: 07/05/17</div>
+</div>
+	</header>
+	<main role="main">
+	<div id="carousel">
+	  <figure id="spinner">
+		  <figure><span>0</span></figure>
+		  <figure><span>1</span></figure>
+		  <figure><span>2</span></figure>
+		  <figure><span>3</span></figure>
+		  <figure><span>4</span></figure>
+		  <figure><span>5</span></figure>
+		  <figure><span>6</span></figure>
+		  <figure><span>7</span></figure>
+		  <figure><span>8</span></figure>
+		  <figure><span>9</span></figure>
+	  </figure>
+	</div>
+	<script>
+		var spinner = document.querySelector("#spinner");
+	function galleryspin() { 
+		spinner.setAttribute("style","-webkit-transform: rotateX(36deg); -moz-transform: rotateX(36deg);transform: rotateX(36deg);");}
+		galleryspin();
+	</script>
+	<script>
  
 
 
-	function Counter() {
+function Counter() {
   this.sum = 0;
   this.count = 0;
 }
 
 Counter.prototype.add = function(array) {
   array.forEach(function(entry) {
-    this.sum += entry;
-    ++this.count;
+	this.sum += entry;
+	++this.count;
   }, this);
   // ^---- Note
 };
@@ -39,7 +91,7 @@ obj.sum
 
 
 
-    </script>
-    </main>
+	</script>
+	</main>
 </body>
 </html>

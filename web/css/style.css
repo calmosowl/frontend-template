@@ -224,7 +224,7 @@ main {
     background-image:         linear-gradient(top, rgba(200, 200, 200, .2) 0%, rgba(200, 200, 200, .2) 40%, black 45%, black 55%, black 100%);
 }
 
-.top-panel .center .jackpot-item .jackpot-counter .row .cell {
+.top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell {
     position: relative;
     width: 19.5px;
     height: 30px;
@@ -237,11 +237,11 @@ main {
             transform: matrix(1, 0, 0, 1, 0, 0);
 }
 
-.top-panel .center .jackpot-item .jackpot-counter .row .cell + .cell {
+.top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell + .jackpot-counter-cell {
     box-shadow: inset .09em 0 .1em 0 rgba(255, 255, 255, .2);
 }
 
-.top-panel .center .jackpot-item .jackpot-counter .row .cell::before {
+.top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell::before {
     line-height: 1.1;
     position: absolute;
     content: '9 \a 0 \a 1 \a 2 \a 3 \a 4 \a 5 \a 6 \a 7 \a 8 \a 9 \a 1';
@@ -254,5 +254,181 @@ main {
             transform: matrix(1, 0, 0, 1, 0, -12);
     text-align: center;
 }
+
+div#carousel {
+    font-size: 0;
+    margin-bottom: 3rem;
+    padding-top: 5%;
+    background: #fff;
+
+    -webkit-perspective: 1200px;
+            perspective: 1200px;
+}
+
+figure#spinner {
+    height: 300px;
+    -webkit-transition: 1s;
+            transition: 1s;
+    -webkit-transform-origin: 50% 50%;
+        -ms-transform-origin: 50% 50% -400px;
+            transform-origin: 50% 50% -400px;
+
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+}
+
+figure#spinner figure {
+    position: absolute;
+    left: 50%;
+    overflow: hidden;
+    width: 1%;
+    max-width: 500px;
+    -webkit-transition: 1s;
+            transition: 1s;
+    -webkit-transform-origin: 50% 50% -40px;
+        -ms-transform-origin: 50% 50% -40px;
+            transform-origin: 50% 50% -40px;
+    border: 1px solid #eee;
+    outline: 1px solid transparent;
+    background: #333;
+}
+
+figure#spinner figure.focus {
+    left: 37%;
+    width: 26%;
+    margin-top: -3rem;
+}
+
+figure#spinner figure span {
+    font-size: 20px;
+    display: block;
+    width: 100%;
+    height: 20px;
+    color: #eee;
+}
+
+figure#spinner figure:nth-child(1) {
+    -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+}
+
+figure#spinner figure:nth-child(2) {
+    -webkit-transform: rotateX(36deg);
+            transform: rotateX(36deg);
+}
+
+figure#spinner figure:nth-child(3) {
+    -webkit-transform: rotateX(72deg);
+            transform: rotateX(72deg);
+}
+
+figure#spinner figure:nth-child(4) {
+    -webkit-transform: rotateX(108deg);
+            transform: rotateX(108deg);
+}
+
+figure#spinner figure:nth-child(5) {
+    -webkit-transform: rotateX(144deg);
+            transform: rotateX(144deg);
+}
+
+figure#spinner figure:nth-child(6) {
+    -webkit-transform: rotateX(180deg);
+            transform: rotateX(180deg);
+}
+
+figure#spinner figure:nth-child(7) {
+    -webkit-transform: rotateX(216deg);
+            transform: rotateX(216deg);
+}
+
+figure#spinner figure:nth-child(8) {
+    -webkit-transform: rotateX(252deg);
+            transform: rotateX(252deg);
+}
+
+figure#spinner figure:nth-child(9) {
+    -webkit-transform: rotateX(288deg);
+            transform: rotateX(288deg);
+}
+
+figure#spinner figure:nth-child(10) {
+    -webkit-transform: rotateX(324deg);
+            transform: rotateX(324deg);
+}
+
+/* $carousel-ratio: 2.5;
+$child-ratio: 1.2;
+$perspective: 3000px;
+$transition: 1s;
+
+[data-carousel-3d] {
+  position: relative;
+  overflow: hidden;
+
+  > [data-children-wrapper] {
+	perspective: $perspective;
+	-ms-perspective: $perspective;
+	-moz-perspective: $perspective;
+	-webkit-perspective: $perspective;
+
+	> [data-child] {
+	  transition: $transition;
+	  -ms-transition: $transition;
+	  -moz-transition: $transition;
+	  -webkit-transition: $transition;
+	}
+  }
+}
+
+
+//child size
+[data-carousel-3d] {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+
+  > [data-children-wrapper] {
+
+	> [data-child] {
+	  position: absolute;
+	  overflow: hidden;
+	  box-sizing: border-box;
+	  width: 100%;
+	  height: 100%;
+
+	  > [data-child-frame] {
+
+		> [data-content-wrapper] {
+		  box-sizing: border-box;
+		  transform-origin: 0px 0px;
+		  -ms-transform-origin: 0px 0px;
+		  -moz-transform-origin: 0px 0px;
+		  -webkit-transform-origin: 0px 0px;
+		}
+	  }
+
+	}
+  }
+}
+
+
+//data-children-wrapper ratio
+[data-carousel-3d] {
+  &:before {
+	padding-top: 100%/$carousel-ratio;
+	display: block;
+	content: '';
+  }
+
+  $children-wrapper-margin: ((($carousel-ratio - $child-ratio) / $carousel-ratio) / 2) * 100%;
+  [data-children-wrapper] {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: $children-wrapper-margin;
+	left: $children-wrapper-margin;
+  }
+} */
 
 /*# sourceMappingURL=style.css.map */

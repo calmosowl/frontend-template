@@ -55,8 +55,8 @@ var path = {
         html:    'web/',
         js:      'web/js/',
         css:     'web/css/',
-        //img:     'web/images/',
-        //sprites: 'web/images/sprites',
+        img:     'web/images/',
+        sprites: 'web/images/sprites',
         fonts:   'web/fonts/',
         libs:    'web/libs/'
     },

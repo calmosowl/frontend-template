@@ -12,7 +12,7 @@ function ready(fn) {
 }
 ready(function () {
 
-// ********************
+// *******watch*******
 if (!Object.prototype.watch) {
   Object.defineProperty(Object.prototype, "watch", {
     enumerable: false
@@ -86,19 +86,22 @@ function generator() {
     setTimeout(generator, 5000);
 }
 
-var cellOne = document.querySelector("#cell-1"),
-	cellTwo = document.querySelector("#cell-2"),
-	cellThree = document.querySelector("#cell-3"),
-	cellFour = document.querySelector("#cell-4"),
-	cellFive = document.querySelector("#cell-5");
-	cellHundredth = document.querySelector(".hundredth");
+var $ = document.querySelector.bind(document);
+
+var cellOne = $(".jackpot-counter-cell:nth-child(1)"),
+	cellTwo = $(".jackpot-counter-cell:nth-child(2)"),
+	cellThree = $(".jackpot-counter-cell:nth-child(3)"),
+	cellFour = $(".jackpot-counter-cell:nth-child(4)"),
+	cellFive = $(".jackpot-counter-cell:nth-child(5)");
+	cellSix = $(".jackpot-counter-cell:nth-child(7)");
+	cellSeven = $(".jackpot-counter-cell:nth-child(8)");
 
 var transform = window.getComputedStyle(
-	document.querySelector('#cell-5'), ':before'
+	cellFive, ':before'
 ).getPropertyValue('transform');
 
 var lineHeight = parseInt(window.getComputedStyle(
-	document.querySelector('#cell-5'), ':before'
+	cellFive, ':before'
 ).getPropertyValue('line-height'));
 
 var elemArr = [cellOne, cellTwo, cellThree, cellFour, cellFive];
@@ -126,5 +129,5 @@ elemArr.forEach(function(item, i, elemArr) {
 	moveCell(item, prevArr[i]*(-lineHeight));
 });
 
-generator();
+//generator();
 });
