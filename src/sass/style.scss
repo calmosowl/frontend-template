@@ -212,4 +212,104 @@ $method: ease-in-out;
 	}
 
 }
-@import 'test'
+$con: 20px;
+$deep: 31px;
+$angle: 36deg;
+#container {
+      width: 100%;
+      height: 400px;
+      -webkit-perspective: 800; /* For compatibility with iPhone 3.0, we leave off the units here */
+      -webkit-perspective-origin: 50% 40%;
+    }
+    #stage {
+      width: 100%;
+      height: 100%;
+      -webkit-transition: -webkit-transform 1s;
+      -webkit-transform-style: preserve-3d;
+      transform: translateZ(-$con);
+    }
+    
+    #shape {
+      /* display: flex;
+      flex-direction: column; */
+      position: relative;
+      top: 160px;
+      margin: 0 auto;
+      height: $con;
+      width: $con;
+      -webkit-transform-style: preserve-3d;
+    }
+    
+    .plane {
+      //position: absolute;
+      height: $con;
+      width: $con;
+      
+      text-align: center;
+      
+      font-size: 20px;
+      line-height: 1;
+      color: black;
+      background-color: rgba(255, 250, 245, 0.4);
+      -webkit-transition: -webkit-transform 2s, opacity 2s;
+      //-webkit-backface-visibility: hidden;
+    }
+
+    #shape {
+      -webkit-animation: spin 8s infinite linear;
+    }
+
+    @-webkit-keyframes spin {
+      from { -webkit-transform: rotateY(0); }
+      to   { -webkit-transform: rotateY(-360deg); }
+    }
+
+
+
+    .ring > .one {
+      -webkit-transform: translateZ($deep);
+    }
+
+    .ring > .two {
+      -webkit-transform: rotateY($angle) translateZ($deep) translateY($con * (-1));
+    }
+
+    .ring > .three {
+      -webkit-transform: rotateY($angle * 2) translateZ($deep) translateY($con * (-2));
+    }
+
+    .ring > .four {
+      -webkit-transform: rotateY($angle * 3) translateZ($deep) translateY($con * (-3));
+    }
+
+    .ring > .five {
+      -webkit-transform: rotateY($angle * 4) translateZ($deep) translateY($con * (-4));
+    }
+
+    .ring > .six {
+      -webkit-transform: rotateY($angle * 5) translateZ($deep) translateY($con * (-5));
+    }
+
+    .ring > .seven {
+      -webkit-transform: rotateY($angle * 6) translateZ($deep) translateY($con * (-6));
+    }
+
+    .ring > .eight {
+      -webkit-transform: rotateY($angle * 7) translateZ($deep) translateY($con * (-7));
+    }
+
+    .ring > .nine {
+      -webkit-transform: rotateY($angle * 8) translateZ($deep) translateY($con * (-8));
+    }
+
+    .ring > .ten {
+      -webkit-transform: rotateY($angle * 9) translateZ($deep) translateY($con * (-9));
+    }
+
+    .ring > .eleven {
+      -webkit-transform: rotateY(300deg) translateZ($deep) translateY($con * (-2));
+    }
+
+    .ring > .twelve {
+      -webkit-transform: rotateY(330deg) translateZ($deep);
+    }

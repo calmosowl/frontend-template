@@ -63,7 +63,7 @@ var path = {
 
     src: {
         html:    'src/*.html',                 
-        js:      'src/js/common.js',
+        js:      'src/js/counter.js',
         style:   'src/sass/style.scss',
         img:     'src/images/content/**/*.*',           
         sprites: 'src/images/sprites/**/*.*',           
