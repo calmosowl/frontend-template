@@ -1,42 +1,3 @@
-//=========================//
-//
-//        IMPORT
-//
-//=========================//
-
-// CORE IMPORT
-//==========================
-//@import 'base/base';
-
-// MODULES IMPORT
-//==========================
-//@import 'modules/form';
-//@import 'modules/modal';
-//@import 'modules/social';
-
-// LAYOUT IMPORT
-//==========================
-//@import 'layout/header';
-//@import 'layout/main';
-//@import 'layout/footer';
-
-// PAGES IMPORT
-//==========================
-//@import 'pages/home';
-//@import 'pages/view';
-
-// VENDORS IMPORT
-//==========================
-//@import 'vendors/vendors';
-
-// MEDIA IMPORT
-//==========================
-
-//@import 'media/media-1200px';
-//@import 'media/media-992px';
-//@import 'media/media-767px';
-//@import 'media/media-320px';
-
 /*! minireset.css v0.0.2 | MIT License | github.com/jgthms/minireset.css */
 html,
 body,
@@ -151,11 +112,28 @@ main {
 	background-color: rgb(233, 225, 217);
 }
 
-$top-panel-height: 30px;
+$top-panel-height: 34px;
 $font-family: DinPro, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 $transition-property: transform;
 $transition-time: 1000ms;
 $method: ease-in-out;
+$con: 20px;
+$deep: 31px;
+$angle: 36deg;
+
+@mixin transform($transforms) {
+          transform: $transforms;
+}
+// rotate
+@mixin rotate3d($x, $y, $z, $deg) {
+  @include transform(rotate3d($x, $y, $z, $deg));
+}
+ 
+// translate
+@mixin translate3d ($x, $y, $z) {
+   @include transform(translate3d($x, $y, $z));
+}
+
 .top-panel {
 	display: flex;
 	justify-content: space-between;
@@ -192,18 +170,28 @@ $method: ease-in-out;
 						width: $top-panel-height * 0.65;
 						height: $top-panel-height;
 						position: relative;
-						transform: matrix(1, 0, 0, 1, 0, 0);
-						transition: $transition-property $transition-time $method;
+						//transform: matrix(1, 0, 0, 1, 0, 0);
+						//transition: $transition-property $transition-time $method;
 						& + .jackpot-counter-cell {
 							box-shadow: inset 0.09em 0 0.1em 0px rgba(255, 255, 255, 0.2)
 						}
-						&::before {
-							position: absolute;
-							content: '9 \a 0 \a 1 \a 2 \a 3 \a 4 \a 5 \a 6 \a 7 \a 8 \a 9 \a 1';
-							line-height: 1.1;
-							text-align: center;
-							transform: matrix(1, 0, 0, 1, 0, -12);
-							transition: $transition-property $transition-time $method;
+						.roller {
+							display: flex;
+							margin: 0 auto;
+							height: $top-panel-height;
+							width: 10px;
+							transform-style: preserve-3d;
+							animation: spin 10000ms infinite linear;
+							will-change: transform;
+							.plane {
+								height: $con;
+								width: $con;
+								text-align: center;
+								font-size: 19px;
+								line-height: 19px;
+								color: #fbea5e;
+								backface-visibility: hidden;
+							}
 						}
 					}
 				}
@@ -212,104 +200,16 @@ $method: ease-in-out;
 	}
 
 }
-$con: 20px;
-$deep: 31px;
-$angle: 36deg;
-#container {
-      width: 100%;
-      height: 400px;
-      -webkit-perspective: 800; /* For compatibility with iPhone 3.0, we leave off the units here */
-      -webkit-perspective-origin: 50% 40%;
-    }
-    #stage {
-      width: 100%;
-      height: 100%;
-      -webkit-transition: -webkit-transform 1s;
-      -webkit-transform-style: preserve-3d;
-      transform: translateZ(-$con);
-    }
-    
-    #shape {
-      /* display: flex;
-      flex-direction: column; */
-      position: relative;
-      top: 160px;
-      margin: 0 auto;
-      height: $con;
-      width: $con;
-      -webkit-transform-style: preserve-3d;
-    }
-    
-    .plane {
-      //position: absolute;
-      height: $con;
-      width: $con;
-      
-      text-align: center;
-      
-      font-size: 20px;
-      line-height: 1;
-      color: black;
-      background-color: rgba(255, 250, 245, 0.4);
-      -webkit-transition: -webkit-transform 2s, opacity 2s;
-      //-webkit-backface-visibility: hidden;
-    }
 
-    #shape {
-      -webkit-animation: spin 8s infinite linear;
-    }
+@for $i from 0 through 9 {
+	.jackpot-counter .figure#{$i} {
+		@include transform(rotate3d(1, 0, 0, $angle*$i) translate3d($con/2*(-$i), 0, $deep));
+	}
+}
 
-    @-webkit-keyframes spin {
-      from { -webkit-transform: rotateY(0); }
-      to   { -webkit-transform: rotateY(-360deg); }
-    }
+@keyframes spin {
+	from { @include rotate3d(1, 0, 0, 0deg); }
+	to { @include rotate3d(1, 0, 0, -360deg); }
+}
 
 
-
-    .ring > .one {
-      -webkit-transform: translateZ($deep);
-    }
-
-    .ring > .two {
-      -webkit-transform: rotateY($angle) translateZ($deep) translateY($con * (-1));
-    }
-
-    .ring > .three {
-      -webkit-transform: rotateY($angle * 2) translateZ($deep) translateY($con * (-2));
-    }
-
-    .ring > .four {
-      -webkit-transform: rotateY($angle * 3) translateZ($deep) translateY($con * (-3));
-    }
-
-    .ring > .five {
-      -webkit-transform: rotateY($angle * 4) translateZ($deep) translateY($con * (-4));
-    }
-
-    .ring > .six {
-      -webkit-transform: rotateY($angle * 5) translateZ($deep) translateY($con * (-5));
-    }
-
-    .ring > .seven {
-      -webkit-transform: rotateY($angle * 6) translateZ($deep) translateY($con * (-6));
-    }
-
-    .ring > .eight {
-      -webkit-transform: rotateY($angle * 7) translateZ($deep) translateY($con * (-7));
-    }
-
-    .ring > .nine {
-      -webkit-transform: rotateY($angle * 8) translateZ($deep) translateY($con * (-8));
-    }
-
-    .ring > .ten {
-      -webkit-transform: rotateY($angle * 9) translateZ($deep) translateY($con * (-9));
-    }
-
-    .ring > .eleven {
-      -webkit-transform: rotateY(300deg) translateZ($deep) translateY($con * (-2));
-    }
-
-    .ring > .twelve {
-      -webkit-transform: rotateY(330deg) translateZ($deep);
-    }

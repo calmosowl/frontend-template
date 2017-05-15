@@ -148,13 +148,13 @@ main {
 
 .top-panel {
     font-family: DinPro, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-    font-size: 21px;
-    line-height: 30px;
+    font-size: 23.8px;
+    line-height: 34px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display:         flex;
-    height: 30px;
+    height: 34px;
     padding: 0 13px;
     text-transform: uppercase;
     color: #fbea5e;
@@ -208,7 +208,7 @@ main {
 }
 
 .top-panel .center .jackpot-item .jackpot-counter {
-    font-size: 17px;
+    font-size: 19px;
     position: relative;
 }
 
@@ -226,135 +226,113 @@ main {
 
 .top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell {
     position: relative;
-    width: 19.5px;
-    height: 30px;
-    -webkit-transition: -webkit-transform 1000ms ease-in-out;
-            transition: -webkit-transform 1000ms ease-in-out;
-            transition:         transform 1000ms ease-in-out;
-            transition:         transform 1000ms ease-in-out, -webkit-transform 1000ms ease-in-out;
-    -webkit-transform: matrix(1, 0, 0, 1, 0, 0);
-        -ms-transform: matrix(1, 0, 0, 1, 0, 0);
-            transform: matrix(1, 0, 0, 1, 0, 0);
+    width: 22.1px;
+    height: 34px;
 }
 
 .top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell + .jackpot-counter-cell {
     box-shadow: inset .09em 0 .1em 0 rgba(255, 255, 255, .2);
 }
 
-.top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell::before {
-    line-height: 1.1;
-    position: absolute;
-    content: '9 \a 0 \a 1 \a 2 \a 3 \a 4 \a 5 \a 6 \a 7 \a 8 \a 9 \a 1';
-    -webkit-transition: -webkit-transform 1000ms ease-in-out;
-            transition: -webkit-transform 1000ms ease-in-out;
-            transition:         transform 1000ms ease-in-out;
-            transition:         transform 1000ms ease-in-out, -webkit-transform 1000ms ease-in-out;
-    -webkit-transform: matrix(1, 0, 0, 1, 0, -12);
-        -ms-transform: matrix(1, 0, 0, 1, 0, -12);
-            transform: matrix(1, 0, 0, 1, 0, -12);
-    text-align: center;
-}
-
-#container {
-    width: 100%;
-    height: 400px;
-
-    -webkit-perspective: 800; /* For compatibility with iPhone 3.0, we leave off the units here */
-    -webkit-perspective-origin: 50% 40%;
-}
-
-#stage {
-    width: 100%;
-    height: 100%;
-    -webkit-transition: -webkit-transform 1s;
-    -webkit-transform: translateZ(-20px);
-            transform: translateZ(-20px);
-
-    -webkit-transform-style: preserve-3d;
-}
-
-#shape {
-    /* display: flex;
-      flex-direction: column; */
-    position: relative;
-    top: 160px;
-    width: 20px;
-    height: 20px;
+.top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell .roller {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+    width: 10px;
+    height: 34px;
     margin: 0 auto;
+    -webkit-animation: spin 10000ms infinite linear;
+            animation: spin 10000ms infinite linear;
 
     -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+    will-change: transform;
 }
 
-.plane {
-    font-size: 20px;
-    line-height: 1;
+.top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell .roller .plane {
+    font-size: 19px;
+    line-height: 19px;
     width: 20px;
     height: 20px;
-    -webkit-transition: -webkit-transform 2s, opacity 2s;
     text-align: center;
-    color: black;
-    background-color: rgba(255, 250, 245, .4);
+    color: #fbea5e;
+
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
 }
 
-#shape {
-    -webkit-animation: spin 8s infinite linear;
+.jackpot-counter .figure0 {
+    -webkit-transform: rotate3d(1, 0, 0, 0deg) translate3d(0px, 0, 31px);
+            transform: rotate3d(1, 0, 0, 0deg) translate3d(0px, 0, 31px);
 }
 
-.ring > .one {
-    -webkit-transform: translateZ(31px);
+.jackpot-counter .figure1 {
+    -webkit-transform: rotate3d(1, 0, 0, 36deg) translate3d(-10px, 0, 31px);
+            transform: rotate3d(1, 0, 0, 36deg) translate3d(-10px, 0, 31px);
 }
 
-.ring > .two {
-    -webkit-transform: rotateY(36deg) translateZ(31px) translateY(-20px);
+.jackpot-counter .figure2 {
+    -webkit-transform: rotate3d(1, 0, 0, 72deg) translate3d(-20px, 0, 31px);
+            transform: rotate3d(1, 0, 0, 72deg) translate3d(-20px, 0, 31px);
 }
 
-.ring > .three {
-    -webkit-transform: rotateY(72deg) translateZ(31px) translateY(-40px);
+.jackpot-counter .figure3 {
+    -webkit-transform: rotate3d(1, 0, 0, 108deg) translate3d(-30px, 0, 31px);
+            transform: rotate3d(1, 0, 0, 108deg) translate3d(-30px, 0, 31px);
 }
 
-.ring > .four {
-    -webkit-transform: rotateY(108deg) translateZ(31px) translateY(-60px);
+.jackpot-counter .figure4 {
+    -webkit-transform: rotate3d(1, 0, 0, 144deg) translate3d(-40px, 0, 31px);
+            transform: rotate3d(1, 0, 0, 144deg) translate3d(-40px, 0, 31px);
 }
 
-.ring > .five {
-    -webkit-transform: rotateY(144deg) translateZ(31px) translateY(-80px);
+.jackpot-counter .figure5 {
+    -webkit-transform: rotate3d(1, 0, 0, 180deg) translate3d(-50px, 0, 31px);
+            transform: rotate3d(1, 0, 0, 180deg) translate3d(-50px, 0, 31px);
 }
 
-.ring > .six {
-    -webkit-transform: rotateY(180deg) translateZ(31px) translateY(-100px);
+.jackpot-counter .figure6 {
+    -webkit-transform: rotate3d(1, 0, 0, 216deg) translate3d(-60px, 0, 31px);
+            transform: rotate3d(1, 0, 0, 216deg) translate3d(-60px, 0, 31px);
 }
 
-.ring > .seven {
-    -webkit-transform: rotateY(216deg) translateZ(31px) translateY(-120px);
+.jackpot-counter .figure7 {
+    -webkit-transform: rotate3d(1, 0, 0, 252deg) translate3d(-70px, 0, 31px);
+            transform: rotate3d(1, 0, 0, 252deg) translate3d(-70px, 0, 31px);
 }
 
-.ring > .eight {
-    -webkit-transform: rotateY(252deg) translateZ(31px) translateY(-140px);
+.jackpot-counter .figure8 {
+    -webkit-transform: rotate3d(1, 0, 0, 288deg) translate3d(-80px, 0, 31px);
+            transform: rotate3d(1, 0, 0, 288deg) translate3d(-80px, 0, 31px);
 }
 
-.ring > .nine {
-    -webkit-transform: rotateY(288deg) translateZ(31px) translateY(-160px);
-}
-
-.ring > .ten {
-    -webkit-transform: rotateY(324deg) translateZ(31px) translateY(-180px);
-}
-
-.ring > .eleven {
-    -webkit-transform: rotateY(300deg) translateZ(31px) translateY(-40px);
-}
-
-.ring > .twelve {
-    -webkit-transform: rotateY(330deg) translateZ(31px);
+.jackpot-counter .figure9 {
+    -webkit-transform: rotate3d(1, 0, 0, 324deg) translate3d(-90px, 0, 31px);
+            transform: rotate3d(1, 0, 0, 324deg) translate3d(-90px, 0, 31px);
 }
 
 @-webkit-keyframes spin {
     from {
-        -webkit-transform: rotateY(0);
+        -webkit-transform: rotate3d(1, 0, 0, 0deg);
+                transform: rotate3d(1, 0, 0, 0deg);
     }
 
     to {
-        -webkit-transform: rotateY(-360deg);
+        -webkit-transform: rotate3d(1, 0, 0, -360deg);
+                transform: rotate3d(1, 0, 0, -360deg);
+    }
+}
+
+@keyframes spin {
+    from {
+        -webkit-transform: rotate3d(1, 0, 0, 0deg);
+                transform: rotate3d(1, 0, 0, 0deg);
+    }
+
+    to {
+        -webkit-transform: rotate3d(1, 0, 0, -360deg);
+                transform: rotate3d(1, 0, 0, -360deg);
     }
 }
 
