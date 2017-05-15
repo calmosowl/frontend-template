@@ -1,108 +1,99 @@
-function randomInteger(min, max) {
-    rand = min - 0.5 + Math.random() * (max - min + 1)
-    rand = Math.round(rand);
-    return rand;
-}
+"use strict";
+document.addEventListener("DOMContentLoaded", (ev) => {
+	(()=>{
+		let a = new JackPotCounter({
+			tickLength: 1000,
+			qtyPerTick: 1
+		});
+		
+		let output = document.getElementById('output'),
+			play = document.getElementById('tickPlay'),
+			stop = document.getElementById('tickStop'),
+			get = document.getElementById('getValue');
 
-// var obj = { 1 : countArray };
-// var sObj = JSON.stringify(obj)
-// localStorage.setItem("object", sObj);
-//✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪
-//✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪
+		
+		play.onclick= (ev) => {
+			ev.preventDefault();
+			a.tickPlay().echo(output);		
+		};
+		stop.onclick= (ev) => {
+			ev.preventDefault();
+			a.tickStop().echoStop();			
+		};
 
-var data = 0;
-var count = 0;
-	function generator() {
-while (count < 5) {
-	randomInteger(0, 99);
-	data += rand;
-	console.log(data);
-	countToArray(data);
-	console.log(arr);
-	count++;
-	}
-}
+		get.onclick = (ev) => {
+			ev.preventDefault();
+			alert(a.getCurrentValue());
+		}
+
+	})();
+}, false);
 
 
-var arr = [];
-function countToArray(data) {
-	if(!data)
-		data = 0;
-	string = data.toString(10);
-	var i = 0;
-	while(string.length < 5) {
-		string = "0" + string;
-		i++;
-	}
-	dataArray = string.split("");
-	arr.push(dataArray);
-	return arr;
+
+function JackPotCounter(options){
+	let that = this;
+	let bufferPrototype = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	this.buffer = bufferPrototype;
+	this.data = {
+		latest:0,
+		diffBetweenLatests:0,
+		groupAverage: 0,
+		time: 0
+	};
+	this.currentValue = options&&options.value ? options.value : 0;
+	this.ticker = [];
+	this.echoTicker = [];
+	this.tickLength = options&&options.tickLength ? options.tickLength : 1000;
+	this.qtyPerTick = options&&options.qtyPerTick ? options.qtyPerTick : 1;
+	this.tickPlay = () => {
+		if(this.ticker.length < 1){
+			this.ticker[0] = setInterval(()=>{
+				this.buffer.splice(0, 0, this.currentValue);
+				this.buffer.length = 10;
+				this.data.latest = this.currentValue;
+				this.data.diffBetweenLatests = +(this.buffer[0]-this.buffer[1]).toFixed(2);
+				this.data.groupAverage = +(this.buffer[this.buffer.length-1] / this.buffer.length).toFixed(2);
+				this.data.time = Date.now();
+				this.data.arrayStamp = this.buffer.join(', ');
+				this.currentValue = rough(+(this.currentValue + this.qtyPerTick).toFixed(2));
+				this.dev();
+			}, this.tickLength);
+		};
+		return this;
+	};
+	this.dev = () => {
+		console.log(this.data);
+	    return this;
+	};
+	this.echo = ($) => {
+		this.echoTicker[0] = setInterval(()=>{
+			$.innerHTML = that.currentValue;
+		},1000);
+		return this;
+	};
+	this.echoStop = () => {
+		clearInterval(this.echoTicker);
+		this.echoTicker = [];
+		return this;
+	};
+	this.tickStop = () => {
+		clearInterval(this.ticker);
+		this.ticker = [];
+		return this;
+	};
+	this.getCurrentValue = () => {
+		return this.currentValue;
+	};
+	return this;
 };
 
-countToArray(data);
-console.log(arr);
-// function sendData(data) {
-// 	var rand = 0;
-// 	randomInteger(0, 999);
-// 	console.log(rand);
-// 	data += rand;
-// 	countToArray(data);
-// 	return data;
-// }
+function rough(value, factor){
+	if(isNaN(value/2)) return false;
 
+	factor = factor || 1; 
+	let res = Math.random() >= .5 ? value + (Math.random()*factor) : value - (Math.random()*factor);
 
-
-Δarr = [];
-var arrLength = arr.length;
-function Δ() {
-	if(arrLength < 2)
-		firstArr = [0, 0, 0, 0, 0];
-	else
-		firstArr = arr[arrLength - 2];
-	lastArr = arr[arrLength - 1];
-	var i = 0;
-	while(i < 5) {
-		Δarr.push(lastArr[i] - firstArr[i]);
-		i++;
-	}
-	return Δarr;
-}
-
-
-generator();
-
-
-
-
-
-
-
-// function makeCounter() {
-//   var currentCount = 12345;
-//   var arrayCount;
-
-//   var newCount =  12348;
-//   var Δ = 0;
-
-
-//   function counter() {
-// 	  return currentCount;
-// 	}
-
-//   counter.array = function(value) {
-// 	string = value.toString(10);
-//   	currentCount = string.split("").map(Number);
-//   };
-
-//   counter.set = function(value) {
-// 	currentCount = value;
-//   };
-
-//   counter.reset = function() {
-// 	currentCount = 1;
-//   };
-
-//   return counter;
-// }
-
-// var counter = makeCounter();
+	res = +(res).toFixed(2);
+	return res;
+};
