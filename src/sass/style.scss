@@ -109,7 +109,7 @@ header {
 }
 
 main {
-	background-color: rgb(233, 225, 217);
+	background-color: #d8d5d0;
 }
 
 $top-panel-height: 34px;
@@ -170,25 +170,29 @@ $angle: 36deg;
 						width: $top-panel-height * 0.65;
 						height: $top-panel-height;
 						position: relative;
-						//transform: matrix(1, 0, 0, 1, 0, 0);
-						//transition: $transition-property $transition-time $method;
-						& + .jackpot-counter-cell {
+						// transform: matrix(1, 0, 0, 1, 0, 0);
+						// transition: $transition-property $transition-time $method;
+						& + & {
 							box-shadow: inset 0.09em 0 0.1em 0px rgba(255, 255, 255, 0.2)
 						}
 						.roller {
-							display: flex;
 							margin: 0 auto;
 							height: $top-panel-height;
-							width: 10px;
+							width: $con;
 							transform-style: preserve-3d;
+							transition: $transition-property $transition-time $method;
 							animation: spin 10000ms infinite linear;
+							animation-iteration-count: 1;
+							animation-fill-mode: forwards;
 							will-change: transform;
+							transform: rotate3d(1, 0, 0, -12deg);
 							.plane {
-								height: $con;
+								position: absolute;
+								height: $top-panel-height;
 								width: $con;
 								text-align: center;
-								font-size: 19px;
-								line-height: 19px;
+								// font-size: $con;
+								line-height: 1;
 								color: #fbea5e;
 								backface-visibility: hidden;
 							}
@@ -203,13 +207,22 @@ $angle: 36deg;
 
 @for $i from 0 through 9 {
 	.jackpot-counter .figure#{$i} {
-		@include transform(rotate3d(1, 0, 0, $angle*$i) translate3d($con/2*(-$i), 0, $deep));
+		@include transform(rotate3d(1, 0, 0, $angle*$i) translate3d(0, 0, $deep));
 	}
 }
 
 @keyframes spin {
-	from { @include rotate3d(1, 0, 0, 0deg); }
-	to { @include rotate3d(1, 0, 0, -360deg); }
+	0% { @include rotate3d(1, 0, 0, -12deg); }
+	10% { @include rotate3d(1, 0, 0, -48deg); }
+	20% { @include rotate3d(1, 0, 0, -84deg); }
+	30% { @include rotate3d(1, 0, 0, -120deg); }
+	40% { @include rotate3d(1, 0, 0, -156deg); }
+	50% { @include rotate3d(1, 0, 0, -192deg); }
+	60% { @include rotate3d(1, 0, 0, -228deg); }
+	70% { @include rotate3d(1, 0, 0, -264deg); }
+	80% { @include rotate3d(1, 0, 0, -300deg); }
+	90% { @include rotate3d(1, 0, 0, -336deg); }
+	100% { @include rotate3d(1, 0, 0, -372deg); }
 }
 
 

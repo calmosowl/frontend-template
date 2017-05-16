@@ -2,8 +2,8 @@
 document.addEventListener("DOMContentLoaded", (ev) => {
 	(()=>{
 		let a = new JackPotCounter({
-			tickLength: 1000,
-			qtyPerTick: 1
+			tickLength: 10000,
+			qtyPerTick: 15
 		});
 		
 		let output = document.getElementById('output'),
@@ -26,6 +26,14 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			alert(a.getCurrentValue());
 		}
 
+			this.rollerFive = document.querySelector('#roller-five .roller'),
+			this.iterationCount = window.getComputedStyle(this.rollerFive).getPropertyValue('animation-iteration-count');
+		
+		this.move = (element) => {
+
+			console.log(element.style);
+		}
+		this.move(rollerFive)
 	})();
 }, false);
 
