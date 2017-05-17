@@ -2,16 +2,25 @@
 document.addEventListener("DOMContentLoaded", (ev) => {
 	(()=>{
 		let a = new JackPotCounter({
-			tickLength: 10000,
-			qtyPerTick: 15
+			tickLength: 1000,
+			qtyPerTick: 1
 		});
 		
 		let output = document.getElementById('output'),
 			play = document.getElementById('tickPlay'),
 			stop = document.getElementById('tickStop'),
+			move = document.getElementById('rollMove'),
 			get = document.getElementById('getValue');
+			
+		var	rollerOne = document.getElementById('rollerOne'), 
+			rollerTwo = document.getElementById('rollerTwo'), 
+			rollerThree = document.getElementById('rollerThree'), 
+			rollerFour = document.getElementById('rollerFour'), 
+			rollerFive = document.getElementById('rollerFive'), 
+			rollerSix = document.getElementById('rollerSix'), 
+			rollerSeven = document.getElementById('rollerSeven');
+	
 
-		
 		play.onclick= (ev) => {
 			ev.preventDefault();
 			a.tickPlay().echo(output);		
@@ -26,14 +35,19 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			alert(a.getCurrentValue());
 		}
 
-			this.rollerFive = document.querySelector('#roller-five .roller'),
-			this.iterationCount = window.getComputedStyle(this.rollerFive).getPropertyValue('animation-iteration-count');
-		
-		this.move = (element) => {
+		var elemArr = [rollerOne, rollerTwo, rollerThree, rollerFour, rollerFive, rollerSix, rollerSeven];
 
-			console.log(element.style);
-		}
-		this.move(rollerFive)
+
+
+		move.onclick= (ev) => {
+			ev.preventDefault();
+
+			elemArr.forEach(function(item, i, elemArr) {
+				a.pushRoll(item, i * 10); //Переписать!
+			});
+			//a.pushRoll(rollerSeven);		
+		};
+
 	})();
 }, false);
 
@@ -93,6 +107,22 @@ function JackPotCounter(options){
 	this.getCurrentValue = () => {
 		return this.currentValue;
 	};
+
+	this.getDiff = () => {
+
+		return this.data.diffBetweenLatests;
+	};
+
+	this.pushRoll = (el, multi) => {
+
+		var s = this.data.diffBetweenLatests + "";
+			el.style.WebkitAnimationPlayState = "running";
+			el.style.animationPlayState = "running";
+		    el.style.WebkitAnimationIterationCount = (s / multi).toFixed(1);
+    		el.style.animationIterationCount = (s / multi).toFixed(1);
+		return this;
+	};
+
 	return this;
 };
 

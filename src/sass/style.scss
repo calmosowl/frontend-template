@@ -175,17 +175,19 @@ $angle: 36deg;
 						& + & {
 							box-shadow: inset 0.09em 0 0.1em 0px rgba(255, 255, 255, 0.2)
 						}
-						.roller {
+						& > div {
 							margin: 0 auto;
 							height: $top-panel-height;
 							width: $con;
 							transform-style: preserve-3d;
-							transition: $transition-property $transition-time $method;
-							animation: spin 10000ms infinite linear;
-							animation-iteration-count: 1;
-							animation-fill-mode: forwards;
+							// transition: $transition-property $transition-time $method;
 							will-change: transform;
 							transform: rotate3d(1, 0, 0, -12deg);
+							/*animate*/
+							animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
+						}
 							.plane {
 								position: absolute;
 								height: $top-panel-height;
@@ -201,8 +203,45 @@ $angle: 36deg;
 				}
 			}
 		}
-	}
+}
 
+$sec: 1000ms;
+#roller {
+	&One {
+		animation-duration: $sec * 1000000;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+	}
+	&Two {
+		animation-duration: $sec * 100000;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+	}
+	&Three {
+		animation-duration: $sec * 10000;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+	}
+	&Four {
+		animation-duration: $sec * 1000;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+	}
+	&Five {
+		animation-duration: $sec * 100;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+	}
+	&Six {
+		animation-duration: $sec * 10;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+	}
+	&Seven {
+		animation-duration: $sec;
+		animation-play-state: paused;
+		animation-iteration-count: 0;		
+	}
 }
 
 @for $i from 0 through 9 {

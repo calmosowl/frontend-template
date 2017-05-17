@@ -234,29 +234,25 @@ main {
     box-shadow: inset .09em 0 .1em 0 rgba(255, 255, 255, .2);
 }
 
-.top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell .roller {
+.top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell > div {
     width: 20px;
     height: 34px;
     margin: 0 auto;
-    -webkit-transition: -webkit-transform 1000ms ease-in-out;
-            transition: -webkit-transform 1000ms ease-in-out;
-            transition:         transform 1000ms ease-in-out;
-            transition:         transform 1000ms ease-in-out, -webkit-transform 1000ms ease-in-out;
     -webkit-transform: rotate3d(1, 0, 0, -12deg);
-            transform: rotate3d(1, 0, 0, -12deg);
-    -webkit-animation: spin 10000ms infinite linear;
-            animation: spin 10000ms infinite linear;
-    -webkit-animation-iteration-count: 1;
-            animation-iteration-count: 1;
+            transform: rotate3d(1, 0, 0, -12deg); /*animate*/
+    -webkit-animation-name: spin;
+            animation-name: spin;
+    -webkit-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
 
     -webkit-transform-style: preserve-3d;
             transform-style: preserve-3d;
+    will-change: transform;
     -webkit-animation-fill-mode: forwards;
             animation-fill-mode: forwards;
-    will-change: transform;
 }
 
-.top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell .roller .plane {
+.top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell .plane {
     line-height: 1;
     position: absolute;
     width: 20px;
@@ -266,6 +262,69 @@ main {
 
     -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
+}
+
+#rollerOne {
+    -webkit-animation-duration: 1000000000ms;
+            animation-duration: 1000000000ms;
+    -webkit-animation-play-state: paused;
+            animation-play-state: paused;
+    -webkit-animation-iteration-count: 0;
+            animation-iteration-count: 0;
+}
+
+#rollerTwo {
+    -webkit-animation-duration: 100000000ms;
+            animation-duration: 100000000ms;
+    -webkit-animation-play-state: paused;
+            animation-play-state: paused;
+    -webkit-animation-iteration-count: 0;
+            animation-iteration-count: 0;
+}
+
+#rollerThree {
+    -webkit-animation-duration: 10000000ms;
+            animation-duration: 10000000ms;
+    -webkit-animation-play-state: paused;
+            animation-play-state: paused;
+    -webkit-animation-iteration-count: 0;
+            animation-iteration-count: 0;
+}
+
+#rollerFour {
+    -webkit-animation-duration: 1000000ms;
+            animation-duration: 1000000ms;
+    -webkit-animation-play-state: paused;
+            animation-play-state: paused;
+    -webkit-animation-iteration-count: 0;
+            animation-iteration-count: 0;
+}
+
+#rollerFive {
+    -webkit-animation-duration: 100000ms;
+            animation-duration: 100000ms;
+    -webkit-animation-play-state: paused;
+            animation-play-state: paused;
+    -webkit-animation-iteration-count: 0;
+            animation-iteration-count: 0;
+}
+
+#rollerSix {
+    -webkit-animation-duration: 10000ms;
+            animation-duration: 10000ms;
+    -webkit-animation-play-state: paused;
+            animation-play-state: paused;
+    -webkit-animation-iteration-count: 0;
+            animation-iteration-count: 0;
+}
+
+#rollerSeven {
+    -webkit-animation-duration: 1000ms;
+            animation-duration: 1000ms;
+    -webkit-animation-play-state: paused;
+            animation-play-state: paused;
+    -webkit-animation-iteration-count: 0;
+            animation-iteration-count: 0;
 }
 
 .jackpot-counter .figure0 {
