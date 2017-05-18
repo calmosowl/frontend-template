@@ -122,16 +122,15 @@ function JackPotCounter(options){
 	this.pushRoll = (el, multi) => {
 		console.log(el);
 
-		var s = this.currentValue;/*this.data.diffBetweenLatests;*/
+		var s = this.currentValue;
 		var analog = (((s * 10)/ multi).toFixed(3)).slice(0, -2);
 		if(+analog <= 0) return this;
-   //  		el.style.WebkitAnimationPlayState = "paused";
-			// el.style.animationPlayState = "paused";
 			el.style.WebkitAnimationPlayState = "running";
 			el.style.animationPlayState = "running";
 		    el.style.WebkitAnimationIterationCount = analog;
     		el.style.animationIterationCount = analog;
     		console.log(analog);
+
 		return this;
 	};
 
