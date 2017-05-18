@@ -208,32 +208,32 @@ $angle: 36deg;
 $sec: 1000ms;
 #roller {
 	&One {
-		animation-duration: $sec * 1000000;
+		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Two {
-		animation-duration: $sec * 100000;
+		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Three {
-		animation-duration: $sec * 10000;
+		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Four {
-		animation-duration: $sec * 1000;
+		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Five {
-		animation-duration: $sec * 100;
+		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Six {
-		animation-duration: $sec * 10;
+		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}

@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 	(()=>{
 		let a = new JackPotCounter({
 			tickLength: 1000,
-			qtyPerTick: 1
+			qtyPerTick: 10
 		});
 		
 		let output = document.getElementById('output'),
@@ -43,7 +43,9 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			ev.preventDefault();
 
 			elemArr.forEach(function(item, i, elemArr) {
-				a.pushRoll(item, i * 10); //Переписать!
+				var multi = i / 100;
+				// console.log(i + ": " + item + "(массив:" + elemArr + ")");
+				a.pushRoll(item, multi); //Переписать!
 			});
 			//a.pushRoll(rollerSeven);		
 		};
@@ -114,12 +116,12 @@ function JackPotCounter(options){
 	};
 
 	this.pushRoll = (el, multi) => {
-
-		var s = this.data.diffBetweenLatests + "";
+		console.log(el);
+		var s = this.data.diffBetweenLatests;
 			el.style.WebkitAnimationPlayState = "running";
 			el.style.animationPlayState = "running";
-		    el.style.WebkitAnimationIterationCount = (s / multi).toFixed(1);
-    		el.style.animationIterationCount = (s / multi).toFixed(1);
+		    el.style.WebkitAnimationIterationCount = (multi).toFixed(1);
+    		el.style.animationIterationCount = (multi).toFixed(1);
 		return this;
 	};
 
