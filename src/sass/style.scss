@@ -205,25 +205,25 @@ $angle: 36deg;
 		}
 }
 
-$sec: 1000ms;
+$sec: 10000ms;
 #roller {
 	&One {
-		animation-duration: $sec;
+		animation-duration: $sec * 10000;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Two {
-		animation-duration: $sec;
+		animation-duration: $sec * 1000;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Three {
-		animation-duration: $sec;
+		animation-duration: $sec * 100;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Four {
-		animation-duration: $sec;
+		animation-duration: $sec * 10;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
@@ -233,12 +233,12 @@ $sec: 1000ms;
 		animation-iteration-count: 0;
 	}
 	&Six {
-		animation-duration: $sec;
+		animation-duration: $sec / 10;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Seven {
-		animation-duration: $sec;
+		animation-duration: $sec / 100;
 		animation-play-state: paused;
 		animation-iteration-count: 0;		
 	}
@@ -263,5 +263,3 @@ $sec: 1000ms;
 	90% { @include rotate3d(1, 0, 0, -336deg); }
 	100% { @include rotate3d(1, 0, 0, -372deg); }
 }
-
-

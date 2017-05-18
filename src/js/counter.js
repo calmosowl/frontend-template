@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", (ev) => {
 	(()=>{
 		let a = new JackPotCounter({
-			tickLength: 1000,
+			tickLength: 10000,
 			qtyPerTick: 10
 		});
 		
@@ -21,11 +21,11 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			rollerSeven = document.getElementById('rollerSeven');
 	
 
-		play.onclick= (ev) => {
+		play.onclick = (ev) => {
 			ev.preventDefault();
 			a.tickPlay().echo(output);		
 		};
-		stop.onclick= (ev) => {
+		stop.onclick = (ev) => {
 			ev.preventDefault();
 			a.tickStop().echoStop();			
 		};
@@ -35,21 +35,26 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			alert(a.getCurrentValue());
 		}
 
-		var elemArr = [rollerOne, rollerTwo, rollerThree, rollerFour, rollerFive, rollerSix, rollerSeven];
+		var elemArr = [rollerSeven, rollerSix, rollerFive, rollerFour, rollerThree, rollerTwo, rollerOne];
 
 
 
-		move.onclick= (ev) => {
+		move.onclick = (ev) => {
 			ev.preventDefault();
 
 			elemArr.forEach(function(item, i, elemArr) {
-				var multi = i / 100;
-				// console.log(i + ": " + item + "(массив:" + elemArr + ")");
-				a.pushRoll(item, multi); //Переписать!
+				var multi = Math.pow(10, i);
+				console.log(i + ": " + multi);
+				a.pushRoll(item, multi);
 			});
-			//a.pushRoll(rollerSeven);		
 		};
 
+		/*run = (ev) => {
+			ev.preventDefault();
+			a.tickPlay().echo(output);
+
+		}*/
+		
 	})();
 }, false);
 
@@ -111,17 +116,22 @@ function JackPotCounter(options){
 	};
 
 	this.getDiff = () => {
-
 		return this.data.diffBetweenLatests;
 	};
 
 	this.pushRoll = (el, multi) => {
 		console.log(el);
-		var s = this.data.diffBetweenLatests;
+
+		var s = this.currentValue;/*this.data.diffBetweenLatests;*/
+		var analog = (((s * 10)/ multi).toFixed(3)).slice(0, -2);
+		if(+analog <= 0) return this;
+   //  		el.style.WebkitAnimationPlayState = "paused";
+			// el.style.animationPlayState = "paused";
 			el.style.WebkitAnimationPlayState = "running";
 			el.style.animationPlayState = "running";
-		    el.style.WebkitAnimationIterationCount = (multi).toFixed(1);
-    		el.style.animationIterationCount = (multi).toFixed(1);
+		    el.style.WebkitAnimationIterationCount = analog;
+    		el.style.animationIterationCount = analog;
+    		console.log(analog);
 		return this;
 	};
 
