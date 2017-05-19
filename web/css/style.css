@@ -265,8 +265,8 @@ main {
 }
 
 #rollerOne {
-    -webkit-animation-duration: 100000000ms;
-            animation-duration: 100000000ms;
+    -webkit-animation-duration: 0ms;
+            animation-duration: 0ms;
     -webkit-animation-play-state: paused;
             animation-play-state: paused;
     -webkit-animation-iteration-count: 0;
@@ -274,8 +274,8 @@ main {
 }
 
 #rollerTwo {
-    -webkit-animation-duration: 10000000ms;
-            animation-duration: 10000000ms;
+    -webkit-animation-duration: 0ms;
+            animation-duration: 0ms;
     -webkit-animation-play-state: paused;
             animation-play-state: paused;
     -webkit-animation-iteration-count: 0;
@@ -283,8 +283,8 @@ main {
 }
 
 #rollerThree {
-    -webkit-animation-duration: 1000000ms;
-            animation-duration: 1000000ms;
+    -webkit-animation-duration: 0ms;
+            animation-duration: 0ms;
     -webkit-animation-play-state: paused;
             animation-play-state: paused;
     -webkit-animation-iteration-count: 0;
@@ -292,8 +292,8 @@ main {
 }
 
 #rollerFour {
-    -webkit-animation-duration: 100000ms;
-            animation-duration: 100000ms;
+    -webkit-animation-duration: 0ms;
+            animation-duration: 0ms;
     -webkit-animation-play-state: paused;
             animation-play-state: paused;
     -webkit-animation-iteration-count: 0;
@@ -301,8 +301,8 @@ main {
 }
 
 #rollerFive {
-    -webkit-animation-duration: 10000ms;
-            animation-duration: 10000ms;
+    -webkit-animation-duration: 0ms;
+            animation-duration: 0ms;
     -webkit-animation-play-state: paused;
             animation-play-state: paused;
     -webkit-animation-iteration-count: 0;
@@ -310,8 +310,8 @@ main {
 }
 
 #rollerSix {
-    -webkit-animation-duration: 1000ms;
-            animation-duration: 1000ms;
+    -webkit-animation-duration: 0ms;
+            animation-duration: 0ms;
     -webkit-animation-play-state: paused;
             animation-play-state: paused;
     -webkit-animation-iteration-count: 0;
@@ -319,8 +319,8 @@ main {
 }
 
 #rollerSeven {
-    -webkit-animation-duration: 100ms;
-            animation-duration: 100ms;
+    -webkit-animation-duration: 0ms;
+            animation-duration: 0ms;
     -webkit-animation-play-state: paused;
             animation-play-state: paused;
     -webkit-animation-iteration-count: 0;

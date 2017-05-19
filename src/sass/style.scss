@@ -205,7 +205,7 @@ $angle: 36deg;
 		}
 }
 
-$sec: 10000ms;
+$sec: 0ms;
 #roller {
 	&One {
 		animation-duration: $sec * 10000;

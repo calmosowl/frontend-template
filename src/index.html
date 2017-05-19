@@ -9,32 +9,75 @@
         //= modules/header.html
     </header>
     <main role="main" style="padding: 20px 20px">
-				
+		<style>
+        pre{
+    height: 20em;
+    font-family: monospace;
+    font-size: 1em;
+    padding: 2px 5px;
+    color: rgb(233, 225, 217);
+    background-color: #212121;
+    border: 1px solid #030;
+    border-radius: 4px;
+    overflow: auto;
+}</style>		
 		<output style="font-size: 18px; font-weight: 600; font-family: 'Ubuntu Mono', monospace;" id="output">0</output><br>
 		<button id="tickPlay">PLAY</button>
 		<button id="tickStop">STOP</button>
 		<button id="getValue">GET VALUE</button>
         <!-- <button onclick="myFunction()">Click me to start the animation.</button> -->
         <button id="rollMove">Push this shit</button>
+        <pre id="log">Event information log
+=====================
+</pre>
 <script>
-//  var x = document.getElementById("roller-five");
+var
+    anim = document.getElementById("rollerSeven"),
+    log = document.getElementById("log"),
+    pfx = ["webkit", "moz", "MS", "o", ""];
+
+// button click event
+//anim.addEventListener("click", ToggleAnimation, false);
+
+// animation listener events
+PrefixedEvent(anim, "AnimationStart", AnimationListener);
+PrefixedEvent(anim, "AnimationIteration", AnimationListener);
+PrefixedEvent(anim, "AnimationEnd", AnimationListener);
 
 
-// function myFunction() {
-    // x.style.WebkitAnimation = "spin 4s 2";
-    // x.style.animation = "spin 4s 2";
-// }
+// apply prefixed event handlers
+function PrefixedEvent(element, type, callback) {
+    for (var p = 0; p < pfx.length; p++) {
+        if (!pfx[p]) type = type.toLowerCase();
+        element.addEventListener(pfx[p]+type, callback, false);
+    }
+}
 
-/*function getStyle(el,styleProp)
-{
-    var x = document.getElementById(el);
-    if (x.currentStyle)
-        var y = x.currentStyle[styleProp];
-    else if (window.getComputedStyle)
-        var y = document.defaultView.getComputedStyle(x,null).getPropertyValue(styleProp);
-    console.log(y);
-    return y;
-}*/
+// handle animation events
+function AnimationListener(e) {
+    LogEvent("Animation '"+e.animationName+"' type '"+e.type+"' at "+e.elapsedTime.toFixed(2)+" seconds");
+    if (e.type.toLowerCase().indexOf("animationend") >= 0) {
+        LogEvent("Stopping animation...");
+        ToggleAnimation();
+    }
+}
+
+// start/stop animation
+function ToggleAnimation(e) {
+    var on = (anim.className != "");
+    LogEvent("Animation is " +(on ? "disabled.\n" : "enabled."));
+    //anim.textContent = "Click to "+(on ? "start" : "stop")+" animation";
+    anim.className = (on ? "" : "enable");
+    if (e) e.preventDefault();
+};
+
+// log event in the console
+function LogEvent(msg) {
+    log.textContent += msg + "\n";
+    var ot = log.scrollHeight - log.clientHeight;
+    if (ot > 0) log.scrollTop = ot;
+}
+
 </script>
 
     </main>

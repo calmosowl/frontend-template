@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", (ev) => {
 	(()=>{
 		let a = new JackPotCounter({
-			tickLength: 10000,
+			tickLength: 5000,
 			qtyPerTick: 10
 		});
 		
@@ -20,12 +20,17 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			rollerSix = document.getElementById('rollerSix'), 
 			rollerSeven = document.getElementById('rollerSeven');
 	
+		var elemArr = [rollerSeven, rollerSix, rollerFive, rollerFour, rollerThree, rollerTwo, rollerOne];
 
-		play.onclick = (ev) => {
+		play.onclick= (ev) => {
 			ev.preventDefault();
-			a.tickPlay().echo(output);		
+				a.tickPlay().echo(output);
+				// setInterval(() => {
+				// 	ev.preventDefault();
+				// 	a.pushRoll(elemArr);    
+				// }, a.tickLength + 100);	
 		};
-		stop.onclick = (ev) => {
+		stop.onclick= (ev) => {
 			ev.preventDefault();
 			a.tickStop().echoStop();			
 		};
@@ -35,26 +40,16 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			alert(a.getCurrentValue());
 		}
 
-		var elemArr = [rollerSeven, rollerSix, rollerFive, rollerFour, rollerThree, rollerTwo, rollerOne];
 
 
 
-		move.onclick = (ev) => {
+		move.onclick= (ev) => {
 			ev.preventDefault();
-
-			elemArr.forEach(function(item, i, elemArr) {
-				var multi = Math.pow(10, i);
-				console.log(i + ": " + multi);
-				a.pushRoll(item, multi);
-			});
+			a.pushRoll(elemArr);
 		};
 
-		/*run = (ev) => {
-			ev.preventDefault();
-			a.tickPlay().echo(output);
-
-		}*/
 		
+
 	})();
 }, false);
 
@@ -98,7 +93,7 @@ function JackPotCounter(options){
 	this.echo = ($) => {
 		this.echoTicker[0] = setInterval(()=>{
 			$.innerHTML = that.currentValue;
-		},1000);
+		},this.tickLength);
 		return this;
 	};
 	this.echoStop = () => {
@@ -119,18 +114,22 @@ function JackPotCounter(options){
 		return this.data.diffBetweenLatests;
 	};
 
-	this.pushRoll = (el, multi) => {
-		console.log(el);
+	this.pushRoll = (elemArr) => {
+		elemArr.forEach(function(el, i, elemArr) {
+			var multi = Math.pow(10, i);
+			console.log(i + ": " + multi);console.log(el);
 
-		var s = this.currentValue;
-		var analog = (((s * 10)/ multi).toFixed(3)).slice(0, -2);
+		var s = that.currentValue * 10;
+		var analog = ((s / multi).toFixed(3)).slice(0, -2);
 		if(+analog <= 0) return this;
+			el.style.WebkitAnimationDuration = (analog/that.tickLength)*1000 + "ms";
+    		el.style.animationDuration = (analog/that.tickLength)*1000 + "ms";
 			el.style.WebkitAnimationPlayState = "running";
 			el.style.animationPlayState = "running";
-		    el.style.WebkitAnimationIterationCount = analog;
-    		el.style.animationIterationCount = analog;
-    		console.log(analog);
-
+		    //el.style.WebkitAnimationIterationCount = analog;
+    		//el.style.animationIterationCount = analog;
+    		console.log((analog/that.tickLength)*1000 + "ms");
+    	});
 		return this;
 	};
 
