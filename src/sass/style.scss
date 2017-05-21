@@ -184,10 +184,7 @@ $angle: 36deg;
 							will-change: transform;
 							transform: rotate3d(1, 0, 0, -12deg);
 							/*animate*/
-							animation-name: spin;
-							animation-timing-function: ease-in-out;
-							animation-fill-mode: forwards;
-							animation-delay: 1000ms;
+							//animation-delay: 1000ms;
 						}
 							.plane {
 								position: absolute;
@@ -207,43 +204,72 @@ $angle: 36deg;
 }
 
 $sec: 0ms;
-#roller {
+	.anim {
+		animation-duration: $sec;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
+	}
+/* #roller {
 	&One {
 		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
 	}
 	&Two {
 		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
 	}
 	&Three {
 		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
 	}
 	&Four {
 		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
 	}
 	&Five {
 		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
 	}
 	&Six {
 		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
 	}
 	&Seven {
 		animation-duration: $sec;
 		animation-play-state: paused;
-		animation-iteration-count: 0;		
+		animation-iteration-count: 0;	
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;	
 	}
-}
+} */
 
 @for $i from 0 through 9 {
 	.jackpot-counter .figure#{$i} {

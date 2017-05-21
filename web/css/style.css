@@ -240,18 +240,10 @@ main {
     margin: 0 auto;
     -webkit-transform: rotate3d(1, 0, 0, -12deg);
             transform: rotate3d(1, 0, 0, -12deg); /*animate*/
-    -webkit-animation-name: spin;
-            animation-name: spin;
-    -webkit-animation-timing-function: ease-in-out;
-            animation-timing-function: ease-in-out;
-    -webkit-animation-delay: 1000ms;
-            animation-delay: 1000ms;
 
     -webkit-transform-style: preserve-3d;
             transform-style: preserve-3d;
     will-change: transform;
-    -webkit-animation-fill-mode: forwards;
-            animation-fill-mode: forwards;
 }
 
 .top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell .plane {
@@ -266,68 +258,80 @@ main {
             backface-visibility: hidden;
 }
 
-#rollerOne {
+.anim {
+    -webkit-animation-name: spin;
+            animation-name: spin;
     -webkit-animation-duration: 0ms;
             animation-duration: 0ms;
     -webkit-animation-play-state: paused;
             animation-play-state: paused;
+    -webkit-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
     -webkit-animation-iteration-count: 0;
             animation-iteration-count: 0;
+
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
 }
 
-#rollerTwo {
-    -webkit-animation-duration: 0ms;
-            animation-duration: 0ms;
-    -webkit-animation-play-state: paused;
-            animation-play-state: paused;
-    -webkit-animation-iteration-count: 0;
-            animation-iteration-count: 0;
-}
-
-#rollerThree {
-    -webkit-animation-duration: 0ms;
-            animation-duration: 0ms;
-    -webkit-animation-play-state: paused;
-            animation-play-state: paused;
-    -webkit-animation-iteration-count: 0;
-            animation-iteration-count: 0;
-}
-
-#rollerFour {
-    -webkit-animation-duration: 0ms;
-            animation-duration: 0ms;
-    -webkit-animation-play-state: paused;
-            animation-play-state: paused;
-    -webkit-animation-iteration-count: 0;
-            animation-iteration-count: 0;
-}
-
-#rollerFive {
-    -webkit-animation-duration: 0ms;
-            animation-duration: 0ms;
-    -webkit-animation-play-state: paused;
-            animation-play-state: paused;
-    -webkit-animation-iteration-count: 0;
-            animation-iteration-count: 0;
-}
-
-#rollerSix {
-    -webkit-animation-duration: 0ms;
-            animation-duration: 0ms;
-    -webkit-animation-play-state: paused;
-            animation-play-state: paused;
-    -webkit-animation-iteration-count: 0;
-            animation-iteration-count: 0;
-}
-
-#rollerSeven {
-    -webkit-animation-duration: 0ms;
-            animation-duration: 0ms;
-    -webkit-animation-play-state: paused;
-            animation-play-state: paused;
-    -webkit-animation-iteration-count: 0;
-            animation-iteration-count: 0;
-}
+/* #roller {
+	&One {
+		animation-duration: $sec;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
+	}
+	&Two {
+		animation-duration: $sec;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
+	}
+	&Three {
+		animation-duration: $sec;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
+	}
+	&Four {
+		animation-duration: $sec;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
+	}
+	&Five {
+		animation-duration: $sec;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
+	}
+	&Six {
+		animation-duration: $sec;
+		animation-play-state: paused;
+		animation-iteration-count: 0;
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;
+	}
+	&Seven {
+		animation-duration: $sec;
+		animation-play-state: paused;
+		animation-iteration-count: 0;	
+		animation-name: spin;
+							animation-timing-function: ease-in-out;
+							animation-fill-mode: forwards;	
+	}
+} */
 
 .jackpot-counter .figure0 {
     -webkit-transform: rotate3d(1, 0, 0, 0deg) translate3d(0, 0, 31px);

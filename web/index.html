@@ -143,57 +143,90 @@
 		<button id="getValue">GET VALUE</button>
         <!-- <button onclick="myFunction()">Click me to start the animation.</button> -->
         <button id="rollMove">Push this shit</button>
+        <button id="test">TEST</button>
         <pre id="log">Event information log
 =====================
 </pre>
 <script>
-var
-    anim = document.getElementById("rollerFive"),
-    log = document.getElementById("log"),
-    pfx = ["webkit", "moz", "MS", "o", ""];
+/*"use strict";
+document.addEventListener("DOMContentLoaded", (ev) => {
+	(()=>{*/
+var rollerSeven = document.getElementById('rollerSeven'),
+	test = document.getElementById('test');
 
-// button click event
-//anim.addEventListener("click", ToggleAnimation, false);
-
-// animation listener events
-PrefixedEvent(anim, "AnimationStart", AnimationListener);
-PrefixedEvent(anim, "AnimationIteration", AnimationListener);
-PrefixedEvent(anim, "AnimationEnd", AnimationListener);
-
-
-// apply prefixed event handlers
-function PrefixedEvent(element, type, callback) {
-    for (var p = 0; p < pfx.length; p++) {
-        if (!pfx[p]) type = type.toLowerCase();
-        element.addEventListener(pfx[p]+type, callback, false);
+function findKeyframesRule(rule)
+    {
+        // gather all stylesheets into an array
+        var ss = document.styleSheets;
+        
+        // loop through the stylesheets
+        for (var i = 0; i < ss.length; ++i) {
+            
+            // loop through all the rules
+            //document.styleSheets[0].rules[42].cssText
+            for (var j = 0; j < ss[i].rules.length; ++j) {
+                
+                // find the -webkit-keyframe rule whose name matches our passed over parameter and return that rule
+                if (ss[i].rules[j].type == 7 && ss[i].rules[j].name == rule)
+                    return ss[i].rules[j].cssRules;
+            }
+        }
+        
+        // rule not found
+        return null;
     }
-}
-
-// handle animation events
-function AnimationListener(e) {
-    LogEvent("Animation '"+e.animationName+"' type '"+e.type+"' at "+e.elapsedTime.toFixed(2)+" seconds");
-    if (e.type.toLowerCase().indexOf("animationend") >= 0) {
-        LogEvent("Stopping animation...");
-        ToggleAnimation();
+// remove old keyframes and add new ones
+function change(anim, el)
+    {
+        // find our -webkit-keyframe rule
+        var keyframes = findKeyframesRule("spin");
+        
+        // remove the existing 0% and 100% rules
+        keyframes.deleteRule("0%");
+        keyframes.deleteRule("100%");
+        
+        // create new 0% and 100% rules with random numbers
+        keyframes.appendRule("0% { -webkit-transform: rotate("+randomFromTo(-360,360)+"deg); }");
+        keyframes.appendRule("100% { -webkit-transform: rotate("+randomFromTo(-360,360)+"deg); }");
+        
+        // assign the animation to our element (which will cause the animation to run)
+        el.style.webkitAnimationName = "spin";
     }
+
+
+function startChange(el)
+    {
+        // remove the old animation from our object
+        el.style.webkitAnimationName = "none";
+        
+        // call the change method, which will update the keyframe animation
+        setTimeout(function(){change("rotate", rollerSeven);}, 0);
+    }
+test.onclick= (ev) => {
+			ev.preventDefault();
+			startChange(rollerSeven);
+		};
+
+var keyframes = findKeyframesRule("spin");
+// Makes an array of the current percent values
+// in the animation
+var keyframeString = [];  
+for(var i = 0; i < keyframes.length; i++)
+{
+  keyframeString.push(keyframes[i].keyText); 
 }
+  
+// Removes all the % values from the array so
+// the getClosest function can perform calculations
+var keys = keyframeString.map(function(str) {
+  return str.replace('%', '');
+});
 
-// start/stop animation
-function ToggleAnimation(e) {
-    var on = (anim.className != "");
-    LogEvent("Animation is " +(on ? "disabled.\n" : "enabled."));
-    //anim.textContent = "Click to "+(on ? "start" : "stop")+" animation";
-    anim.className = (on ? "" : "enable");
-    if (e) e.preventDefault();
-};
 
-// log event in the console
-function LogEvent(msg) {
-    log.textContent += msg + "\n";
-    var ot = log.scrollHeight - log.clientHeight;
-    if (ot > 0) log.scrollTop = ot;
-}
 
+
+/*	})();
+}, false);*/
 </script>
 
     </main>
