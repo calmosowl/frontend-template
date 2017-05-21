@@ -187,6 +187,7 @@ $angle: 36deg;
 							animation-name: spin;
 							animation-timing-function: ease-in-out;
 							animation-fill-mode: forwards;
+							animation-delay: 1000ms;
 						}
 							.plane {
 								position: absolute;
@@ -208,22 +209,22 @@ $angle: 36deg;
 $sec: 0ms;
 #roller {
 	&One {
-		animation-duration: $sec * 10000;
+		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Two {
-		animation-duration: $sec * 1000;
+		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Three {
-		animation-duration: $sec * 100;
+		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Four {
-		animation-duration: $sec * 10;
+		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
@@ -233,12 +234,12 @@ $sec: 0ms;
 		animation-iteration-count: 0;
 	}
 	&Six {
-		animation-duration: $sec / 10;
+		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;
 	}
 	&Seven {
-		animation-duration: $sec / 100;
+		animation-duration: $sec;
 		animation-play-state: paused;
 		animation-iteration-count: 0;		
 	}
