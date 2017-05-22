@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			rollerSix = document.getElementById('rollerSix'), 
 			rollerSeven = document.getElementById('rollerSeven');
 	
-		var elemArr = [rollerSeven, rollerSix, rollerFive, rollerFour, rollerThree, rollerTwo, rollerOne];
+		a.elemArr = [rollerSeven, rollerSix, rollerFive, rollerFour, rollerThree, rollerTwo, rollerOne];
 
 		play.onclick= (ev) => {
 			ev.preventDefault();
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 
 		move.onclick= (ev) => {
 			ev.preventDefault();
-			a.pushRoll(elemArr);
+			a.pushRoll(a.elemArr);
 		};
 
 		
@@ -68,6 +68,7 @@ function JackPotCounter(options){
 	this.currentValue = options&&options.value ? options.value : 0;
 	this.ticker = [];
 	this.echoTicker = [];
+	this.elemArr = [];
 	this.tickLength = options&&options.tickLength ? options.tickLength : 1000;
 	this.qtyPerTick = options&&options.qtyPerTick ? options.qtyPerTick : 1;
 	this.tickPlay = () => {
@@ -82,6 +83,8 @@ function JackPotCounter(options){
 				this.data.arrayStamp = this.buffer.join(', ');
 				this.currentValue = rough(+(this.currentValue + this.qtyPerTick).toFixed(2));
 				this.dev();
+				this.pushRoll(this.elemArr);
+			this.animationPaused(this.elemArr);
 			}, this.tickLength);
 		};
 		return this;
@@ -116,25 +119,55 @@ function JackPotCounter(options){
 
 	this.pushRoll = (elemArr) => {
 		elemArr.forEach(function(el, i, elemArr) {
-			var multi = Math.pow(10, i);
-			console.log(i + ": " + multi);console.log(el);
+			if (el.classList)
+				el.classList.add("anim");
+			else
+				el.className += ' ' + "anim";
+			var multi = Math.pow(10, i),
+				s = that.currentValue * 10,
+				rollSeries = ((s / multi).toFixed(3)).slice(0, -2), // Проверить округление. (995/10000).toFixed(3).slice(0, -2) = 0.1 . Округлило 0.09 
+/* - 1000 */	duration = rollSeries > 1 ? ((that.tickLength - 1000)/ (rollSeries * 1).toFixed(0)) : that.tickLength - 1000;
+			let newKey = ((getDecimal(+rollSeries)) * 10) + "";	
+			el.className += ' ' + "spin-" + newKey;
 
-		var s = that.currentValue * 10;
-		var analog = ((s / multi).toFixed(3)).slice(0, -2);
-		if(+analog <= 0) return this;
-			el.style.WebkitAnimationDuration = (analog/that.tickLength)*1000 + "ms";
-    		el.style.animationDuration = (analog/that.tickLength)*1000 + "ms";
-			el.style.WebkitAnimationPlayState = "running";
-			el.style.animationPlayState = "running";
-		    //el.style.WebkitAnimationIterationCount = analog;
-    		//el.style.animationIterationCount = analog;
-    		console.log((analog/that.tickLength)*1000 + "ms");
-    	});
+			if(+rollSeries <= 0) return this; 
+			el.style.WebkitAnimationName = "spin";
+	    		el.style.animationName = "spin";
+				el.style.WebkitAnimationDuration = duration + "ms";
+	    		el.style.animationDuration = duration + "ms";
+				el.style.WebkitAnimationPlayState = "running";
+				el.style.animationPlayState = "running";
+	    		
+			    el.style.WebkitAnimationIterationCount = rollSeries;
+	    		el.style.animationIterationCount = rollSeries;
+	    		console.log(i + ": rollSeries: " + rollSeries + "\nduration: " + duration + " newKeys =>" + newKey);
+
+	    	});
 		return this;
 	};
 
+	this.animationPaused = (elemArr) => { 
+		elemArr.forEach(function(el, i, elemArr) {
+
+				// el.classList.value = "";
+				console.log(el.classList);
+
+			// el.style.animationName;
+			// el.style.animationIterationCount;
+			// el.style.animationPlayState;
+			// el.style.animationDuration;
+   		});
+	};
 	return this;
 };
+
+function getDecimal(num) {
+  var str = "" + num;
+  var zeroPos = str.indexOf(".");
+  if (zeroPos == -1) return 0;
+  str = str.slice(zeroPos);
+  return +str;
+}
 
 function rough(value, factor){
 	if(isNaN(value/2)) return false;
