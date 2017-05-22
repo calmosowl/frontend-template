@@ -134,6 +134,15 @@ $angle: 36deg;
    @include transform(translate3d($x, $y, $z));
 }
 
+@mixin animation($animation, $duration, $transition, $iteration, $mode, $state) {
+	animation-name: $animation;
+	animation-duration: $duration;
+	animation-timing-function: $transition;
+	animation-iteration-count: $iteration;
+	animation-fill-mode: $mode;
+	animation-play-state: $state;
+}
+
 .top-panel {
 	display: flex;
 	justify-content: space-between;
@@ -203,73 +212,9 @@ $angle: 36deg;
 		}
 }
 
-$sec: 0ms;
-	.anim {
-		animation-duration: $sec;
-		animation-play-state: paused;
-		animation-iteration-count: 0;
-		animation-name: spin;
-							animation-timing-function: ease-in-out;
-							animation-fill-mode: forwards;
-	}
-/* #roller {
-	&One {
-		animation-duration: $sec;
-		animation-play-state: paused;
-		animation-iteration-count: 0;
-		animation-name: spin;
-							animation-timing-function: ease-in-out;
-							animation-fill-mode: forwards;
-	}
-	&Two {
-		animation-duration: $sec;
-		animation-play-state: paused;
-		animation-iteration-count: 0;
-		animation-name: spin;
-							animation-timing-function: ease-in-out;
-							animation-fill-mode: forwards;
-	}
-	&Three {
-		animation-duration: $sec;
-		animation-play-state: paused;
-		animation-iteration-count: 0;
-		animation-name: spin;
-							animation-timing-function: ease-in-out;
-							animation-fill-mode: forwards;
-	}
-	&Four {
-		animation-duration: $sec;
-		animation-play-state: paused;
-		animation-iteration-count: 0;
-		animation-name: spin;
-							animation-timing-function: ease-in-out;
-							animation-fill-mode: forwards;
-	}
-	&Five {
-		animation-duration: $sec;
-		animation-play-state: paused;
-		animation-iteration-count: 0;
-		animation-name: spin;
-							animation-timing-function: ease-in-out;
-							animation-fill-mode: forwards;
-	}
-	&Six {
-		animation-duration: $sec;
-		animation-play-state: paused;
-		animation-iteration-count: 0;
-		animation-name: spin;
-							animation-timing-function: ease-in-out;
-							animation-fill-mode: forwards;
-	}
-	&Seven {
-		animation-duration: $sec;
-		animation-play-state: paused;
-		animation-iteration-count: 0;	
-		animation-name: spin;
-							animation-timing-function: ease-in-out;
-							animation-fill-mode: forwards;	
-	}
-} */
+#roller {
+	&One, &Two, &Three, &Four, &Five, &Six, &Seven 
+	{@include animation(spin-0, 0s, ease-in-out, 0, forwards, paused);}}
 
 @for $i from 0 through 9 {
 	.jackpot-counter .figure#{$i} {
@@ -277,16 +222,146 @@ $sec: 0ms;
 	}
 }
 
-@keyframes spin {
-	0% { @include rotate3d(1, 0, 0, -12deg); }
-	10% { @include rotate3d(1, 0, 0, -48deg); }
-	20% { @include rotate3d(1, 0, 0, -84deg); }
-	30% { @include rotate3d(1, 0, 0, -120deg); }
-	40% { @include rotate3d(1, 0, 0, -156deg); }
-	50% { @include rotate3d(1, 0, 0, -192deg); }
-	60% { @include rotate3d(1, 0, 0, -228deg); }
-	70% { @include rotate3d(1, 0, 0, -264deg); }
-	80% { @include rotate3d(1, 0, 0, -300deg); }
-	90% { @include rotate3d(1, 0, 0, -336deg); }
-	100% { @include rotate3d(1, 0, 0, -372deg); }
+@for $i from 0 through 9 {
+	.spin-#{$i} {
+		@include animation(spin-#{$i}, 0s, ease-in-out, 0, forwards, paused);
+	}
+}
+
+/*@keyframes*/
+
+@keyframes spin-0 {
+	$deflection: 12;
+	$i: 0;
+	$j: 0;
+	@while $i < 100 {
+		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
+		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
+		$i: $i + 10;
+		$j: $j + 1;
+	}
+}
+
+@keyframes spin-1 {
+	$deflection: 48;
+	$i: 0;
+	$j: 0;
+	@while $i < 100 {
+		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
+		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
+		$i: $i + 10;
+		$j: $j + 1;
+	}
+}
+
+@keyframes spin-2 {
+	$deflection: 84;
+	$i: 0;
+	$j: 0;
+	@while $i < 100 {
+		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
+		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
+		$i: $i + 10;
+		$j: $j + 1;
+	}
+}
+
+@keyframes spin-3 {
+	$deflection: 120;
+	$i: 0;
+	$j: 0;
+	@while $i < 100 {
+		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
+		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
+		$i: $i + 10;
+		$j: $j + 1;
+	}
+}
+
+@keyframes spin-4 {
+	$deflection: 156;
+	$i: 0;
+	$j: 0;
+	@while $i < 100 {
+		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
+		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
+		$i: $i + 10;
+		$j: $j + 1;
+	}
+}
+
+@keyframes spin-5 {
+	$deflection: 192;
+	$i: 0;
+	$j: 0;
+	@while $i < 100 {
+		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
+		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
+		$i: $i + 10;
+		$j: $j + 1;
+	}
+}
+
+@keyframes spin-6 {
+	$deflection: 228;
+	$i: 0;
+	$j: 0;
+	@while $i < 100 {
+		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
+		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
+		$i: $i + 10;
+		$j: $j + 1;
+	}
+}
+
+@keyframes spin-7 {
+	$deflection: 264;
+	$i: 0;
+	$j: 0;
+	@while $i < 100 {
+		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
+		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
+		$i: $i + 10;
+		$j: $j + 1;
+	}
+}
+
+@keyframes spin-8 {
+	$deflection: 300;
+	$i: 0;
+	$j: 0;
+	@while $i < 100 {
+		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
+		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
+		$i: $i + 10;
+		$j: $j + 1;
+	}
+}
+
+@keyframes spin-9 {
+	$deflection: 336;
+	$i: 0;
+	$j: 0;
+	@while $i < 100 {
+		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
+		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
+		$i: $i + 10;
+		$j: $j + 1;
+	}
+}
+
+#rollerSeven {
+    -webkit-animation-name: spin-0;
+            animation-name: spin-0;
+    -webkit-animation-duration: 9s;
+            animation-duration: 9s;
+    -webkit-animation-play-state: running;
+            animation-play-state: running;
+    -webkit-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
 }

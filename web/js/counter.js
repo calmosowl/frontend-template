@@ -119,29 +119,28 @@ function JackPotCounter(options){
 
 	this.pushRoll = (elemArr) => {
 		elemArr.forEach(function(el, i, elemArr) {
-			if (el.classList)
-				el.classList.add("anim");
-			else
-				el.className += ' ' + "anim";
 			var multi = Math.pow(10, i),
 				s = that.currentValue * 10,
 				rollSeries = ((s / multi).toFixed(3)).slice(0, -2), // Проверить округление. (995/10000).toFixed(3).slice(0, -2) = 0.1 . Округлило 0.09 
 /* - 1000 */	duration = rollSeries > 1 ? ((that.tickLength - 1000)/ (rollSeries * 1).toFixed(0)) : that.tickLength - 1000;
 			let newKey = ((getDecimal(+rollSeries)) * 10) + "";	
+			el.classList.value = "";
 			el.className += ' ' + "spin-" + newKey;
+			
 
 			if(+rollSeries <= 0) return this; 
-			el.style.WebkitAnimationName = "spin";
-	    		el.style.animationName = "spin";
+			// el.style.WebkitAnimationName = "spin";
+	  //   		el.style.animationName = "spin";
 				el.style.WebkitAnimationDuration = duration + "ms";
 	    		el.style.animationDuration = duration + "ms";
-				el.style.WebkitAnimationPlayState = "running";
-				el.style.animationPlayState = "running";
 	    		
 			    el.style.WebkitAnimationIterationCount = rollSeries;
 	    		el.style.animationIterationCount = rollSeries;
-	    		console.log(i + ": rollSeries: " + rollSeries + "\nduration: " + duration + " newKeys =>" + newKey);
 
+				el.style.WebkitAnimationPlayState = "running";
+				el.style.animationPlayState = "running";
+
+	    		console.log(i + ":====\nrollSeries: " + rollSeries + "\nduration: " + duration + "\nnewKey =>" + newKey + "\nadd.class: " + el.classList);
 	    	});
 		return this;
 	};
@@ -149,7 +148,9 @@ function JackPotCounter(options){
 	this.animationPaused = (elemArr) => { 
 		elemArr.forEach(function(el, i, elemArr) {
 
-				// el.classList.value = "";
+				
+				el.style.WebkitAnimationPlayState = "paused";
+				el.style.animationPlayState = "paused";
 				console.log(el.classList);
 
 			// el.style.animationName;
