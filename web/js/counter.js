@@ -20,15 +20,12 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			rollerSix = document.getElementById('rollerSix'), 
 			rollerSeven = document.getElementById('rollerSeven');
 	
-		a.elemArr = [rollerSeven, rollerSix, rollerFive, rollerFour, rollerThree, rollerTwo, rollerOne];
+		// a.elemArr = [rollerSeven, rollerSix, rollerFive, rollerFour, rollerThree, rollerTwo, rollerOne];
+		a.elemArr = [rollerSeven, rollerSix];
 
 		play.onclick= (ev) => {
 			ev.preventDefault();
 				a.tickPlay().echo(output);
-				// setInterval(() => {
-				// 	ev.preventDefault();
-				// 	a.pushRoll(elemArr);    
-				// }, a.tickLength + 100);	
 		};
 		stop.onclick= (ev) => {
 			ev.preventDefault();
@@ -83,8 +80,9 @@ function JackPotCounter(options){
 				this.data.arrayStamp = this.buffer.join(', ');
 				this.currentValue = rough(+(this.currentValue + this.qtyPerTick).toFixed(2));
 				this.dev();
-				this.pushRoll(this.elemArr);
-			this.animationPaused(this.elemArr);
+				this.transform(this.elemArr);
+				// this.pushRoll(this.elemArr);
+			// this.animationPaused(this.elemArr);
 			}, this.tickLength);
 		};
 		return this;
@@ -159,6 +157,33 @@ function JackPotCounter(options){
 			// el.style.animationDuration;
    		});
 	};
+
+	this.transform = (elemArr) => {
+		elemArr.forEach(function(el, i, elemArr) {
+			var multi = Math.pow(10, i),
+				s = that.currentValue * 10,
+				rotate = (((s / multi).toFixed(3)).slice(0, -2))-12, // Проверить округление. (995/10000).toFixed(3).slice(0, -2) = 0.1 . Округлило 0.09 
+/* - 1000 */	duration = rotate > 1 ? ((that.tickLength - 1000)/ (rotate * 1).toFixed(0)) : that.tickLength - 1000;
+			
+			if(+rotate <= 0) return this;
+			that.setTransform(el, rotate, duration);
+	});
+}
+	this.setTransform = (el, rotate, duration) => {
+			var x = el.setAttribute('style', "transform: rotateX(-" + rotate + "deg);transition-duration:" + duration + "ms;");
+			that.getLog("id" + el.getAttribute('id') + "🚂🚃🚃🚃🚃🚃🚃🚃🚃🚃\n" + "rotate: " + rotate + "\nduration: " + duration);
+		}
+	this.getRotate = (el) => {
+		var y = el.getAttribute('style');
+		that.getLog(y);
+	}   
+
+	this.getLog = (msg) => {
+		var ot = log.scrollHeight - log.clientHeight;
+		if (ot > 0) log.scrollTop = ot;
+		return log.textContent += msg + "\n";
+	}
+
 	return this;
 };
 
