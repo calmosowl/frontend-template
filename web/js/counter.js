@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", (ev) => {
 	(()=>{
 		let a = new JackPotCounter({
-			tickLength: 5000,
+			tickLength: 10000,
 			qtyPerTick: 10
 		});
 		
@@ -20,8 +20,7 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			rollerSix = document.getElementById('rollerSix'), 
 			rollerSeven = document.getElementById('rollerSeven');
 	
-		// a.elemArr = [rollerSeven, rollerSix, rollerFive, rollerFour, rollerThree, rollerTwo, rollerOne];
-		a.elemArr = [rollerSeven, rollerSix];
+		a.elemArr = [rollerOne, rollerTwo, rollerThree, rollerFour, rollerFive, rollerSix, rollerSeven];
 
 		play.onclick= (ev) => {
 			ev.preventDefault();
@@ -81,8 +80,6 @@ function JackPotCounter(options){
 				this.currentValue = rough(+(this.currentValue + this.qtyPerTick).toFixed(2));
 				this.dev();
 				this.transform(this.elemArr);
-				// this.pushRoll(this.elemArr);
-			// this.animationPaused(this.elemArr);
 			}, this.tickLength);
 		};
 		return this;
@@ -115,63 +112,30 @@ function JackPotCounter(options){
 		return this.data.diffBetweenLatests;
 	};
 
-	this.pushRoll = (elemArr) => {
-		elemArr.forEach(function(el, i, elemArr) {
-			var multi = Math.pow(10, i),
-				s = that.currentValue * 10,
-				rollSeries = ((s / multi).toFixed(3)).slice(0, -2), // Проверить округление. (995/10000).toFixed(3).slice(0, -2) = 0.1 . Округлило 0.09 
-/* - 1000 */	duration = rollSeries > 1 ? ((that.tickLength - 1000)/ (rollSeries * 1).toFixed(0)) : that.tickLength - 1000;
-			let newKey = ((getDecimal(+rollSeries)) * 10) + "";	
-			el.classList.value = "";
-			el.className += ' ' + "spin-" + newKey;
-			
-
-			if(+rollSeries <= 0) return this; 
-			// el.style.WebkitAnimationName = "spin";
-	  //   		el.style.animationName = "spin";
-				el.style.WebkitAnimationDuration = duration + "ms";
-	    		el.style.animationDuration = duration + "ms";
-	    		
-			    el.style.WebkitAnimationIterationCount = rollSeries;
-	    		el.style.animationIterationCount = rollSeries;
-
-				el.style.WebkitAnimationPlayState = "running";
-				el.style.animationPlayState = "running";
-
-	    		console.log(i + ":====\nrollSeries: " + rollSeries + "\nduration: " + duration + "\nnewKey =>" + newKey + "\nadd.class: " + el.classList);
-	    	});
-		return this;
-	};
-
-	this.animationPaused = (elemArr) => { 
-		elemArr.forEach(function(el, i, elemArr) {
-
-				
-				el.style.WebkitAnimationPlayState = "paused";
-				el.style.animationPlayState = "paused";
-				console.log(el.classList);
-
-			// el.style.animationName;
-			// el.style.animationIterationCount;
-			// el.style.animationPlayState;
-			// el.style.animationDuration;
-   		});
-	};
-
 	this.transform = (elemArr) => {
-		elemArr.forEach(function(el, i, elemArr) {
-			var multi = Math.pow(10, i),
-				s = that.currentValue * 10,
-				rotate = (((s / multi).toFixed(3)).slice(0, -2))-12, // Проверить округление. (995/10000).toFixed(3).slice(0, -2) = 0.1 . Округлило 0.09 
-/* - 1000 */	duration = rotate > 1 ? ((that.tickLength - 1000)/ (rotate * 1).toFixed(0)) : that.tickLength - 1000;
-			
-			if(+rotate <= 0) return this;
-			that.setTransform(el, rotate, duration);
-	});
+		var dataToArr = createArray(this.currentValue); 
+		that.getLog(dataToArr);
+		var elemArrReverse = elemArr.reverse();
+		elemArrReverse.length = dataToArr.length;
+		var arr = elemArrReverse.reverse();
+
+		arr.forEach(function(el, i, arr) {
+			var multi = Math.pow(10, i);
+			var rotate = i < 1 ? ((36 * dataToArr[i] * multi)+12) : ((36 * dataToArr[i] * multi)+12) + (36 * dataToArr[i]);
+			// if(i < 1)
+			// 	var rotate = ((36 * dataToArr[i] * multi)+12);
+			// if((dataToArr[i] * multi) == 0)
+			// 	var rotate = ((360 * dataToArr[(i - 1)] * multi)+12);
+			// var rotate = ((36 * dataToArr[i] * multi)+12) + (36 * dataToArr[i]);
+			that.getLog("\nmulti: " + multi);
+			that.setTransform(elemArr[i], rotate, that.tickLength-500);
+			that.getRotate(elemArr[i]);
+		});
+
 }
 	this.setTransform = (el, rotate, duration) => {
 			var x = el.setAttribute('style', "transform: rotateX(-" + rotate + "deg);transition-duration:" + duration + "ms;");
-			that.getLog("id" + el.getAttribute('id') + "🚂🚃🚃🚃🚃🚃🚃🚃🚃🚃\n" + "rotate: " + rotate + "\nduration: " + duration);
+			that.getLog("id: " + el.getAttribute('id') + "...........\n" + "rotate: " + rotate + "\nduration: " + duration);
 		}
 	this.getRotate = (el) => {
 		var y = el.getAttribute('style');
@@ -203,4 +167,15 @@ function rough(value, factor){
 
 	res = +(res).toFixed(2);
 	return res;
+};
+
+function createArray(arg) {
+	if(!arg)
+		arg = 0;
+	var str = "" + (arg).toFixed(2), string = "";
+  	for(var i = 0; i < str.length; i++){
+    if(!isNaN(+str[i])) string += str[i];
+    };
+	arg = string.split("");
+	return arg;
 };

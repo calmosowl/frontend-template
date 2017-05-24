@@ -139,11 +139,16 @@
 
 	</main>
 <script>
-var rollerSeven = document.getElementById('rollerSeven'),
-	rollerSix = document.getElementById('rollerSix'),
+var	rollerOne = document.getElementById('rollerOne'), 
+			rollerTwo = document.getElementById('rollerTwo'), 
+			rollerThree = document.getElementById('rollerThree'), 
+			rollerFour = document.getElementById('rollerFour'), 
+			rollerFive = document.getElementById('rollerFive'), 
+			rollerSix = document.getElementById('rollerSix'), 
+			rollerSeven = document.getElementById('rollerSeven');
 	log = document.getElementById('log'),
 	test = document.getElementById('test');
-// var elemArr = [rollerSix, rollerSeven];
+
 var elemArr = [rollerOne, rollerTwo, rollerThree, rollerFour, rollerFive, rollerSix, rollerSeven];
 
 
@@ -180,23 +185,29 @@ function createArray(arg) {
 };
 
 //===>
+var data = randomInteger(1, 10);
+function generator() {
+	data += randomInteger(1, 50);
 
-var data = randomInteger(0.1, 100); 
-var dataToArr = createArray(data); 
-getLog(dataToArr); //[0,0,0,1,2,7,5]
-var elemArrReverse = elemArr.reverse();
-elemArrReverse.length = dataToArr.length;
-var tickLength = 5000;
-var arr = elemArrReverse.reverse();
-arr.forEach(function(el, i, arr) {
-	var multi = Math.pow(10, i);
-	var rotate = i < 1 ? ((36 * dataToArr[i] * multi)+12) : ((36 * dataToArr[i] * multi)+12) + (36 * dataToArr[i]);
-	getLog("\nmulti: " + multi + "\nrotate: " + rotate);
-	getLog((rotate+12)/360);
-	setTransform(elemArr[i], rotate, tickLength);
-	getRotate(elemArr[i]);
-});
-		
+	var dataToArr = createArray(data); 
+	getLog("\n===================" + dataToArr + "===================");
+	var elemArrReverse = elemArr.reverse();
+	elemArrReverse.length = dataToArr.length;
+	var arr = elemArrReverse.reverse();
+	var tickLength = 5000;
+
+	arr.forEach(function(el, i, arr) {
+		var multi = Math.pow(10, i);
+		var rotate = i < 1 ? ((36 * dataToArr[i] * multi)+12) : ((36 * dataToArr[i] * multi)+12) + (36 * dataToArr[i]);
+		getLog("\nmulti: " + multi + "\nrotate: " + rotate);
+		getLog((rotate+12)/360);
+		setTransform(elemArr[i], rotate, tickLength);
+		getRotate(elemArr[i]);
+	});
+    setTimeout(generator, 10000);
+}
+
+//generator();
 </script>
 </body>
 </html>
