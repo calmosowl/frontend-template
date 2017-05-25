@@ -240,8 +240,8 @@ main {
     margin: 0 auto;
     -webkit-transition-delay: 0ms;
             transition-delay: 0ms; /*animate*/
-    -webkit-transition-timing-function: ease-in-out;
-            transition-timing-function: ease-in-out;
+    -webkit-transition-timing-function: cubic-bezier(.88, .05, .36, .96);
+            transition-timing-function: cubic-bezier(.88, .05, .36, .96);
     -webkit-transition-duration: 0ms;
             transition-duration: 0ms;
     -webkit-transition-property: -webkit-transform;

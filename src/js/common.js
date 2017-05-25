@@ -110,7 +110,7 @@ var arr = [];
 function createArray(arg) {
 	if(!arg)
 		arg = 0;
-	string = arg.toString(10);
+	var string = arg.toString(10);
 	while(string.length < 5)
 		string = "0" + string;
 	arg = string.split("");

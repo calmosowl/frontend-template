@@ -197,7 +197,7 @@ $angle: 36deg;
 							// transition: $transition-property $transition-time $method;
 							will-change: transform;
 							// transform: rotateX(-12deg);
-							@include transition(transform, 0ms, ease-in-out, 0ms);
+							@include transition(transform, 0ms, cubic-bezier(.88,.05,.36,.96), 0ms);
 							/*animate*/
 							//animation-delay: 1000ms;
 						}

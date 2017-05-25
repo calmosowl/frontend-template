@@ -19,7 +19,7 @@
 					<div class="jackpot-counter">
 						<div class="row">
 							<div class="jackpot-counter-cell">
-								<div id="rollerOne" style="transform: rotateX(-12deg);transition-duration:5000ms">
+								<div id="rollerOne" data-rotate="12" data-duration="5000" style="transform: rotateX(-12deg);transition-duration:5000ms">
 									<div class="plane figure0">0</div>
 									<div class="plane figure1">1</div>
 									<div class="plane figure2">2</div>
@@ -33,7 +33,7 @@
 								</div>
 							</div>
 							<div class="jackpot-counter-cell">
-								<div id="rollerTwo" style="transform: rotateX(-12deg);transition-duration:5000ms">
+								<div id="rollerTwo" data-rotate="12" data-duration="5000" style="transform: rotateX(-12deg);transition-duration:5000ms">
 									<div class="plane figure0">0</div>
 									<div class="plane figure1">1</div>
 									<div class="plane figure2">2</div>
@@ -47,7 +47,7 @@
 								</div>
 							</div>
 							<div class="jackpot-counter-cell">
-								<div id="rollerThree" style="transform: rotateX(-12deg);transition-duration:5000ms">
+								<div id="rollerThree" data-rotate="12" data-duration="5000" style="transform: rotateX(-12deg);transition-duration:5000ms">
 									<div class="plane figure0">0</div>
 									<div class="plane figure1">1</div>
 									<div class="plane figure2">2</div>
@@ -61,7 +61,7 @@
 								</div>
 							</div>
 							<div class="jackpot-counter-cell">
-								<div id="rollerFour" style="transform: rotateX(-12deg);transition-duration:5000ms">
+								<div id="rollerFour" data-rotate="12" data-duration="5000" style="transform: rotateX(-12deg);transition-duration:5000ms">
 									<div class="plane figure0">0</div>
 									<div class="plane figure1">1</div>
 									<div class="plane figure2">2</div>
@@ -75,7 +75,7 @@
 								</div>
 							</div>
 							<div class="jackpot-counter-cell">
-								<div id="rollerFive" style="transform: rotateX(-12deg);transition-duration:5000ms">
+								<div id="rollerFive" data-rotate="12" data-duration="5000" style="transform: rotateX(-12deg);transition-duration:5000ms">
 									<div class="plane figure0">0</div>
 									<div class="plane figure1">1</div>
 									<div class="plane figure2">2</div>
@@ -90,7 +90,7 @@
 							</div>
 							<div>.</div>
 							<div class="jackpot-counter-cell">
-								<div id="rollerSix" style="transform: rotateX(-12deg);transition-duration:5000ms">
+								<div id="rollerSix" data-rotate="12" data-duration="5000" style="transform: rotateX(-12deg);transition-duration:5000ms">
 									<div class="plane figure0">0</div>
 									<div class="plane figure1">1</div>
 									<div class="plane figure2">2</div>
@@ -104,7 +104,7 @@
 								</div>
 							</div>
 							<div class="jackpot-counter-cell">
-								<div id="rollerSeven" style="transform: rotateX(-12deg);transition-duration:5000ms">
+								<div id="rollerSeven" data-rotate="12" data-duration="5000" style="transform: rotateX(-12deg);transition-duration:5000ms">
 									<div class="plane figure0">0</div>
 									<div class="plane figure1">1</div>
 									<div class="plane figure2">2</div>
@@ -153,7 +153,15 @@ var elemArr = [rollerOne, rollerTwo, rollerThree, rollerFour, rollerFive, roller
 
 
 function setTransform(el, rotate, duration) {
-	var x = el.setAttribute('style', "transform: rotateX(-" + rotate + "deg);transition-duration:" + duration + "ms;");
+	var 
+	oldrotate = +el.getAttribute("data-rotate"),
+	newrotate = oldrotate + rotate,
+	oldduration = +el.getAttribute("data-duration"),
+	newduration = oldduration != duration ? oldduration + duration : oldduration;
+	el.setAttribute('style', "transform: rotateX(-" + newrotate  + "deg);transition-duration:" + newduration + "ms;");
+	el.setAttribute("data-rotate", newrotate); 
+	el.setAttribute("data-duration", newduration); 
+	getLog(" ∡ " + oldrotate + "° + " + rotate + "° = " + newrotate + "° \n 🕙 " + oldduration + " -> " + newduration);
 }
 
 function getRotate(el) {
@@ -175,39 +183,44 @@ function randomInteger(min, max) {
 
 function createArray(arg) {
 	if(!arg)
-		arg = 0 + "";
+		arg = 0;
 	var str = "" + (arg).toFixed(2), string = "";
   	for(var i = 0; i < str.length; i++){
-    if(!isNaN(+str[i])) string += str[i];
+    if(!isNaN(+str[i])) {
+    	if(i == 0 && str[i] == +0) 
+    		continue;    
+    	string += str[i];
+    	} 
     };
 	arg = string.split("");
 	return arg;
 };
 
 //===>
-var data = randomInteger(1, 10);
-function generator() {
-	data += randomInteger(1, 50);
 
+function generator(data) {
 	var dataToArr = createArray(data); 
-	getLog("\n===================" + dataToArr + "===================");
+	getLog("\n ⌗ ⌗ ⌗ ⌗ ⌗ ⌗ " + dataToArr + " ⌗ ⌗ ⌗ ⌗ ⌗ ⌗ ");
 	var elemArrReverse = elemArr.reverse();
 	elemArrReverse.length = dataToArr.length;
 	var arr = elemArrReverse.reverse();
 	var tickLength = 5000;
 
 	arr.forEach(function(el, i, arr) {
-		var multi = Math.pow(10, i);
-		var rotate = i < 1 ? ((36 * dataToArr[i] * multi)+12) : ((36 * dataToArr[i] * multi)+12) + (36 * dataToArr[i]);
-		getLog("\nmulti: " + multi + "\nrotate: " + rotate);
-		getLog((rotate+12)/360);
+		var 
+		multi = Math.pow(10, i),
+		rotate = 
+				i < 1 ? 
+				(36 * dataToArr[i] * multi) : 
+				(36 * dataToArr[i] * multi) + (36 * dataToArr[i]) + (36 * multi);
+		getLog("\n × " + multi + "\n");
+		getLog(" ♻ " + (rotate/360).toFixed(1));
 		setTransform(elemArr[i], rotate, tickLength);
-		getRotate(elemArr[i]);
 	});
-    setTimeout(generator, 10000);
 }
 
-//generator();
+// generator(12.75);
+// generator(23.08);
 </script>
 </body>
 </html>
