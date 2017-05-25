@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", (ev) => {
 	(()=>{
 		let a = new JackPotCounter({
-			tickLength: 10000,
+			tickLength: 5000,
 			qtyPerTick: 10
 		});
 		
@@ -113,30 +113,42 @@ function JackPotCounter(options){
 	};
 
 	this.transform = (elemArr) => {
-		var dataToArr = createArray(this.currentValue); 
-		that.getLog(dataToArr);
-		var elemArrReverse = elemArr.reverse();
+		var dataToArr = createArray(this.data.diffBetweenLatests); 
+		that.getLog("\n ⌗ ⌗ ⌗ ⌗ ⌗ ⌗ " + dataToArr + " ⌗ ⌗ ⌗ ⌗ ⌗ ⌗ ");
+		var copyArr = elemArr.slice();
+		var elemArrReverse = copyArr.reverse();
 		elemArrReverse.length = dataToArr.length;
 		var arr = elemArrReverse.reverse();
-
+that.getLog(arr);
 		arr.forEach(function(el, i, arr) {
-			var multi = Math.pow(10, i);
-			var rotate = i < 1 ? ((36 * dataToArr[i] * multi)+12) : ((36 * dataToArr[i] * multi)+12) + (36 * dataToArr[i]);
-			// if(i < 1)
-			// 	var rotate = ((36 * dataToArr[i] * multi)+12);
-			// if((dataToArr[i] * multi) == 0)
-			// 	var rotate = ((360 * dataToArr[(i - 1)] * multi)+12);
-			// var rotate = ((36 * dataToArr[i] * multi)+12) + (36 * dataToArr[i]);
-			that.getLog("\nmulti: " + multi);
-			that.setTransform(elemArr[i], rotate, that.tickLength-500);
-			that.getRotate(elemArr[i]);
+			var 
+			multi = Math.pow(10, i),
+			rotate = 
+					i < 1 ? 
+					(36 * dataToArr[i]) : 
+					(36 * dataToArr[i - 1] * Math.pow(10, i)) + (36 * dataToArr[i]);
+			that.getLog("\n × " + multi + "\n");
+			that.setTransform(el, rotate, that.tickLength);
+			
+			that.getLog(" ♻ " + (rotate/360).toFixed(1));
 		});
 
-}
+	};
+
 	this.setTransform = (el, rotate, duration) => {
-			var x = el.setAttribute('style', "transform: rotateX(-" + rotate + "deg);transition-duration:" + duration + "ms;");
-			that.getLog("id: " + el.getAttribute('id') + "...........\n" + "rotate: " + rotate + "\nduration: " + duration);
-		}
+		var 
+		oldrotate = +el.getAttribute("data-rotate"),
+		newrotate = oldrotate + rotate,
+		oldduration = +el.getAttribute("data-duration"),
+		newduration = oldduration != duration ? Math.abs(oldduration - duration) : Math.abs(oldduration);
+		
+		el.setAttribute('style', "transform: rotateX(-" + newrotate  + "deg);transition-duration:" + newduration + "ms;");
+		el.setAttribute("data-rotate", newrotate); 
+		el.setAttribute("data-duration", newduration); 
+		
+		that.getLog(" ∡ " + oldrotate + "° + " + rotate + "° = " + newrotate + "° \n 🕙 " + oldduration + " -> " + newduration);
+	};
+
 	this.getRotate = (el) => {
 		var y = el.getAttribute('style');
 		that.getLog(y);
@@ -146,7 +158,7 @@ function JackPotCounter(options){
 		var ot = log.scrollHeight - log.clientHeight;
 		if (ot > 0) log.scrollTop = ot;
 		return log.textContent += msg + "\n";
-	}
+	};
 
 	return this;
 };
@@ -157,7 +169,7 @@ function getDecimal(num) {
   if (zeroPos == -1) return 0;
   str = str.slice(zeroPos);
   return +str;
-}
+};
 
 function rough(value, factor){
 	if(isNaN(value/2)) return false;
@@ -174,8 +186,9 @@ function createArray(arg) {
 		arg = 0;
 	var str = "" + (arg).toFixed(2), string = "";
   	for(var i = 0; i < str.length; i++){
-    if(!isNaN(+str[i])) string += str[i];
-    };
+    	//if(i == 0 && +str[i] == 0) continue; 
+    	if(!isNaN(+str[i])) string += str[i];
+    }
 	arg = string.split("");
 	return arg;
 };

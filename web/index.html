@@ -139,85 +139,82 @@
 
 	</main>
 <script>
-var	rollerOne = document.getElementById('rollerOne'), 
-			rollerTwo = document.getElementById('rollerTwo'), 
-			rollerThree = document.getElementById('rollerThree'), 
-			rollerFour = document.getElementById('rollerFour'), 
-			rollerFive = document.getElementById('rollerFive'), 
-			rollerSix = document.getElementById('rollerSix'), 
-			rollerSeven = document.getElementById('rollerSeven');
-	log = document.getElementById('log'),
-	test = document.getElementById('test');
+// var	rollerOne = document.getElementById('rollerOne'), 
+// 			rollerTwo = document.getElementById('rollerTwo'), 
+// 			rollerThree = document.getElementById('rollerThree'), 
+// 			rollerFour = document.getElementById('rollerFour'), 
+// 			rollerFive = document.getElementById('rollerFive'), 
+// 			rollerSix = document.getElementById('rollerSix'), 
+// 			rollerSeven = document.getElementById('rollerSeven');
+// 	log = document.getElementById('log'),
+// 	test = document.getElementById('test');
 
-var elemArr = [rollerOne, rollerTwo, rollerThree, rollerFour, rollerFive, rollerSix, rollerSeven];
+// var elemArr = [rollerOne, rollerTwo, rollerThree, rollerFour, rollerFive, rollerSix, rollerSeven];
 
 
-function setTransform(el, rotate, duration) {
-	var 
-	oldrotate = +el.getAttribute("data-rotate"),
-	newrotate = oldrotate + rotate,
-	oldduration = +el.getAttribute("data-duration"),
-	newduration = oldduration != duration ? oldduration + duration : oldduration;
-	el.setAttribute('style', "transform: rotateX(-" + newrotate  + "deg);transition-duration:" + newduration + "ms;");
-	el.setAttribute("data-rotate", newrotate); 
-	el.setAttribute("data-duration", newduration); 
-	getLog(" ∡ " + oldrotate + "° + " + rotate + "° = " + newrotate + "° \n 🕙 " + oldduration + " -> " + newduration);
-}
+// function setTransform(el, rotate, duration) {
+// 	var 
+// 	oldrotate = +el.getAttribute("data-rotate"),
+// 	newrotate = oldrotate + rotate,
+// 	oldduration = +el.getAttribute("data-duration"),
+// 	newduration = oldduration != duration ? oldduration + duration : oldduration;
+// 	el.setAttribute('style', "transform: rotateX(-" + newrotate  + "deg);transition-duration:" + newduration + "ms;");
+// 	el.setAttribute("data-rotate", newrotate); 
+// 	el.setAttribute("data-duration", newduration); 
+// 	getLog(" ∡ " + oldrotate + "° + " + rotate + "° = " + newrotate + "° \n 🕙 " + oldduration + " -> " + newduration);
+// }
 
-function getRotate(el) {
-	var y = el.getAttribute('style');
-	getLog(y);
-}   
+// function getRotate(el) {
+// 	var y = el.getAttribute('style');
+// 	getLog(y);
+// }   
 
-function getLog(msg) {
-	var ot = log.scrollHeight - log.clientHeight;
-	if (ot > 0) log.scrollTop = ot;
-	return log.textContent += msg + "\n";
-}
+// function getLog(msg) {
+// 	var ot = log.scrollHeight - log.clientHeight;
+// 	if (ot > 0) log.scrollTop = ot;
+// 	return log.textContent += msg + "\n";
+// }
 
-function randomInteger(min, max) {
-    rand = min - 0.5 + Math.random() * (max - min + 1)
-    //rand = Math.round(rand);
-    return rand;
-}
+// function randomInteger(min, max) {
+//     rand = min - 0.5 + Math.random() * (max - min + 1)
+//     //rand = Math.round(rand);
+//     return rand;
+// }
 
-function createArray(arg) {
-	if(!arg)
-		arg = 0;
-	var str = "" + (arg).toFixed(2), string = "";
-  	for(var i = 0; i < str.length; i++){
-    if(!isNaN(+str[i])) {
-    	if(i == 0 && str[i] == +0) 
-    		continue;    
-    	string += str[i];
-    	} 
-    };
-	arg = string.split("");
-	return arg;
-};
+// function createArray(arg) {
+// 	if(!arg)
+// 		arg = 0;
+// 	var str = "" + (arg).toFixed(2), string = "";
+//   	for(var i = 0; i < str.length; i++){
+//     	//if(i == 0 && +str[i] == 0) continue; 
+//     	if(!isNaN(+str[i])) string += str[i];
+//     }
+// 	arg = string.split("");
+// 	return arg;
+// };
 
-//===>
+// //===>
 
-function generator(data) {
-	var dataToArr = createArray(data); 
-	getLog("\n ⌗ ⌗ ⌗ ⌗ ⌗ ⌗ " + dataToArr + " ⌗ ⌗ ⌗ ⌗ ⌗ ⌗ ");
-	var elemArrReverse = elemArr.reverse();
-	elemArrReverse.length = dataToArr.length;
-	var arr = elemArrReverse.reverse();
-	var tickLength = 5000;
+// function generator(data) {
+// 	var dataToArr = createArray(data); 
+// 	getLog("\n ⌗ ⌗ ⌗ ⌗ ⌗ ⌗ " + dataToArr + " ⌗ ⌗ ⌗ ⌗ ⌗ ⌗ ");
+// 	var elemArrReverse = elemArr.reverse();
+// 	elemArrReverse.length = dataToArr.length;
+// 	var arr = elemArrReverse.reverse();
+// 	var tickLength = 5000;
 
-	arr.forEach(function(el, i, arr) {
-		var 
-		multi = Math.pow(10, i),
-		rotate = 
-				i < 1 ? 
-				(36 * dataToArr[i] * multi) : 
-				(36 * dataToArr[i] * multi) + (36 * dataToArr[i]) + (36 * multi);
-		getLog("\n × " + multi + "\n");
-		getLog(" ♻ " + (rotate/360).toFixed(1));
-		setTransform(elemArr[i], rotate, tickLength);
-	});
-}
+// 	arr.forEach(function(el, i, arr) {
+// 		var 
+// 		multi = Math.pow(10, i),
+// 		rotate = 
+// 				i < 1 ? 
+// 				(36 * dataToArr[i]) : 
+// 				(36 * dataToArr[i - 1] * Math.pow(10, i)) + (36 * dataToArr[i]);
+// 		getLog("\n × " + multi + "\n");
+// 		setTransform(elemArr[i], rotate, tickLength);
+// 		getLog(" ♻ " + (rotate/360).toFixed(1));
+// 	});
+// }
 
 // generator(12.75);
 // generator(23.08);
