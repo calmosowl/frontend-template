@@ -228,6 +228,11 @@ main {
     position: relative;
     width: 22.1px;
     height: 34px;
+    -webkit-transform: rotateX(-12deg);
+            transform: rotateX(-12deg);
+
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
 }
 
 .top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell + .top-panel .center .jackpot-item .jackpot-counter .row .jackpot-counter-cell {
@@ -272,48 +277,48 @@ main {
 }
 
 .jackpot-counter .figure1 {
-    -webkit-transform: rotate3d(1, 0, 0, 36deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, 36deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -36deg) translate3d(0, 0, 31px);
+            transform: rotate3d(1, 0, 0, -36deg) translate3d(0, 0, 31px);
 }
 
 .jackpot-counter .figure2 {
-    -webkit-transform: rotate3d(1, 0, 0, 72deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, 72deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -72deg) translate3d(0, 0, 31px);
+            transform: rotate3d(1, 0, 0, -72deg) translate3d(0, 0, 31px);
 }
 
 .jackpot-counter .figure3 {
-    -webkit-transform: rotate3d(1, 0, 0, 108deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, 108deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -108deg) translate3d(0, 0, 31px);
+            transform: rotate3d(1, 0, 0, -108deg) translate3d(0, 0, 31px);
 }
 
 .jackpot-counter .figure4 {
-    -webkit-transform: rotate3d(1, 0, 0, 144deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, 144deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -144deg) translate3d(0, 0, 31px);
+            transform: rotate3d(1, 0, 0, -144deg) translate3d(0, 0, 31px);
 }
 
 .jackpot-counter .figure5 {
-    -webkit-transform: rotate3d(1, 0, 0, 180deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, 180deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -180deg) translate3d(0, 0, 31px);
+            transform: rotate3d(1, 0, 0, -180deg) translate3d(0, 0, 31px);
 }
 
 .jackpot-counter .figure6 {
-    -webkit-transform: rotate3d(1, 0, 0, 216deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, 216deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -216deg) translate3d(0, 0, 31px);
+            transform: rotate3d(1, 0, 0, -216deg) translate3d(0, 0, 31px);
 }
 
 .jackpot-counter .figure7 {
-    -webkit-transform: rotate3d(1, 0, 0, 252deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, 252deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -252deg) translate3d(0, 0, 31px);
+            transform: rotate3d(1, 0, 0, -252deg) translate3d(0, 0, 31px);
 }
 
 .jackpot-counter .figure8 {
-    -webkit-transform: rotate3d(1, 0, 0, 288deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, 288deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -288deg) translate3d(0, 0, 31px);
+            transform: rotate3d(1, 0, 0, -288deg) translate3d(0, 0, 31px);
 }
 
 .jackpot-counter .figure9 {
-    -webkit-transform: rotate3d(1, 0, 0, 324deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, 324deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -324deg) translate3d(0, 0, 31px);
+            transform: rotate3d(1, 0, 0, -324deg) translate3d(0, 0, 31px);
 }
 
 /*# sourceMappingURL=style.css.map */

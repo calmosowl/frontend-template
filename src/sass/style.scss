@@ -184,6 +184,8 @@ $angle: 36deg;
 						width: $top-panel-height * 0.65;
 						height: $top-panel-height;
 						position: relative;
+						transform: rotateX(-12deg);
+						transform-style: preserve-3d;
 						// transform: matrix(1, 0, 0, 1, 0, 0);
 						// transition: $transition-property $transition-time $method;
 						& + & {
@@ -220,7 +222,7 @@ $angle: 36deg;
 
 @for $i from 0 through 9 {
 	.jackpot-counter .figure#{$i} {
-		@include transform(rotate3d(1, 0, 0, $angle*$i) translate3d(0, 0, $deep));
+		@include transform(rotate3d(1, 0, 0, -$angle*$i) translate3d(0, 0, $deep));
 	}
 }
 

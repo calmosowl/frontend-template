@@ -113,40 +113,27 @@ function JackPotCounter(options){
 	};
 
 	this.transform = (elemArr) => {
-		var dataToArr = createArray(this.data.diffBetweenLatests); 
-		that.getLog("\n ⌗ ⌗ ⌗ ⌗ ⌗ ⌗ " + dataToArr + " ⌗ ⌗ ⌗ ⌗ ⌗ ⌗ ");
-		var copyArr = elemArr.slice();
-		var elemArrReverse = copyArr.reverse();
-		elemArrReverse.length = dataToArr.length;
-		var arr = elemArrReverse.reverse();
-that.getLog(arr);
-		arr.forEach(function(el, i, arr) {
-			var 
-			multi = Math.pow(10, i),
-			rotate = 
-					i < 1 ? 
-					(36 * dataToArr[i]) : 
-					(36 * dataToArr[i - 1] * Math.pow(10, i)) + (36 * dataToArr[i]);
-			that.getLog("\n × " + multi + "\n");
-			that.setTransform(el, rotate, that.tickLength);
-			
-			that.getLog(" ♻ " + (rotate/360).toFixed(1));
-		});
+		var arr = elemArr.slice();
+		console.log(arr);
+		var data = that.currentValue * 100;
+		for(var i = 7; i >= 0; i--) {
+			var multiplier = parseInt(data / Math.pow(10, 7 - i));
+			var rotate = multiplier * 36;
 
+			that.getLog("\n × " + i + "\n");
+			if(rotate > 0) that.setTransform(arr[i - 1], rotate, that.tickLength - 1000);
+			that.getLog(" ♻ " + rotate/36);
+		}
 	};
 
 	this.setTransform = (el, rotate, duration) => {
 		var 
-		oldrotate = +el.getAttribute("data-rotate"),
-		newrotate = oldrotate + rotate,
-		oldduration = +el.getAttribute("data-duration"),
-		newduration = oldduration != duration ? Math.abs(oldduration - duration) : Math.abs(oldduration);
-		
-		el.setAttribute('style', "transform: rotateX(-" + newrotate  + "deg);transition-duration:" + newduration + "ms;");
-		el.setAttribute("data-rotate", newrotate); 
-		el.setAttribute("data-duration", newduration); 
-		
-		that.getLog(" ∡ " + oldrotate + "° + " + rotate + "° = " + newrotate + "° \n 🕙 " + oldduration + " -> " + newduration);
+			oldrotate = +el.getAttribute("data-rotate"),
+			newrotate = rotate - oldrotate;
+			el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms;");
+			el.setAttribute("data-rotate", newrotate); 
+			el.setAttribute("data-duration", duration); 
+			getLog(" ∡ " + rotate + "° - " + oldrotate + "° = " + newrotate + "° \n 🕙 " + duration);
 	};
 
 	this.getRotate = (el) => {
