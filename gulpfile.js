@@ -95,7 +95,7 @@ var option = {
         open: false,
         host: 'localhost',
         port: 9000,
-        logPrefix: "lucas"
+        logPrefix: "calmos"
     },
 
     plumber: {

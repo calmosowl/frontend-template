@@ -89,7 +89,7 @@
 								</div>
 							</div>
 							<div>.</div>
-							<div class="jackpot-counter-cell">
+							<div class="jackpot-counter-cell spin">
 								<div id="rollerSix" data-rotate="0" data-duration="5000" style="transform: rotateX(0deg);transition-duration:5000ms">
 									<div class="plane figure0">0</div>
 									<div class="plane figure1">1</div>
@@ -103,7 +103,7 @@
 									<div class="plane figure9">9</div>
 								</div>
 							</div>
-							<div class="jackpot-counter-cell">
+							<div class="jackpot-counter-cell spin">
 								<div id="rollerSeven" data-rotate="0" data-duration="5000" style="transform: rotateX(0deg);transition-duration:5000ms">
 									<div class="plane figure0">0</div>
 									<div class="plane figure1">1</div>
@@ -125,98 +125,97 @@
 		</div>
 	</header>
 	<main role="main" style="padding: 20px 20px">
-		<style>.button,button{display:inline-block;font-size:14px;line-height:14px;color:#DD4F3F;border:4px solid #DD4F3F;box-shadow:4px 4px 0 #DD4F3F;background-color:transparent;text-decoration:none;padding:6px;font-weight:800;transition:box-shadow .55s;margin:4px;}.button:hover,button:hover{box-shadow:3px 3px 0 #DD4F3F;transition:box-shadow .55s}.button:active,button:active{box-shadow:5px 5px 0 #DD4F3F;transition:box-shadow .55s}pre{height:50em;font-family:monospace;font-size:1em;padding:2px 5px;color:#e9e1d9;background-color:#212121;border:1px solid #030;border-radius:4px;overflow:auto;margin:26px 0;}</style>		
+		<style>input[type="text"]{border: 4px solid #DD4F3F;height: 34px;background-color: transparent;outline: none;font-size: 14px;line-height: 14px;color: #DD4F3F;padding: 6px;font-weight: 800;}.button,button{display:inline-block;font-size:14px;line-height:14px;color:#DD4F3F;border:4px solid #DD4F3F;box-shadow:4px 4px 0 #DD4F3F;background-color:transparent;text-decoration:none;padding:6px;font-weight:800;transition:box-shadow .55s;margin:4px;}.button:hover,button:hover{box-shadow:3px 3px 0 #DD4F3F;transition:box-shadow .55s}.button:active,button:active{box-shadow:5px 5px 0 #DD4F3F;transition:box-shadow .55s}pre{height:50em;font-family:monospace;font-size:1em;padding:2px 5px;color:#e9e1d9;background-color:#212121;border:1px solid #030;border-radius:4px;overflow:auto;margin:26px 0;}</style>		
 		<output id="output" style="font-size: 18px; font-weight: 600; font-family: 'Ubuntu Mono', monospace;">0</output><br>
 		<button id="tickPlay">PLAY</button>
 		<button id="tickStop">STOP</button>
-		<button id="getValue">GET VALUE</button>
+		<form action="">
+			<input type="text">
+			<input type="text">
+			<button>SUBMIT</button>
+		</form>
+
+		<button id="getValue" style="display: none;">GET VALUE</button>
 		<!-- <button onclick="myFunction()">Click me to start the animation.</button> -->
-		<button id="rollMove">Push this shit</button>
-		<button id="test">TEST</button>
-		<pre id="log">Event information log
+		<button id="rollMove" style="display: none;">Push this shit</button>
+		<button id="test" style="display: none;">TEST</button>
+		<pre id="log" style="display: none;">Event information log
 =====================
 </pre>
 
 	</main>
 <script>
-var	rollerOne = document.getElementById('rollerOne'), 
-			rollerTwo = document.getElementById('rollerTwo'), 
-			rollerThree = document.getElementById('rollerThree'), 
-			rollerFour = document.getElementById('rollerFour'), 
-			rollerFive = document.getElementById('rollerFive'), 
-			rollerSix = document.getElementById('rollerSix'), 
-			rollerSeven = document.getElementById('rollerSeven');
-	log = document.getElementById('log'),
-	test = document.getElementById('test');
+// var	rollerOne = document.getElementById('rollerOne'), 
+// 			rollerTwo = document.getElementById('rollerTwo'), 
+// 			rollerThree = document.getElementById('rollerThree'), 
+// 			rollerFour = document.getElementById('rollerFour'), 
+// 			rollerFive = document.getElementById('rollerFive'), 
+// 			rollerSix = document.getElementById('rollerSix'), 
+// 			rollerSeven = document.getElementById('rollerSeven');
+// 	log = document.getElementById('log'),
+// 	test = document.getElementById('test');
 
 
-function getRotate(el) {
-	var y = el.getAttribute('style');
-	getLog(y);
-}   
+// function getRotate(el) {
+// 	var y = el.getAttribute('style');
+// 	getLog(y);
+// }   
 
-function getLog(msg) {
-	var ot = log.scrollHeight - log.clientHeight;
-	if (ot > 0) log.scrollTop = ot;
-	return log.textContent += msg + "\n";
-}
+// function getLog(msg) {
+// 	var ot = log.scrollHeight - log.clientHeight;
+// 	if (ot > 0) log.scrollTop = ot;
+// 	return log.textContent += msg + "\n";
+// }
 
-function randomInteger(min, max) {
-    rand = min - 0.5 + Math.random() * (max - min + 1)
-    //rand = Math.round(rand);
-    return rand;
-}
+// function randomInteger(min, max) {
+//     rand = min - 0.5 + Math.random() * (max - min + 1)
+//     //rand = Math.round(rand);
+//     return rand;
+// }
 
-var elemArr = [rollerOne, rollerTwo, rollerThree, rollerFour, rollerFive, rollerSix, rollerSeven];
+// var elemArr = [rollerOne, rollerTwo, rollerThree, rollerFour, rollerFive, rollerSix, rollerSeven];
 
 
 
-function createArray(arg) {
-	if(!arg)
-		arg = 0;
-	var str = "" + (arg).toFixed(2), string = "";
-  	for(var i = 0; i < str.length; i++){
-    	if(i == 0 && +str[i] == 0) continue; 
-    	if(!isNaN(+str[i])) string += str[i];
-    }
-	arg = string.split("");
-	return arg;
-};
+// function createArray(arg) {
+// 	if(!arg)
+// 		arg = 0;
+// 	var str = "" + (arg).toFixed(2), string = "";
+//   	for(var i = 0; i < str.length; i++){
+//     	if(i == 0 && +str[i] == 0) continue; 
+//     	if(!isNaN(+str[i])) string += str[i];
+//     }
+// 	arg = string.split("");
+// 	return arg;
+// };
 
-function setTransform(el, rotate, duration) {
-	var 
-	oldrotate = +el.getAttribute("data-rotate"),
-	newrotate = rotate - oldrotate;
-	//oldduration = +el.getAttribute("data-duration"),
-	//newduration = oldduration != duration ? oldduration + duration : oldduration;
-	el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms;");
-	el.setAttribute("data-rotate", newrotate); 
-	el.setAttribute("data-duration", duration); 
-	getLog(" ∡ " + rotate + "° - " + oldrotate + "° = " + newrotate + "° \n 🕙 " + duration);
-}
+// function setTransform(el, rotate, duration) {
+// 	var 
+// 	oldrotate = +el.getAttribute("data-rotate"),
+// 	newrotate = rotate - oldrotate;
+// 	el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms;");
+// 	el.setAttribute("data-rotate", newrotate); 
+// 	el.setAttribute("data-duration", duration); 
+// 	getLog(" ∡ " + rotate + "° - " + oldrotate + "° = " + newrotate + "° \n 🕙 " + duration);
+// }
 
-//===>
+// //===>
 
-function generator(data) {
-	//var dataToArr = createArray(data); 
-	//getLog("\n ⌗ ⌗ ⌗ ⌗ ⌗ ⌗ " + dataToArr + " ⌗ ⌗ ⌗ ⌗ ⌗ ⌗ ");
+// function generator(data) {
+// 	var arr = elemArr.slice();
+// 	console.log(arr);
+// 	var tickLength = 4000;
+// 	var data = data * 100;
+// 	for(var i = 7; i >= 0; i--) {
+// 		var multiplier = parseInt(data / Math.pow(10, 7 - i));
+// 		var rotate = multiplier * 36;
 
-	var arr = elemArr.slice();
-	console.log(arr);
-	var tickLength = 4000;
-	var data = data * 100;
-	for(var i = 7; i >= 0; i--) {
-		var multiplier = parseInt(data / Math.pow(10, 7 - i));
-		var rotate = multiplier * 36;
+// 		getLog("\n × " + i + "\n");
+// 		if(rotate > 0) setTransform(arr[i - 1], rotate, tickLength);
+// 		getLog(" ♻ " + rotate/36);
+// 	}
+// }
 
-		getLog("\n × " + i + "\n");
-		if(rotate > 0) setTransform(arr[i - 1], rotate, tickLength);
-		getLog(" ♻ " + rotate/36);
-	}
-}
-
-//generator(12.75);
-//generator(23.08);
 </script>
 </body>
 </html>

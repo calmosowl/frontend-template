@@ -2,8 +2,9 @@
 document.addEventListener("DOMContentLoaded", (ev) => {
 	(()=>{
 		let a = new JackPotCounter({
-			tickLength: 5000,
-			qtyPerTick: 10
+			tickLength: 10000,
+			qtyPerTick: 10,
+			currentValue: 10
 		});
 		
 		let output = document.getElementById('output'),
@@ -133,7 +134,7 @@ function JackPotCounter(options){
 			el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms;");
 			el.setAttribute("data-rotate", newrotate); 
 			el.setAttribute("data-duration", duration); 
-			getLog(" ∡ " + rotate + "° - " + oldrotate + "° = " + newrotate + "° \n 🕙 " + duration);
+			that.getLog(" ∡ " + rotate + "° - " + oldrotate + "° = " + newrotate + "° \n 🕙 " + duration);
 	};
 
 	this.getRotate = (el) => {

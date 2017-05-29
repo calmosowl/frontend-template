@@ -245,8 +245,8 @@ main {
     margin: 0 auto;
     -webkit-transition-delay: 0ms;
             transition-delay: 0ms; /*animate*/
-    -webkit-transition-timing-function: cubic-bezier(.88, .05, .36, 1.14);
-            transition-timing-function: cubic-bezier(.88, .05, .36, 1.14);
+    -webkit-transition-timing-function: cubic-bezier(.7, .16, .3, .84);
+            transition-timing-function: cubic-bezier(.7, .16, .3, .84);
     -webkit-transition-duration: 0ms;
             transition-duration: 0ms;
     -webkit-transition-property: -webkit-transform;
@@ -319,6 +319,49 @@ main {
 .jackpot-counter .figure9 {
     -webkit-transform: rotate3d(1, 0, 0, -324deg) translate3d(0, 0, 31px);
             transform: rotate3d(1, 0, 0, -324deg) translate3d(0, 0, 31px);
+}
+
+.spin {
+    -webkit-animation-name: spin;
+            animation-name: spin;
+    -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+}
+
+.row .jackpot-counter-cell:nth-child(8).spin {
+    -webkit-animation-duration: 6s;
+            animation-duration: 6s;
+}
+
+.row .jackpot-counter-cell:nth-child(7).spin {
+    -webkit-animation-duration: 60s;
+            animation-duration: 60s;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotateX(-12deg);
+                transform: rotateX(-12deg);
+    }
+
+    100% {
+        -webkit-transform: rotateX(348deg);
+                transform: rotateX(348deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotateX(-12deg);
+                transform: rotateX(-12deg);
+    }
+
+    100% {
+        -webkit-transform: rotateX(348deg);
+                transform: rotateX(348deg);
+    }
 }
 
 /*# sourceMappingURL=style.css.map */
