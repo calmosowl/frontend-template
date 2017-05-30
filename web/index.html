@@ -125,26 +125,26 @@
 		</div>
 	</header>
 	<main role="main" style="padding: 20px 20px">
-		<style>input[type="text"]{border: 4px solid #DD4F3F;height: 34px;background-color: transparent;outline: none;font-size: 14px;line-height: 14px;color: #DD4F3F;padding: 6px;font-weight: 800;}.button,button{display:inline-block;font-size:14px;line-height:14px;color:#DD4F3F;border:4px solid #DD4F3F;box-shadow:4px 4px 0 #DD4F3F;background-color:transparent;text-decoration:none;padding:6px;font-weight:800;transition:box-shadow .55s;margin:4px;}.button:hover,button:hover{box-shadow:3px 3px 0 #DD4F3F;transition:box-shadow .55s}.button:active,button:active{box-shadow:5px 5px 0 #DD4F3F;transition:box-shadow .55s}pre{height:50em;font-family:monospace;font-size:1em;padding:2px 5px;color:#e9e1d9;background-color:#212121;border:1px solid #030;border-radius:4px;overflow:auto;margin:26px 0;}</style>		
+		<style>input{margin: 14px 4px;border: 4px solid #DD4F3F;height: 34px;background-color: transparent;outline: none;font-size: 14px;line-height: 14px;color: #DD4F3F;padding: 6px;font-weight: 800;}.button,button{margin: 14px 4px;outline: none;display:inline-block;font-size:14px;line-height:14px;color:#DD4F3F;border:4px solid #DD4F3F;box-shadow:4px 4px 0 #DD4F3F;background-color:transparent;text-decoration:none;padding:6px;font-weight:800;transition:box-shadow .55s;margin:4px;}.button:hover,button:hover{box-shadow:3px 3px 0 #DD4F3F;transition:box-shadow .55s}.button:active,button:active{box-shadow:5px 5px 0 #DD4F3F;transition:box-shadow .55s}pre{font-weight: 600;height:50em;font-family:monospace;font-size:1em;padding:2px 5px;color:#e9e1d9;background-color:#212121;border:1px solid #030;border-radius:4px;overflow:auto;margin:26px 0;}</style>		
 		<output id="output" style="font-size: 18px; font-weight: 600; font-family: 'Ubuntu Mono', monospace;">0</output><br>
 		<button id="tickPlay">PLAY</button>
-		<button id="tickStop">STOP</button>
-		<form action="">
-			<input type="text">
-			<input type="text">
-			<button>SUBMIT</button>
-		</form>
+		<button id="tickStop">STOP</button><br>
+
+			<input id="dataVal" type="text" value placeholder="data">
+			<button id="submitData">SUBMIT</button>
+
 
 		<button id="getValue" style="display: none;">GET VALUE</button>
 		<!-- <button onclick="myFunction()">Click me to start the animation.</button> -->
 		<button id="rollMove" style="display: none;">Push this shit</button>
 		<button id="test" style="display: none;">TEST</button>
-		<pre id="log" style="display: none;">Event information log
+		<pre id="log">Event information log
 =====================
 </pre>
 
 	</main>
 <script>
+
 // var	rollerOne = document.getElementById('rollerOne'), 
 // 			rollerTwo = document.getElementById('rollerTwo'), 
 // 			rollerThree = document.getElementById('rollerThree'), 

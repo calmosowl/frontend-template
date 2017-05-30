@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			play = document.getElementById('tickPlay'),
 			stop = document.getElementById('tickStop'),
 			move = document.getElementById('rollMove'),
+			submit = document.getElementById('submitData'),
+			log = document.getElementById('log'),
+			input = document.getElementById('dataVal'),
 			get = document.getElementById('getValue');
 			
 		var	rollerOne = document.getElementById('rollerOne'), 
@@ -37,8 +40,11 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			alert(a.getCurrentValue());
 		}
 
-
-
+		submit.onclick = (ev) => {
+			ev.preventDefault();
+			a.setCurrentValue(input.value);
+			a.getLog(a.currentValue);
+		}
 
 		move.onclick= (ev) => {
 			ev.preventDefault();
@@ -107,6 +113,11 @@ function JackPotCounter(options){
 	};
 	this.getCurrentValue = () => {
 		return this.currentValue;
+	};
+
+	this.setCurrentValue = (value) => {
+		if(isNaN(value/2)) return that.getLog('= waiting for integer =');
+		return this.currentValue = value;
 	};
 
 	this.getDiff = () => {
