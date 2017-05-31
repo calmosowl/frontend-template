@@ -213,3 +213,22 @@ var keys = keyframeString.map(function(str) {
 
 /*  })();
 }, false);*/
+
+function Counter() {
+  this.sum = 0;
+  this.count = 0;
+}
+
+Counter.prototype.add = function(array) {
+  array.forEach(function(entry) {
+  this.sum += entry;
+  ++this.count;
+  }, this);
+  // ^---- Note
+};
+
+var obj = new Counter();
+obj.add([2, 5, 9, 10]);
+obj.count;
+// 3 
+obj.sum

@@ -48,13 +48,13 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 		submit.onclick = (ev) => {
 			ev.preventDefault();
 			a.setCurrentValue(input.value);
-			a.getLog("> " + a.currentValue);
+			a.getLog("⮡ " + a.currentValue + " 🢣🢣🢣🢣🢣🢣🢣");
 			a.tickPlay().echo(output);
 		};
 		input.onkeydown = (ev) => {
 			if(ev.keyCode == 13){
 				a.setCurrentValue(input.value);
-				a.getLog("> " + a.currentValue);
+				a.getLog("⮡ " + a.currentValue + " 🢣🢣🢣🢣🢣🢣🢣");
 				a.tickPlay().echo(output);
 			}
 		};
@@ -70,11 +70,16 @@ function JackPotCounter(options){
 	this.buffer = bufferPrototype;
 /*🕙*/this.timeBuffer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	this.data = {
-		latest:0,
+		//latest:0,
+		//groupAverage: 0,
 		diffBetweenLatests:0,
-		groupAverage: 0,
 		time: 0,
-	/*🕙*/duration: 0
+		duration: 0
+	};
+	this.coordinates = {
+		time: [],
+		rotate: [],
+		speed: []
 	};
 	this.currentValue = options&&options.value ? options.value : 0;
 	this.ticker = [];
@@ -90,9 +95,9 @@ function JackPotCounter(options){
 				this.buffer.splice(0, 0, this.currentValue);
 				this.buffer.length = 10;
 				
-				this.data.latest = this.currentValue;
+				//this.data.latest = this.currentValue;
 				this.data.diffBetweenLatests = +(this.buffer[0]-this.buffer[1]).toFixed(2);
-				this.data.groupAverage = +(this.buffer[this.buffer.length-1] / this.buffer.length).toFixed(2);
+				//this.data.groupAverage = +(this.buffer[this.buffer.length-1] / this.buffer.length).toFixed(2);
 				/*-*/this.data.time = Date.now();
 				
 				this.data.arrayStamp = this.buffer.join(', ');
@@ -103,10 +108,12 @@ function JackPotCounter(options){
 					this.timeBuffer.splice(0, 0, this.data.time);
 					this.timeBuffer.length = 10;
 					this.data.duration = this.timeBuffer[1] > 0 ? this.timeBuffer[0]-this.timeBuffer[1] : this.tickLength;
-					this.data.timeStamp = this.timeBuffer.join(', ');
+					this.coordinates.time = this.timeBuffer.join(', ');
 					this.transform(this.elemArr);
 
-					this.getLog("\n📲 " + this.buffer + "\n🕙 " + this.data.duration);
+					this.getLog("⌛ " + this.coordinates.time);
+					this.getLog("∡ " + this.coordinates.rotate);
+					this.getLog("𝛀 " + this.coordinates.speed);
 				} 
 				
 				/*🕙*/
@@ -156,16 +163,17 @@ function JackPotCounter(options){
 	};
 
 	this.transform = (elemArr) => {
-		var arr = elemArr.slice();
-		//console.log(arr);
-		var data = that.currentValue * 100;
+		var arr = elemArr.slice(),
+			data = that.currentValue * 100;
 		for(var i = 7; i >= 0; i--) {
-			var multiplier = parseInt(data / Math.pow(10, 7 - i));
-			var rotate = multiplier * 36;
+			var multiplier = parseInt(data / Math.pow(10, 7 - i)),
+				rotate = multiplier * 36;
 
-			//that.getLog("\n × " + i + "\n");
-			if(rotate > 0) that.setTransform(arr[i - 1], rotate, this.data.duration);
-			//that.getLog(" ♻ " + rotate/36);
+				if(rotate > 0) that.setTransform(arr[i - 1], rotate, this.data.duration);
+			if(i == 7) {
+				this.coordinates.rotate.splice(0, 0, rotate);
+				this.coordinates.speed.splice(0, 0, parseInt(rotate/(this.data.duration/1000)));
+			}
 		}
 	};
 
@@ -179,9 +187,8 @@ function JackPotCounter(options){
 			//that.getLog(" ∡ " + rotate + "° - " + oldrotate + "° = " + newrotate + "° \n 🕙 " + duration);
 	};
 
-	this.getRotate = (el) => {
-		var y = el.getAttribute('style');
-		that.getLog(y);
+	this.getParams = (el) => {
+		var y = +el.getAttribute("data-rotate");
 	}   
 
 	this.getLog = (msg) => {

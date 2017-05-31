@@ -1,4 +1,7 @@
 // *******watch*******
+"use strict";
+document.addEventListener("DOMContentLoaded", (ev) => {
+  (()=>{
 if (!Object.prototype.watch) {
   Object.defineProperty(Object.prototype, "watch", {
     enumerable: false
@@ -43,9 +46,5 @@ if (!Object.prototype.unwatch) {
   });
 }
 
-function randomInteger(min, max) {
-    rand = min - 0.5 + Math.random() * (max - min + 1)
-    rand = Math.round(rand);
-    return rand;
-}
-//******************//
+})();
+}, false);
