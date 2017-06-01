@@ -200,7 +200,7 @@ function JackPotCounter(options){
 };
 
 
-
+/* 🦉 🦉 🦉 🦉 🦉 🦉 🦉 🦉 🦉 🦉 */
 function getDecimal(num) {
   var str = "" + num;
   var zeroPos = str.indexOf(".");
