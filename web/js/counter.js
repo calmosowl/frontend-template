@@ -9,13 +9,10 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 		let output = document.getElementById('output'),
 			play = document.getElementById('tickPlay'),
 			stop = document.getElementById('tickStop'),
-			move = document.getElementById('rollMove'),
 			submit = document.getElementById('submitData'),
 			log = document.getElementById('log'),
-			input = document.getElementById('dataVal'),
-			get = document.getElementById('getValue');
-			
-		var	rollerOne = document.getElementById('rollerOne'), 
+			input = document.getElementById('dataVal'),			
+			rollerOne = document.getElementById('rollerOne'), 
 			rollerTwo = document.getElementById('rollerTwo'), 
 			rollerThree = document.getElementById('rollerThree'), 
 			rollerFour = document.getElementById('rollerFour'), 
@@ -35,26 +32,16 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			a.tickStop().echoStop();			
 		};
 
-		get.onclick = (ev) => {
-			ev.preventDefault();
-			alert(a.getCurrentValue());
-		}
-
-		move.onclick= (ev) => {
-			ev.preventDefault();
-			a.pushRoll(a.elemArr);
-		};
-
 		submit.onclick = (ev) => {
 			ev.preventDefault();
 			a.setCurrentValue(input.value);
-			a.getLog("⮡ " + a.currentValue + " 🢣🢣🢣🢣🢣🢣🢣");
+			a.getLog("\n⮡ " + a.currentValue + " 🢣🢣🢣🢣🢣🢣🢣");
 			a.tickPlay().echo(output);
 		};
 		input.onkeydown = (ev) => {
 			if(ev.keyCode == 13){
 				a.setCurrentValue(input.value);
-				a.getLog("⮡ " + a.currentValue + " 🢣🢣🢣🢣🢣🢣🢣");
+				a.getLog("\n⮡ " + a.currentValue + " 🢣🢣🢣🢣🢣🢣🢣");
 				a.tickPlay().echo(output);
 			}
 		};
@@ -68,7 +55,7 @@ function JackPotCounter(options){
 	let that = this;
 	let bufferPrototype = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	this.buffer = bufferPrototype;
-/*🕙*/this.timeBuffer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	this.timeBuffer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	this.data = {
 		//latest:0,
 		//groupAverage: 0,
@@ -78,8 +65,10 @@ function JackPotCounter(options){
 	};
 	this.coordinates = {
 		time: [],
-		rotate: [],
-		speed: []
+		rotate: [0],
+		speed: [0],
+		speedAverage: 0,
+		deviation: 0
 	};
 	this.currentValue = options&&options.value ? options.value : 0;
 	this.ticker = [];
@@ -97,7 +86,7 @@ function JackPotCounter(options){
 				
 				//this.data.latest = this.currentValue;
 				this.data.diffBetweenLatests = +(this.buffer[0]-this.buffer[1]).toFixed(2);
-				//this.data.groupAverage = +(this.buffer[this.buffer.length-1] / this.buffer.length).toFixed(2);
+				//this.data.average = +(this.buffer[this.buffer.length-1] / this.buffer.length).toFixed(2);
 				/*-*/this.data.time = Date.now();
 				
 				this.data.arrayStamp = this.buffer.join(', ');
@@ -111,9 +100,11 @@ function JackPotCounter(options){
 					this.coordinates.time = this.timeBuffer.join(', ');
 					this.transform(this.elemArr);
 
-					this.getLog("⌛ " + this.coordinates.time);
-					this.getLog("∡ " + this.coordinates.rotate);
-					this.getLog("𝛀 " + this.coordinates.speed);
+					this.getLog("time: " + this.coordinates.time);
+					this.getLog("rotate: " + this.coordinates.rotate);
+					this.getLog("speed: " + this.coordinates.speed);
+					this.getLog("speedAverage: " + this.coordinates.rotateAverage);
+					this.getLog("deviation: " + this.coordinates.deviation);
 				} 
 				
 				/*🕙*/
@@ -129,7 +120,7 @@ function JackPotCounter(options){
 	};
 
 	this.dev = () => {
-		console.log(this.data);
+		console.log(this.coordinates);
 	    return this;
 	};
 	this.echo = ($) => {
@@ -170,10 +161,14 @@ function JackPotCounter(options){
 				rotate = multiplier * 36;
 			if(i == 7) {
 				this.coordinates.rotate.splice(0, 0, rotate);
-				this.coordinates.speed.splice(0, 0, parseInt(rotate/(this.data.duration/1000)));
+				this.coordinates.speed.splice(0, 0, parseInt((this.coordinates.rotate[0]-this.coordinates.rotate[1])/(this.data.duration/1000)));
+				this.coordinates.speedAverage = this.coordinates.speed.reduce(function(sum, current) {return sum + current}) / this.coordinates.speed.length;	
+				this.coordinates.deviation = Math.sqrt(this.coordinates.speed.reduce(function(a, b) {
+					var dev = b - that.coordinates.speedAverage;
+					return a+dev*dev;
+				})/this.coordinates.speed.length);
 			}
-				if(rotate > 0) that.setTransform(arr[i - 1], rotate, this.data.duration);
-
+			if(rotate > 0) that.setTransform(arr[i - 1], rotate, this.data.duration);
 		}
 	};
 
@@ -184,6 +179,15 @@ function JackPotCounter(options){
 			el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms;");
 			el.setAttribute("data-rotate", newrotate); 
 			el.setAttribute("data-duration", duration); 
+	};
+
+	this.expectation = (arr) => {
+		for(let i = 1; i <= arr.length; i++) {
+			var exp = +arr[i]*i;
+			console.log(i + ' ' + +arr[i]);
+			console.log(exp);
+		}
+		return exp;
 	};
 
 	this.getParams = (el) => {
