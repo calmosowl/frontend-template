@@ -168,12 +168,12 @@ function JackPotCounter(options){
 		for(var i = 7; i >= 0; i--) {
 			var multiplier = parseInt(data / Math.pow(10, 7 - i)),
 				rotate = multiplier * 36;
-
-				if(rotate > 0) that.setTransform(arr[i - 1], rotate, this.data.duration);
 			if(i == 7) {
 				this.coordinates.rotate.splice(0, 0, rotate);
 				this.coordinates.speed.splice(0, 0, parseInt(rotate/(this.data.duration/1000)));
 			}
+				if(rotate > 0) that.setTransform(arr[i - 1], rotate, this.data.duration);
+
 		}
 	};
 
@@ -184,7 +184,6 @@ function JackPotCounter(options){
 			el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms;");
 			el.setAttribute("data-rotate", newrotate); 
 			el.setAttribute("data-duration", duration); 
-			//that.getLog(" ∡ " + rotate + "° - " + oldrotate + "° = " + newrotate + "° \n 🕙 " + duration);
 	};
 
 	this.getParams = (el) => {
