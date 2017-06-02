@@ -66,7 +66,7 @@ function JackPotCounter(options){
 	this.coordinates = {
 		time: [],
 		rotate: [0],
-		speed: [0],
+		speed: [],
 		speedAverage: 0,
 		deviation: 0
 	};
@@ -103,7 +103,7 @@ function JackPotCounter(options){
 					this.getLog("time: " + this.coordinates.time);
 					this.getLog("rotate: " + this.coordinates.rotate);
 					this.getLog("speed: " + this.coordinates.speed);
-					this.getLog("speedAverage: " + this.coordinates.rotateAverage);
+					this.getLog("speedAverage: " + this.coordinates.speedAverage);
 					this.getLog("deviation: " + this.coordinates.deviation);
 				} 
 				
@@ -160,13 +160,16 @@ function JackPotCounter(options){
 			var multiplier = parseInt(data / Math.pow(10, 7 - i)),
 				rotate = multiplier * 36;
 			if(i == 7) {
+				console.log(rotate);
 				this.coordinates.rotate.splice(0, 0, rotate);
-				this.coordinates.speed.splice(0, 0, parseInt((this.coordinates.rotate[0]-this.coordinates.rotate[1])/(this.data.duration/1000)));
-				this.coordinates.speedAverage = this.coordinates.speed.reduce(function(sum, current) {return sum + current}) / this.coordinates.speed.length;	
-				this.coordinates.deviation = Math.sqrt(this.coordinates.speed.reduce(function(a, b) {
+				let dRotate = this.coordinates.rotate[0]-this.coordinates.rotate[1];
+				let durationDebag = 5000;
+				this.coordinates.speed.splice(0, 0, parseInt((dRotate/(durationDebag/1000))));
+				this.coordinates.speedAverage = this.coordinates.speed.reduce(function(sum, current) {return parseInt(sum + current)}) / this.coordinates.speed.length;	
+				this.coordinates.deviation = (Math.sqrt(this.coordinates.speed.reduce(function(a, b) {
 					var dev = b - that.coordinates.speedAverage;
 					return a+dev*dev;
-				})/this.coordinates.speed.length);
+				})/this.coordinates.speed.length))/1000;
 			}
 			if(rotate > 0) that.setTransform(arr[i - 1], rotate, this.data.duration);
 		}
@@ -179,15 +182,6 @@ function JackPotCounter(options){
 			el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms;");
 			el.setAttribute("data-rotate", newrotate); 
 			el.setAttribute("data-duration", duration); 
-	};
-
-	this.expectation = (arr) => {
-		for(let i = 1; i <= arr.length; i++) {
-			var exp = +arr[i]*i;
-			console.log(i + ' ' + +arr[i]);
-			console.log(exp);
-		}
-		return exp;
 	};
 
 	this.getParams = (el) => {
