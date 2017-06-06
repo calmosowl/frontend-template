@@ -30,7 +30,6 @@
         "npm": "~3.0.0"
     },
     "main": "gulpfile.js",
-
     "devDependencies": {
         "gulp": "^3.9.1",
         "gulp-bower": "^0.0.13",
@@ -60,6 +59,6 @@
         "posthtml-attrs-sorter": "^1.1.0",
         "imagemin-jpeg-recompress": "^5.1.0",
         "imagemin-pngquant": "^5.0.0"
-    }
-
+    },
+    "dependencies": {}
 }

@@ -68,7 +68,8 @@ function JackPotCounter(options){
 		rotate: [0],
 		speed: [],
 		speedAverage: 0,
-		deviation: 0
+		deviation: 0,
+		duration: 0
 	};
 	this.currentValue = options&&options.value ? options.value : 0;
 	this.ticker = [];
@@ -105,6 +106,7 @@ function JackPotCounter(options){
 					this.getLog("speed: " + this.coordinates.speed);
 					this.getLog("speedAverage: " + this.coordinates.speedAverage);
 					this.getLog("deviation: " + this.coordinates.deviation);
+					this.getLog("duration: " + this.coordinates.duration);
 				} 
 				
 				/*🕙*/
@@ -163,15 +165,20 @@ function JackPotCounter(options){
 				console.log(rotate);
 				this.coordinates.rotate.splice(0, 0, rotate);
 				let dRotate = this.coordinates.rotate[0]-this.coordinates.rotate[1];
-				let durationDebag = 5000;
-				this.coordinates.speed.splice(0, 0, parseInt((dRotate/(durationDebag/1000))));
+				this.coordinates.speed.splice(0, 0, parseInt((dRotate/(this.tickLength/1000))));
+				this.coordinates.speed.length = 4;
 				this.coordinates.speedAverage = this.coordinates.speed.reduce(function(sum, current) {return parseInt(sum + current)}) / this.coordinates.speed.length;	
 				this.coordinates.deviation = (Math.sqrt(this.coordinates.speed.reduce(function(a, b) {
 					var dev = b - that.coordinates.speedAverage;
 					return a+dev*dev;
 				})/this.coordinates.speed.length))/1000;
+
+				this.coordinates.duration = this.coordinates.deviation > 4 ? 
+											dRotate / this.coordinates.speedAverage * 1000 :	
+											this.tickLength;
+
 			}
-			if(rotate > 0) that.setTransform(arr[i - 1], rotate, this.data.duration);
+			if(rotate > 0) that.setTransform(arr[i - 1], rotate, this.coordinates.duration);
 		}
 	};
 
