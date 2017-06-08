@@ -57,8 +57,6 @@ function JackPotCounter(options){
 	this.buffer = bufferPrototype;
 	this.timeBuffer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	this.data = {
-		//latest:0,
-		//groupAverage: 0,
 		diffBetweenLatests:0,
 		time: 0,
 		duration: 0
@@ -84,16 +82,11 @@ function JackPotCounter(options){
 
 				this.buffer.splice(0, 0, this.currentValue);
 				this.buffer.length = 10;
-				
-				//this.data.latest = this.currentValue;
 				this.data.diffBetweenLatests = +(this.buffer[0]-this.buffer[1]).toFixed(2);
-				//this.data.average = +(this.buffer[this.buffer.length-1] / this.buffer.length).toFixed(2);
 				/*-*/this.data.time = Date.now();
-				
 				this.data.arrayStamp = this.buffer.join(', ');
-
+				/*emu*///this.currentValue = this.currentValue + randomInteger(0, 50);
 				/*🕙*/
-				
 				if(+this.data.diffBetweenLatests > 0) {
 					this.timeBuffer.splice(0, 0, this.data.time);
 					this.timeBuffer.length = 10;
@@ -101,6 +94,7 @@ function JackPotCounter(options){
 					this.coordinates.time = this.timeBuffer.join(', ');
 					this.transform(this.elemArr);
 
+					this.getLog("\n⮡ " + this.currentValue + " 🢣🢣🢣🢣🢣🢣🢣");
 					this.getLog("time: " + this.coordinates.time);
 					this.getLog("rotate: " + this.coordinates.rotate);
 					this.getLog("speed: " + this.coordinates.speed);
@@ -108,10 +102,8 @@ function JackPotCounter(options){
 					this.getLog("deviation: " + this.coordinates.deviation);
 					this.getLog("duration: " + this.coordinates.duration);
 				} 
-				
 				/*🕙*/
 				
-				//this.currentValue = rough(+(this.currentValue + this.qtyPerTick).toFixed(2));
 				
 				this.dev();
 				
@@ -162,9 +154,9 @@ function JackPotCounter(options){
 			var multiplier = parseInt(data / Math.pow(10, 7 - i)),
 				rotate = multiplier * 36;
 			if(i == 7) {
-				console.log(rotate);
 				this.coordinates.rotate.splice(0, 0, rotate);
 				let dRotate = this.coordinates.rotate[0]-this.coordinates.rotate[1];
+				console.log(dRotate);
 				this.coordinates.speed.splice(0, 0, parseInt((dRotate/(this.tickLength/1000))));
 				this.coordinates.speed.length = 4;
 				this.coordinates.speedAverage = this.coordinates.speed.reduce(function(sum, current) {return parseInt(sum + current)}) / this.coordinates.speed.length;	
@@ -174,7 +166,7 @@ function JackPotCounter(options){
 				})/this.coordinates.speed.length))/1000;
 
 				this.coordinates.duration = this.coordinates.deviation > 4 ? 
-											dRotate / this.coordinates.speedAverage * 1000 :	
+											parseInt(dRotate / this.coordinates.speedAverage * 1000) :	
 											this.tickLength;
 
 			}
@@ -191,14 +183,16 @@ function JackPotCounter(options){
 			el.setAttribute("data-duration", duration); 
 	};
 
-	this.getParams = (el) => {
-		var y = +el.getAttribute("data-rotate");
-	}   
-
 	this.getLog = (msg) => {
 		var ot = log.scrollHeight - log.clientHeight;
 		if (ot > 0) log.scrollTop = ot;
 		return log.textContent += msg + "\n";
+	};
+
+	function randomInteger(min, max) {
+	    let rand = min - 0.5 + Math.random() * (max - min + 1)
+	    rand = Math.round(rand);
+	    return rand;
 	};
 
 	return this;
@@ -234,4 +228,11 @@ function createArray(arg) {
     }
 	arg = string.split("");
 	return arg;
+};
+
+
+function randomInteger(min, max) {
+    rand = min - 0.5 + Math.random() * (max - min + 1)
+    rand = Math.round(rand);
+    return rand;
 };
