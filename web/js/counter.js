@@ -4,14 +4,19 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 		let a = new JackPotCounter({
 			tickLength: 5000,
 			qtyPerTick: 10,
+			value: 0
 		});
 		
 		let output = document.getElementById('output'),
 			play = document.getElementById('tickPlay'),
 			stop = document.getElementById('tickStop'),
 			submit = document.getElementById('submitData'),
+			submitTick = document.getElementById('submitTick'),
+			random = document.getElementById('random'),
+			inputRandom = document.getElementById('inputRandom'),
 			log = document.getElementById('log'),
-			input = document.getElementById('dataVal'),			
+			input = document.getElementById('dataVal'),
+			inputTick = document.getElementById('tickVal'),			
 			rollerOne = document.getElementById('rollerOne'), 
 			rollerTwo = document.getElementById('rollerTwo'), 
 			rollerThree = document.getElementById('rollerThree'), 
@@ -21,9 +26,14 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			rollerSeven = document.getElementById('rollerSeven');
 	
 		a.elemArr = [rollerOne, rollerTwo, rollerThree, rollerFour, rollerFive, rollerSix, rollerSeven];
+		a.random = random.checked;
+		a.max = +document.getElementById('inputRandom').value;
+		console.dir(a);
 
 		play.onclick= (ev) => {
 			ev.preventDefault();
+			a.random = random.checked;
+			a.max = +document.getElementById('inputRandom').value;
 				a.tickPlay().echo(output);
 		};
 
@@ -32,10 +42,15 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			a.tickStop().echoStop();			
 		};
 
+		/*setCurrentValue*/
 		submit.onclick = (ev) => {
 			ev.preventDefault();
+			a.random = random.checked;
+			a.max = +document.getElementById('inputRandom').value;
+			// if(a.random)
+			// 	a.tickPlay().setRandom(a.max);
+
 			a.setCurrentValue(input.value);
-			a.getLog("\n⮡ " + a.currentValue + " 🢣🢣🢣🢣🢣🢣🢣");
 			a.tickPlay().echo(output);
 		};
 		input.onkeydown = (ev) => {
@@ -45,6 +60,18 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 				a.tickPlay().echo(output);
 			}
 		};
+		/*setTickLength*/
+		submitTick.onclick = (ev) => {
+			ev.preventDefault();
+			a.setTickLength(inputTick.value);
+		};
+		inputTick.onkeydown = (ev) => {
+			if(ev.keyCode == 13){
+				a.setTickLength(inputTick.value);
+				a.getLog("\n⮡ " + a.tickLength + "ms 🢣 default interval 🢣");
+			}
+		};
+		
 
 	})();
 }, false);
@@ -85,8 +112,8 @@ function JackPotCounter(options){
 				this.data.diffBetweenLatests = +(this.buffer[0]-this.buffer[1]).toFixed(2);
 				/*-*/this.data.time = Date.now();
 				this.data.arrayStamp = this.buffer.join(', ');
-				/*emu*///this.currentValue = this.currentValue + randomInteger(0, 50);
-				/*🕙*/
+				/*emu*/ if(this.random) this.currentValue = this.currentValue + randomInteger(0, this.max);
+				/*🕙*/	console.log(this.random);
 				if(+this.data.diffBetweenLatests > 0) {
 					this.timeBuffer.splice(0, 0, this.data.time);
 					this.timeBuffer.length = 10;
@@ -94,7 +121,7 @@ function JackPotCounter(options){
 					this.coordinates.time = this.timeBuffer.join(', ');
 					this.transform(this.elemArr);
 
-					this.getLog("\n⮡ " + this.currentValue + " 🢣🢣🢣🢣🢣🢣🢣");
+					this.getLog("\n⮡ " + this.currentValue + " 🢣🢣🢣🢣🢣🢣🢣 random: " + this.random + " 🢣 max: " + this.max);
 					this.getLog("time: " + this.coordinates.time);
 					this.getLog("rotate: " + this.coordinates.rotate);
 					this.getLog("speed: " + this.coordinates.speed);
@@ -141,6 +168,16 @@ function JackPotCounter(options){
 		if(isNaN(value/2)) 
 			return that.getLog('= waiting for integer =');
 		return this.currentValue = value;
+	};
+
+	this.setTickLength = (value) => {
+		if(isNaN(value/2)) 
+			return that.getLog('= waiting for integer =');
+		return this.tickLength = value;
+	};
+
+	this.setRandom = (value) => {
+		return this.currentValue = this.currentValue + randomInteger(0, value);
 	};
 
 	this.getDiff = () => {
