@@ -232,3 +232,18 @@ obj.add([2, 5, 9, 10]);
 obj.count;
 // 3 
 obj.sum
+
+
+
+
+/* ++++ */
+  this.turn = (el, val, interval, rotate) => {
+    if(val > 0) {
+      el.setAttribute('style', "transform: rotateX(" + (+rotate - val * 36) + "deg);transition-duration:" + interval + "ms;transition-delay: " + 0 + "ms;");
+      
+      var timerId = setTimeout(this.turn, interval, el, val - 1, interval, rotate);
+      console.log("\nDate: " + Date.now() + " val: " + val + " interval: " + interval + " rotate: " + rotate);
+    }
+    //if(val == 0) clearTimeout(timerId);
+  }
+/* ++++ */

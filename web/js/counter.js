@@ -1,6 +1,51 @@
 "use strict";
 document.addEventListener("DOMContentLoaded", (ev) => {
 	(()=>{
+
+if (!Object.prototype.watch) {
+  Object.defineProperty(Object.prototype, "watch", {
+    enumerable: false
+    , configurable: true
+    , writable: false
+    , value: function (prop, handler) {
+      var
+      oldval = this[prop]
+      , newval = oldval
+      , getter = function () {
+        return newval;
+      }
+      , setter = function (val) {
+        oldval = newval;
+        return newval = handler.call(this, prop, oldval, val);
+      }
+      ;
+
+      if (delete this[prop]) { // can't watch constants
+        Object.defineProperty(this, prop, {
+          get: getter
+          , set: setter
+          , enumerable: true
+          , configurable: true
+        });
+      }
+    }
+  });
+}
+
+// object.unwatch
+if (!Object.prototype.unwatch) {
+  Object.defineProperty(Object.prototype, "unwatch", {
+    enumerable: false
+    , configurable: true
+    , writable: false
+    , value: function (prop) {
+      var val = this[prop];
+      delete this[prop]; // remove accessors
+      this[prop] = val;
+    }
+  });
+}
+
 		let a = new JackPotCounter({
 			tickLength: 5000,
 			qtyPerTick: 10,
@@ -30,16 +75,22 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 		a.max = +document.getElementById('inputRandom').value;
 		console.dir(a);
 
+		a.watch("currentValue", function (id, oldval, newval) {
+    		return newval;
+		});
+
 		play.onclick= (ev) => {
 			ev.preventDefault();
 			a.random = random.checked;
 			a.max = +document.getElementById('inputRandom').value;
-				a.tickPlay().echo(output);
+				//a.tickPlay().echo(output);
+			a.generator();
 		};
 
 		stop.onclick= (ev) => {
 			ev.preventDefault();
-			a.tickStop().echoStop();			
+			a.tickStop().echoStop();
+			a.unwatch("currentValue");			
 		};
 
 		/*setCurrentValue*/
@@ -51,13 +102,14 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			// 	a.tickPlay().setRandom(a.max);
 
 			a.setCurrentValue(input.value);
-			a.tickPlay().echo(output);
+			//a.tickPlay().echo(output);
+			a.run().echo(output);
 		};
 		input.onkeydown = (ev) => {
 			if(ev.keyCode == 13){
 				a.setCurrentValue(input.value);
-				a.getLog("\n⮡ " + a.currentValue + " 🢣🢣🢣🢣🢣🢣🢣");
-				a.tickPlay().echo(output);
+				//a.tickPlay().echo(output);
+				a.run().echo(output);
 			}
 		};
 		/*setTickLength*/
@@ -140,8 +192,32 @@ function JackPotCounter(options){
 		return this;
 	};
 
+	this.generator = () => {
+		if(this.ticker.length < 1 && this.random) {
+			this.ticker[0] = setInterval(()=>{
+				this.currentValue += randomInteger(0, this.max);
+				this.transform(this.elemArr);
+				this.dev();
+			}, this.tickLength);
+		}
+		else that.run();		
+	}
+
+	this.run = () => {
+		this.transform(this.elemArr);
+		this.dev();
+		return this;
+	};
+
 	this.dev = () => {
-		console.log(this.coordinates);
+		//console.log(this.coordinates);
+		this.getLog("\n⮡ " + this.currentValue + " 🢣🢣🢣🢣🢣🢣🢣 random: " + this.random + " 🢣 max: " + this.max);
+		this.getLog("time: " + this.coordinates.time);
+		this.getLog("rotate: " + this.coordinates.rotate);
+		this.getLog("speed: " + this.coordinates.speed);
+		this.getLog("speedAverage: " + this.coordinates.speedAverage);
+		this.getLog("deviation: " + this.coordinates.deviation);
+		this.getLog("duration: " + this.coordinates.duration);
 	    return this;
 	};
 	this.echo = ($) => {
@@ -212,12 +288,7 @@ function JackPotCounter(options){
 	};
 
 	this.setTransform = (el, rotate, duration) => {
-		var 
-			oldrotate = +el.getAttribute("data-rotate"),
-			newrotate = rotate - oldrotate;
-			el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms;");
-			el.setAttribute("data-rotate", newrotate); 
-			el.setAttribute("data-duration", duration); 
+		el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms;");
 	};
 
 	this.getLog = (msg) => {

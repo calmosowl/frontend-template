@@ -196,7 +196,7 @@ $angle: 36deg;
 							height: $top-panel-height;
 							width: $con;
 							transform-style: preserve-3d;
-							// transition: $transition-property $transition-time $method;
+							// cubic-bezier(0.69, 0, 1, 0)
 							will-change: transform;
 							// transform: rotateX(-12deg);
 							@include transition(transform, 0ms, cubic-bezier(.7,.16,.3,.84), 0ms);
