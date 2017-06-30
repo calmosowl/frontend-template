@@ -61,20 +61,12 @@ if (!Object.prototype.unwatch) {
 			inputRandom = document.getElementById('inputRandom'),
 			log = document.getElementById('log'),
 			input = document.getElementById('dataVal'),
-			inputTick = document.getElementById('tickVal'),			
-			rollerOne = document.getElementById('rollerOne'), 
-			rollerTwo = document.getElementById('rollerTwo'), 
-			rollerThree = document.getElementById('rollerThree'), 
-			rollerFour = document.getElementById('rollerFour'), 
-			rollerFive = document.getElementById('rollerFive'), 
-			rollerSix = document.getElementById('rollerSix'), 
-			rollerSeven = document.getElementById('rollerSeven');
+			inputTick = document.getElementById('tickVal');			
 	
-		a.elemArr = [rollerOne, rollerTwo, rollerThree, rollerFour, rollerFive, rollerSix, rollerSeven];
+		a.elemArr = Array.from(document.querySelectorAll('.roller'));
 		a.random = random.checked;
 		a.max = +document.getElementById('inputRandom').value;
-		console.dir(a);
-
+		
 		a.watch("currentValue", function (id, oldval, newval) {
     		return newval;
 		});
@@ -144,6 +136,7 @@ function JackPotCounter(options){
 		time: [],
 		rotate: [0],
 		speed: [],
+		delay: 500,
 		speedAverage: 0,
 		deviation: 0,
 		duration: 0
@@ -198,7 +191,7 @@ function JackPotCounter(options){
 				this.currentValue += randomInteger(0, this.max);
 				this.transform(this.elemArr);
 				this.dev();
-			}, this.tickLength);
+			}, this.tickLength + 2000);
 		}
 		else that.run();		
 	}
@@ -218,6 +211,7 @@ function JackPotCounter(options){
 		this.getLog("speedAverage: " + this.coordinates.speedAverage);
 		this.getLog("deviation: " + this.coordinates.deviation);
 		this.getLog("duration: " + this.coordinates.duration);
+		this.getLog("delay: " + this.coordinates.delay);
 	    return this;
 	};
 	this.echo = ($) => {
@@ -260,35 +254,47 @@ function JackPotCounter(options){
 		return this.data.diffBetweenLatests;
 	};
 
+	this.controller = (rotate) => {
+		this.coordinates.rotate.splice(0, 0, rotate);
+		let dRotate = this.coordinates.rotate[0]-this.coordinates.rotate[1];
+		this.coordinates.speed.splice(0, 0, parseInt((dRotate/(this.tickLength/1000))));
+		this.coordinates.speed.length = this.coordinates.speed.length > 4 ? 4 : this.coordinates.speed.length;
+		this.coordinates.speedAverage = this.coordinates.speed.reduce(function(sum, current) {return parseInt(sum + current)}) / this.coordinates.speed.length;	
+		this.coordinates.deviation = (Math.sqrt(this.coordinates.speed.reduce(function(a, b) {
+			var dev = b - that.coordinates.speedAverage;
+			return a+dev*dev;
+		})/this.coordinates.speed.length))/1000;
+		this.coordinates.duration = this.coordinates.deviation > 4 ? 
+									parseInt(dRotate / this.coordinates.speedAverage * 1000) :	
+									this.tickLength;
+	}
+
 	this.transform = (elemArr) => {
 		var arr = elemArr.slice(),
 			data = that.currentValue * 100;
 		for(var i = 7; i >= 0; i--) {
 			var multiplier = parseInt(data / Math.pow(10, 7 - i)),
 				rotate = multiplier * 36;
-			if(i == 7) {
-				this.coordinates.rotate.splice(0, 0, rotate);
-				let dRotate = this.coordinates.rotate[0]-this.coordinates.rotate[1];
-				console.log(dRotate);
-				this.coordinates.speed.splice(0, 0, parseInt((dRotate/(this.tickLength/1000))));
-				this.coordinates.speed.length = 4;
-				this.coordinates.speedAverage = this.coordinates.speed.reduce(function(sum, current) {return parseInt(sum + current)}) / this.coordinates.speed.length;	
-				this.coordinates.deviation = (Math.sqrt(this.coordinates.speed.reduce(function(a, b) {
-					var dev = b - that.coordinates.speedAverage;
-					return a+dev*dev;
-				})/this.coordinates.speed.length))/1000;
+			if(i == 7) {that.controller(rotate);}
 
-				this.coordinates.duration = this.coordinates.deviation > 4 ? 
-											parseInt(dRotate / this.coordinates.speedAverage * 1000) :	
-											this.tickLength;
-
+			let dRotate = rotate > 0 ? rotate - (arr[i - 1].getAttribute('data-rotate', rotate)) : 0;
+console.log(dRotate);
+			
+			if(dRotate > 0 && dRotate < 360) {
+				let bezier = 'cubic-bezier(.23,1,.32,1)';
+				that.setTransform(arr[i - 1], rotate, 1000 + this.coordinates.delay, +this.coordinates.duration - 1000, bezier);
 			}
-			if(rotate > 0) that.setTransform(arr[i - 1], rotate, this.coordinates.duration);
+			if(dRotate > 359) {
+				let bezier = 'cubic-bezier(.7, .16, .3, .84)';
+				that.setTransform(arr[i - 1], rotate, this.coordinates.duration, this.coordinates.delay, bezier);
+			}
 		}
 	};
+	
 
-	this.setTransform = (el, rotate, duration) => {
-		el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms;");
+	this.setTransform = (el, rotate, duration, delay, bezier) => {
+		el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms; transition-delay:" + delay + "ms;transition-timing-function:" + bezier);
+		el.setAttribute('data-rotate', rotate);
 	};
 
 	this.getLog = (msg) => {

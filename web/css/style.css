@@ -243,8 +243,8 @@ main {
     width: 20px;
     height: 34px;
     margin: 0 auto;
-    -webkit-transition-delay: 0ms;
-            transition-delay: 0ms; /*animate*/
+    -webkit-transition-delay: 500ms;
+            transition-delay: 500ms; /*animate*/
     -webkit-transition-timing-function: cubic-bezier(.7, .16, .3, .84);
             transition-timing-function: cubic-bezier(.7, .16, .3, .84);
     -webkit-transition-duration: 0ms;
