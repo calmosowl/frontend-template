@@ -124,6 +124,7 @@ if (!Object.prototype.unwatch) {
 
 function JackPotCounter(options){
 	let that = this;
+	const ANGLE = 36;
 	let bufferPrototype = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	this.buffer = bufferPrototype;
 	this.timeBuffer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -135,6 +136,7 @@ function JackPotCounter(options){
 	this.coordinates = {
 		time: [],
 		rotate: [0],
+		rBuffer: [],
 		speed: [],
 		delay: 500,
 		speedAverage: 0,
@@ -274,17 +276,16 @@ function JackPotCounter(options){
 			data = that.currentValue * 100;
 		for(var i = 7; i >= 0; i--) {
 			var multiplier = parseInt(data / Math.pow(10, 7 - i)),
-				rotate = multiplier * 36;
+				rotate = multiplier * ANGLE;
 			if(i == 7) {that.controller(rotate);}
 
-			let dRotate = rotate > 0 ? rotate - (arr[i - 1].getAttribute('data-rotate', rotate)) : 0;
-console.log(dRotate);
+			this.coordinates.rBuffer[i] = this.coordinates.rBuffer[i] ? rotate - this.coordinates.rBuffer[i] : rotate;
 			
-			if(dRotate > 0 && dRotate < 360) {
+			if(this.coordinates.rBuffer[i] > 0 && this.coordinates.rBuffer[i] < 360) {
 				let bezier = 'cubic-bezier(.23,1,.32,1)';
 				that.setTransform(arr[i - 1], rotate, 1000 + this.coordinates.delay, +this.coordinates.duration - 1000, bezier);
 			}
-			if(dRotate > 359) {
+			if(this.coordinates.rBuffer[i] > 359) {
 				let bezier = 'cubic-bezier(.7, .16, .3, .84)';
 				that.setTransform(arr[i - 1], rotate, this.coordinates.duration, this.coordinates.delay, bezier);
 			}
@@ -294,7 +295,6 @@ console.log(dRotate);
 
 	this.setTransform = (el, rotate, duration, delay, bezier) => {
 		el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms; transition-delay:" + delay + "ms;transition-timing-function:" + bezier);
-		el.setAttribute('data-rotate', rotate);
 	};
 
 	this.getLog = (msg) => {
