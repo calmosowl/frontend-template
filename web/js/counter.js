@@ -90,17 +90,13 @@ if (!Object.prototype.unwatch) {
 			ev.preventDefault();
 			a.random = random.checked;
 			a.max = +document.getElementById('inputRandom').value;
-			// if(a.random)
-			// 	a.tickPlay().setRandom(a.max);
-
 			a.setCurrentValue(input.value);
-			//a.tickPlay().echo(output);
+			a.save(a.buffer);
 			a.run().echo(output);
 		};
 		input.onkeydown = (ev) => {
 			if(ev.keyCode == 13){
 				a.setCurrentValue(input.value);
-				//a.tickPlay().echo(output);
 				a.run().echo(output);
 			}
 		};
@@ -116,7 +112,7 @@ if (!Object.prototype.unwatch) {
 			}
 		};
 		
-
+console.log(a);
 	})();
 }, false);
 
@@ -160,27 +156,7 @@ function JackPotCounter(options){
 				/*-*/this.data.time = Date.now();
 				this.data.arrayStamp = this.buffer.join(', ');
 				/*emu*/ if(this.random) this.currentValue = this.currentValue + randomInteger(0, this.max);
-				/*🕙*/	console.log(this.random);
-				if(+this.data.diffBetweenLatests > 0) {
-					this.timeBuffer.splice(0, 0, this.data.time);
-					this.timeBuffer.length = 10;
-					this.data.duration = this.timeBuffer[1] > 0 ? this.timeBuffer[0]-this.timeBuffer[1] : this.tickLength;
-					this.coordinates.time = this.timeBuffer.join(', ');
-					this.transform(this.elemArr);
-
-					this.getLog("\n⮡ " + this.currentValue + " 🢣🢣🢣🢣🢣🢣🢣 random: " + this.random + " 🢣 max: " + this.max);
-					this.getLog("time: " + this.coordinates.time);
-					this.getLog("rotate: " + this.coordinates.rotate);
-					this.getLog("speed: " + this.coordinates.speed);
-					this.getLog("speedAverage: " + this.coordinates.speedAverage);
-					this.getLog("deviation: " + this.coordinates.deviation);
-					this.getLog("duration: " + this.coordinates.duration);
-				} 
-				/*🕙*/
-				
-				
 				this.dev();
-				
 			}, this.tickLength);
 
 		};
@@ -201,6 +177,9 @@ function JackPotCounter(options){
 	this.run = () => {
 		this.transform(this.elemArr);
 		this.dev();
+		this.buffer.splice(0, 0, this.currentValue);
+		this.buffer.length = 10;
+		console.log(this.buffer);
 		return this;
 	};
 
@@ -292,6 +271,7 @@ function JackPotCounter(options){
 		}
 	};
 	
+	this.save = item => localStorage.setItem(that, JSON.stringify(item));
 
 	this.setTransform = (el, rotate, duration, delay, bezier) => {
 		el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms; transition-delay:" + delay + "ms;transition-timing-function:" + bezier);
