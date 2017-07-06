@@ -60,5 +60,7 @@
         "imagemin-jpeg-recompress": "^5.1.0",
         "imagemin-pngquant": "^5.0.0"
     },
-    "dependencies": {}
+    "dependencies": {
+        "node-static": "^0.7.9"
+    }
 }
