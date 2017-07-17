@@ -1,112 +1,48 @@
-<div class="top-panel">
-	<div class="left">535.98 EUR</div>
-	<div class="center">
-		<div class="jackpot-item">
-			<div class="jackpot-name">jackpot-5</div>
-			<div class="jackpot-counter">
-				<div class="row">
-					<div class="jackpot-counter-cell">
-						<div class="roller" data-rotate="0" data-duration="5000" style="transform: rotateX(0deg);transition-duration:5000ms">
-							<div class="plane figure0">0</div>
-							<div class="plane figure1">1</div>
-							<div class="plane figure2">2</div>
-							<div class="plane figure3">3</div>
-							<div class="plane figure4">4</div>
-							<div class="plane figure5">5</div>
-							<div class="plane figure6">6</div>
-							<div class="plane figure7">7</div>
-							<div class="plane figure8">8</div>
-							<div class="plane figure9">9</div>
-						</div>
-					</div>
-					<div class="jackpot-counter-cell">
-						<div class="roller" data-rotate="0" data-duration="5000" style="transform: rotateX(0deg);transition-duration:5000ms">
-							<div class="plane figure0">0</div>
-							<div class="plane figure1">1</div>
-							<div class="plane figure2">2</div>
-							<div class="plane figure3">3</div>
-							<div class="plane figure4">4</div>
-							<div class="plane figure5">5</div>
-							<div class="plane figure6">6</div>
-							<div class="plane figure7">7</div>
-							<div class="plane figure8">8</div>
-							<div class="plane figure9">9</div>
-						</div>
-					</div>
-					<div class="jackpot-counter-cell">
-						<div class="roller" data-rotate="0" data-duration="5000" style="transform: rotateX(0deg);transition-duration:5000ms">
-							<div class="plane figure0">0</div>
-							<div class="plane figure1">1</div>
-							<div class="plane figure2">2</div>
-							<div class="plane figure3">3</div>
-							<div class="plane figure4">4</div>
-							<div class="plane figure5">5</div>
-							<div class="plane figure6">6</div>
-							<div class="plane figure7">7</div>
-							<div class="plane figure8">8</div>
-							<div class="plane figure9">9</div>
-						</div>
-					</div>
-					<div class="jackpot-counter-cell">
-						<div class="roller" data-rotate="0" data-duration="5000" style="transform: rotateX(0deg);transition-duration:5000ms">
-							<div class="plane figure0">0</div>
-							<div class="plane figure1">1</div>
-							<div class="plane figure2">2</div>
-							<div class="plane figure3">3</div>
-							<div class="plane figure4">4</div>
-							<div class="plane figure5">5</div>
-							<div class="plane figure6">6</div>
-							<div class="plane figure7">7</div>
-							<div class="plane figure8">8</div>
-							<div class="plane figure9">9</div>
-						</div>
-					</div>
-					<div class="jackpot-counter-cell">
-						<div class="roller" data-rotate="0" data-duration="5000" style="transform: rotateX(0deg);transition-duration:5000ms">
-							<div class="plane figure0">0</div>
-							<div class="plane figure1">1</div>
-							<div class="plane figure2">2</div>
-							<div class="plane figure3">3</div>
-							<div class="plane figure4">4</div>
-							<div class="plane figure5">5</div>
-							<div class="plane figure6">6</div>
-							<div class="plane figure7">7</div>
-							<div class="plane figure8">8</div>
-							<div class="plane figure9">9</div>
-						</div>
-					</div>
-					<div>.</div>
-					<div class="jackpot-counter-cell">
-						<div class="roller" data-rotate="0" data-duration="5000" style="transform: rotateX(0deg);transition-duration:5000ms">
-							<div class="plane figure0">0</div>
-							<div class="plane figure1">1</div>
-							<div class="plane figure2">2</div>
-							<div class="plane figure3">3</div>
-							<div class="plane figure4">4</div>
-							<div class="plane figure5">5</div>
-							<div class="plane figure6">6</div>
-							<div class="plane figure7">7</div>
-							<div class="plane figure8">8</div>
-							<div class="plane figure9">9</div>
-						</div>
-					</div>
-					<div class="jackpot-counter-cell">
-						<div class="roller" data-rotate="0" data-duration="5000" style="transform: rotateX(0deg);transition-duration:5000ms">
-							<div class="plane figure0">0</div>
-							<div class="plane figure1">1</div>
-							<div class="plane figure2">2</div>
-							<div class="plane figure3">3</div>
-							<div class="plane figure4">4</div>
-							<div class="plane figure5">5</div>
-							<div class="plane figure6">6</div>
-							<div class="plane figure7">7</div>
-							<div class="plane figure8">8</div>
-							<div class="plane figure9">9</div>
-						</div>
-					</div>
-				</div>
+	<!-- Widget -->
+	<div class="top-panel-wrapper">
+		<div class="top-panel">
+			<div class="left">
+				535.98 EUR
+			</div>
+			<div class="center">
+				
+			</div>
+			<div class="right">
+				last jackpot: 07/05/17
 			</div>
 		</div>
 	</div>
-	<div class="right">last jackpot: 07/05/17</div>
-</div>
+<script>
+"use strict";
+document.addEventListener("DOMContentLoaded", (ev) => {
+	(()=>{
+		let a = new JackPotCounter({
+			jackName	: 'JackPot-A',
+			tickLength	: 5000,
+			numRolls	: 7
+		});
+
+		let b = new JackPotCounter({
+			jackName	: 'JackPot-B',
+			tickLength	: 10000,
+			numRolls	: 7
+		});
+
+/*  for test  */		
+		var input = document.getElementById('r'),
+			inputZ = document.getElementById('z');
+
+		input.oninput = (ev) => {
+			a.setCurrentValue(parseInt(input.value));
+			a.run(ev);
+		};
+		inputZ.oninput = (ev) => {
+			b.setCurrentValue(parseInt(inputZ.value));
+			b.run(ev);
+		};
+/*  /for test  */	
+	
+	})();
+}, false);
+</script>
+<!-- Widget -->

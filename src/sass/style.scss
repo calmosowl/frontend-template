@@ -1,115 +1,18 @@
-/*! minireset.css v0.0.2 | MIT License | github.com/jgthms/minireset.css */
-html,
-body,
-p,
-ol,
-ul,
-li,
-dl,
-dt,
-dd,
-blockquote,
-figure,
-fieldset,
-legend,
-textarea,
-pre,
-iframe,
-hr,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0;
-	padding: 0;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-size: 100%;
-	font-weight: normal;
-}
-
-ul {
-	list-style: none;
-}
-
-button,
-input,
-select,
-textarea {
-	margin: 0;
-}
-
-html {
+.top-panel {
 	box-sizing: border-box;
 }
 
-* {
+.top-panel * {
 	box-sizing: inherit;
 }
 
-*:before, *:after {
+.top-panel *:before, .top-panel *:after {
 	box-sizing: inherit;
-}
-
-img,
-embed,
-object,
-audio,
-video {
-	height: auto;
-	max-width: 100%;
-}
-
-iframe {
-	border: 0;
-}
-
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-td,
-th {
-	padding: 0;
-	text-align: left;
 }
 
 @font-face {
 	font-family: DinPro;
 	src: url(../fonts/DINPro.otf);
-}
-
-html,
-body {
-	font-family: DinPro, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-}
-
-body {
-	display: flex;
-	flex-flow: column nowrap;
-	min-height: 100vh;
-	justify-content: space-between;
-}
-
-header {flex:0;}
-main {flex:1;}
-footer {flex:0;}
-
-header {
-	background-color: rgb(51, 51, 51);
-}
-
-main {
-	background-color: #d8d5d0;
 }
 
 $top-panel-height: 34px;
@@ -147,7 +50,12 @@ $angle: 36deg;
     transition-timing-function: $function;
     transition-delay: $delay;
 	}
-
+.top-panel-wrapper {
+	position: relative;
+	height: 34px;
+	margin: 0;
+	padding: 0;
+}
 .top-panel {
 	display: flex;
 	justify-content: space-between;
@@ -160,21 +68,25 @@ $angle: 36deg;
 	font-size: $top-panel-height * 0.7;
 	text-shadow: 1px 1px 1px rgba(251, 234, 94, 0.6);
 	text-transform: uppercase;
-	.left, .right {flex: 1;}
+	white-space: nowrap;
+	.left, .right {flex: 0;}
 	.right {text-align: right;}
 	.center {
 		flex: 1;
 		display: flex;
-		justify-content: inherit;
+		flex-wrap: wrap;
+		justify-content: center;
+		overflow: hidden;
 		.jackpot-item {
 			display: flex;
+			padding: 0 8px;
 			.jackpot-name {
 				margin-right: 11px;
 			}
 			.jackpot-counter {
 				font-size: round($top-panel-height * 0.56);
 				position: relative;
-				.row {
+				.jackpot-counter-wrapper {
 					display: flex;
 					overflow: hidden;
 					background-image: linear-gradient(top, rgba(200, 200, 200, 0.2) 0%, rgba(200, 200, 200, 0.2) 40%, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 1) 55%, rgba(0, 0, 0, 1) 100%);
@@ -186,8 +98,6 @@ $angle: 36deg;
 						position: relative;
 						transform: rotateX(-12deg);
 						transform-style: preserve-3d;
-						// transform: matrix(1, 0, 0, 1, 0, 0);
-						// transition: $transition-property $transition-time $method;
 						& + & {
 							box-shadow: inset 0.09em 0 0.1em 0px rgba(255, 255, 255, 0.2)
 						}
@@ -196,12 +106,8 @@ $angle: 36deg;
 							height: $top-panel-height;
 							width: $con;
 							transform-style: preserve-3d;
-							// cubic-bezier(0.69, 0, 1, 0)
 							will-change: transform;
-							// transform: rotateX(-12deg);
 							@include transition(transform, 0ms, cubic-bezier(.7,.16,.3,.84), 500ms);
-							/*animate*/
-							//animation-delay: 1000ms;
 						}
 							.plane {
 								position: absolute;
@@ -225,160 +131,3 @@ $angle: 36deg;
 		@include transform(rotate3d(1, 0, 0, -$angle*$i) translate3d(0, 0, $deep));
 	}
 }
-
-.spin {
-	animation-name: spin;
-	animation-iteration-count: infinite;
-	animation-timing-function: linear;
-}
-
-.row .jackpot-counter-cell:nth-child(8).spin {
-	animation-duration: 6s;
-}
-
-.row .jackpot-counter-cell:nth-child(7).spin {
-	animation-duration: 60s;
-}
-
-@keyframes spin {
-	0% {transform: rotateX(-12deg);}
-	100% {transform: rotateX(348deg);}
-}
-
-// @for $i from 0 through 9 {
-// 	[data-rotate="#{$i}"] 
-// 	{transform: rotateX((-$angle*$i)-12)}}
-
-// #roller {
-// 	&One, &Two, &Three, &Four, &Five, &Six, &Seven 
-// 	{@include animation(spin-0, 0s, ease-in-out, 0, forwards, paused);}}
-
-
-// @for $i from 0 through 9 {
-// 	.spin-#{$i} {
-// 		@include animation(spin-#{$i}, 0s, ease-in-out, 0, forwards, paused);
-// 	}
-// }
-
-
-
-
-// @keyframes spin-0 {
-// 	$deflection: 12;
-// 	$i: 0;
-// 	$j: 0;
-// 	@while $i < 100 {
-// 		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
-// 		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
-// 		$i: $i + 10;
-// 		$j: $j + 1;
-// 	}
-// }
-
-// @keyframes spin-1 {
-// 	$deflection: 48;
-// 	$i: 0;
-// 	$j: 0;
-// 	@while $i < 100 {
-// 		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
-// 		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
-// 		$i: $i + 10;
-// 		$j: $j + 1;
-// 	}
-// }
-
-// @keyframes spin-2 {
-// 	$deflection: 84;
-// 	$i: 0;
-// 	$j: 0;
-// 	@while $i < 100 {
-// 		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
-// 		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
-// 		$i: $i + 10;
-// 		$j: $j + 1;
-// 	}
-// }
-
-// @keyframes spin-3 {
-// 	$deflection: 120;
-// 	$i: 0;
-// 	$j: 0;
-// 	@while $i < 100 {
-// 		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
-// 		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
-// 		$i: $i + 10;
-// 		$j: $j + 1;
-// 	}
-// }
-
-// @keyframes spin-4 {
-// 	$deflection: 156;
-// 	$i: 0;
-// 	$j: 0;
-// 	@while $i < 100 {
-// 		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
-// 		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
-// 		$i: $i + 10;
-// 		$j: $j + 1;
-// 	}
-// }
-
-// @keyframes spin-5 {
-// 	$deflection: 192;
-// 	$i: 0;
-// 	$j: 0;
-// 	@while $i < 100 {
-// 		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
-// 		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
-// 		$i: $i + 10;
-// 		$j: $j + 1;
-// 	}
-// }
-
-// @keyframes spin-6 {
-// 	$deflection: 228;
-// 	$i: 0;
-// 	$j: 0;
-// 	@while $i < 100 {
-// 		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
-// 		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
-// 		$i: $i + 10;
-// 		$j: $j + 1;
-// 	}
-// }
-
-// @keyframes spin-7 {
-// 	$deflection: 264;
-// 	$i: 0;
-// 	$j: 0;
-// 	@while $i < 100 {
-// 		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
-// 		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
-// 		$i: $i + 10;
-// 		$j: $j + 1;
-// 	}
-// }
-
-// @keyframes spin-8 {
-// 	$deflection: 300;
-// 	$i: 0;
-// 	$j: 0;
-// 	@while $i < 100 {
-// 		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
-// 		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
-// 		$i: $i + 10;
-// 		$j: $j + 1;
-// 	}
-// }
-
-// @keyframes spin-9 {
-// 	$deflection: 336;
-// 	$i: 0;
-// 	$j: 0;
-// 	@while $i < 100 {
-// 		@if $i == 0 {0%, 100% { transform: rotateX((-$angle*$j)-$deflection);}} 
-// 		@else {#{$j*10%} { transform: rotateX((-$angle*$j)-$deflection);}}
-// 		$i: $i + 10;
-// 		$j: $j + 1;
-// 	}
-// }
