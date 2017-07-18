@@ -28,6 +28,32 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			numRolls	: 7
 		});
 
+		let c = new JackPotCounter({
+			jackName	: 'JackPot-C',
+			tickLength	: 5000,
+			numRolls	: 7
+		});
+
+		let d = new JackPotCounter({
+			jackName	: 'JackPot-D',
+			tickLength	: 5000,
+			numRolls	: 7
+		});
+
+/*	slider	*/
+
+		(function slider() {
+			let parent = document.querySelector('.center'),
+			arr = Array.from(document.querySelectorAll('.jackpot-item'));
+			var itemsWidth = arr.reduce(function(sum, current) {
+				return sum + current.clientWidth;
+			}, 0);
+
+			console.log( itemsWidth );
+			console.log(parent.clientWidth);
+		})();
+
+
 /*  for test  */		
 		var input = document.getElementById('r'),
 			inputZ = document.getElementById('z');

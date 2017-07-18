@@ -110,7 +110,6 @@ function JackPotCounter(options){
 			let jackpotCounter = document.createElement('div');
 			jackpotCounter.className = 'jackpot-counter';
 
-
 		let drawingCells = "<div class='jackpot-counter-cell'><div class='roller' data-rotate='0' data-duration='5000' style='transform: rotateX(0deg);transition-duration:5000ms'><div class='plane figure0'>0</div><div class='plane figure1'>1</div><div class='plane figure2'>2</div><div class='plane figure3'>3</div><div class='plane figure4'>4</div><div class='plane figure5'>5</div><div class='plane figure6'>6</div><div class='plane figure7'>7</div><div class='plane figure8'>8</div><div class='plane figure9'>9</div></div></div>";
 		let wrapper = document.createElement('div');
 		wrapper.className = 'jackpot-counter-wrapper';
@@ -121,6 +120,11 @@ function JackPotCounter(options){
 		jackpotItem.appendChild(jackpotCounter);
 		parent.appendChild(jackpotItem);
 		that.elemArr = Array.from(document.querySelectorAll('#' + that.jackName + ' .roller'));
+	})();
+
+	(function slider() {
+	let parent = document.querySelector('.center');
+	console.log(parent.clientWidth);
 	})();
 
 	/*watch polyfill*/
@@ -173,4 +177,3 @@ this.watch("this.currentValue", function (id, oldval, newval) {
 
 	return this;
 };
-
