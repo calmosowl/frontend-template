@@ -24,6 +24,7 @@ function JackPotCounter(options){
 	this.ticker = [];
 	this.echoTicker = [];
 	this.jackName = options&&options.jackName ? options.jackName : 'new game';
+	this.jackOrder = options&&options.jackOrder ? options.jackOrder : 0;
 	this.numRolls = options&&options.numRolls ? options.numRolls : 7;
 	this.elemArr = options&&options.elemArr ? options.elemArr : [];
 	this.tickLength = options&&options.tickLength ? options.tickLength : 1000;
@@ -105,6 +106,7 @@ function JackPotCounter(options){
 			let jackpotItem = document.createElement('div');
 				jackpotItem.className = 'jackpot-item';
 				jackpotItem.id = that.jackName;
+				jackpotItem.setAttribute('style', "order: " + that.jackOrder + ";");
 				jackpotItem.innerHTML = "<div class='jackpot-name'>" + that.jackName + "</div>";
 			
 			let jackpotCounter = document.createElement('div');
@@ -120,11 +122,6 @@ function JackPotCounter(options){
 		jackpotItem.appendChild(jackpotCounter);
 		parent.appendChild(jackpotItem);
 		that.elemArr = Array.from(document.querySelectorAll('#' + that.jackName + ' .roller'));
-	})();
-
-	(function slider() {
-	let parent = document.querySelector('.center');
-	console.log(parent.clientWidth);
 	})();
 
 	/*watch polyfill*/
