@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 /*	slider	*/
 		const parent = document.querySelector('.center');
 		const widgetHeight = parent.clientHeight;
-		/*parent.onresize = ev => console.log('pizda');*/
+
 			var	arr = Array.from(document.querySelectorAll('.jackpot-item')),
 				parentWidth = parent.clientWidth,
 				itemsWidth = arr.reduce(function(sum, current) {
@@ -55,11 +55,10 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 				}, 0);
 
 		var order = (el, int) => el.style.order = int;
-
 		var arrOrders = Array.from({ length: arr.length }, (v, k) => k); 
 
 
-		function slider() {
+		let slider = () => {
 			if(itemsWidth > parent.clientWidth) {
 				for (var i = arr.length; i > 0; i--) {
 					order(arr[i-1], arrOrders[arrOrders.length - i]);
