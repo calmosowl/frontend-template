@@ -1,12 +1,12 @@
-.top-panel {
+.jptb-top-panel {
 	box-sizing: border-box;
 }
 
-.top-panel * {
+.jptb-top-panel * {
 	box-sizing: inherit;
 }
 
-.top-panel *:before, .top-panel *:after {
+.jptb-top-panel *:before, .jptb-top-panel *:after {
 	box-sizing: inherit;
 }
 
@@ -22,7 +22,7 @@ $deep: 31px;
 $angle: 36deg;
 
 @mixin transform($transforms) {
-          transform: $transforms;
+	transform: $transforms;
 }
 // rotate
 @mixin rotate3d($x, $y, $z, $deg) {
@@ -50,13 +50,13 @@ $angle: 36deg;
     transition-timing-function: $function;
     transition-delay: $delay;
 	}
-.top-panel-wrapper {
+.jptb-top-panel-wrapper {
 	position: relative;
 	height: 34px;
 	margin: 0;
 	padding: 0;
 }
-.top-panel {
+.jptb-top-panel {
 	display: flex;
 	justify-content: space-between;
 	font-family: $font-family;
@@ -69,30 +69,31 @@ $angle: 36deg;
 	text-shadow: 1px 1px 1px rgba(251, 234, 94, 0.6);
 	text-transform: uppercase;
 	white-space: nowrap;
-	.left, .right {flex: 0;}
-	.right {text-align: right;}
-	.center {
+	.jptb-left, .jptb-right {flex: 0;}
+	.jptb-right {text-align: right;}
+	.jptb-center {
 		flex: 1;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		overflow: hidden;
-		.jackpot-item {
+		//overflow: hidden;
+		.jptb-jackpot-item {
 			display: flex;
 			padding: 0 8px;
-			.jackpot-name {
+			margin-bottom: 6px;
+			.jptb-jackpot-name {
 				margin-right: 11px;
 			}
-			.jackpot-counter {
+			.jptb-jackpot-counter {
 				font-size: round($top-panel-height * 0.56);
 				position: relative;
-				.jackpot-counter-wrapper {
+				.jptb-jackpot-counter-wrapper {
 					display: flex;
 					overflow: hidden;
 					background-image: linear-gradient(top, rgba(200, 200, 200, 0.2) 0%, rgba(200, 200, 200, 0.2) 40%, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 1) 55%, rgba(0, 0, 0, 1) 100%);
 					background-color: #222222;
 					border-radius: 3px;
-					.jackpot-counter-cell {
+					.jptb-jackpot-counter-cell {
 						width: $top-panel-height * 0.65;
 						height: $top-panel-height;
 						position: relative;
@@ -109,7 +110,7 @@ $angle: 36deg;
 							will-change: transform;
 							@include transition(transform, 0ms, cubic-bezier(.7,.16,.3,.84), 500ms);
 						}
-							.plane {
+							.jptb-plane {
 								position: absolute;
 								height: $top-panel-height;
 								width: $con;
@@ -125,9 +126,14 @@ $angle: 36deg;
 			}
 		}
 }
-
+.jptb-jackpot-counter-cell:nth-child(6):before {
+    content: "\002E";
+    display: block;
+    position: absolute;
+    left: -3px;
+}
 @for $i from 0 through 9 {
-	.jackpot-counter .figure#{$i} {
+	.jptb-jackpot-counter .jptb-figure#{$i} {
 		@include transform(rotate3d(1, 0, 0, -$angle*$i) translate3d(0, 0, $deep));
 	}
 }

@@ -12,15 +12,15 @@
 <body style="margin: 0;">
 	<header>
 			<!-- Widget -->
-			<div class="top-panel-wrapper">
-				<div class="top-panel">
-					<div class="left">
+			<div class="jptb-top-panel-wrapper">
+				<div class="jptb-top-panel">
+					<div class="jptb-left">
 						535.98 EUR
 					</div>
-					<div class="center">
+					<div class="jptb-center">
 						
 					</div>
-					<div class="right">
+					<div class="jptb-right">
 						last jackpot: 07/05/17
 					</div>
 				</div>
@@ -30,38 +30,38 @@
 		document.addEventListener("DOMContentLoaded", (ev) => {
 			(()=>{
 				let a = new JackPotCounter({
-					jackName	: 'JackPot-A',
+					jackName	: 'JackPot 🦉',
 					tickLength	: 5000,
-					jackOrder	: 1,
+					value  		: 0.1,
 					numRolls	: 7
 				});
 		
 				let b = new JackPotCounter({
-					jackName	: 'JackPot-B',
+					jackName	: 'JackPot 🐧',
 					tickLength	: 10000,
-					jackOrder	: 2,
+					value  		: 0,
 					numRolls	: 7
 				});
 		
 				let c = new JackPotCounter({
-					jackName	: 'JackPot-C',
+					jackName	: 'JackPot 🐘',
 					tickLength	: 5000,
-					jackOrder	: 3,
+					value  		: 0,
 					numRolls	: 7
 				});
 		
 				let d = new JackPotCounter({
-					jackName	: 'JackPot-D',
+					jackName	: 'JackPot 🎰',
 					tickLength	: 5000,
-					jackOrder	: 4,
+					value  		: 0,
 					numRolls	: 7
 				});
 		
 		/*	slider	*/
-				const parent = document.querySelector('.center');
+				const parent = document.querySelector('.jptb-center');
 				const widgetHeight = parent.clientHeight;
 		
-					var	arr = Array.from(document.querySelectorAll('.jackpot-item')),
+					var	arr = Array.from(document.querySelectorAll('.jptb-jackpot-item')),
 						parentWidth = parent.clientWidth,
 						itemsWidth = arr.reduce(function(sum, current) {
 							return sum + current.clientWidth;
@@ -70,33 +70,68 @@
 				var order = (el, int) => el.style.order = int;
 				var arrOrders = Array.from({ length: arr.length }, (v, k) => k); 
 		
-		
+				var scrollHeight = parent.scrollHeight;
+				var endKey = 'translateY(-' + (scrollHeight - 34) + 'px)';
+				var animation = parent.animate({
+		  			transform: ['translateY(0%)', endKey],
+				}, {
+		  			duration: 2000,
+		  			fill: 'both',
+		  			//easing: 'steps(4, end)',
+				});
+		console.log(endKey);
+				// animation.play();
+				// animation.reverse();
+		var actions = {
+		  play: function() { animation.play(); },
+		  reverse: function() { animation.reverse(); },
+		  pause: function() { animation.pause(); },
+		  "seek halfway": function() { animation.currentTime = 2000; },
+		  "speed up": function() { animation.playbackRate += 0.25; },
+		  "slow down": function() { animation.playbackRate -= 0.25; },
+		  finish: function() { animation.finish(); },
+		  cancel: function() { animation.cancel(); },
+		};
 				let slider = () => {
 					if(itemsWidth > parent.clientWidth) {
-						for (var i = arr.length; i > 0; i--) {
-							order(arr[i-1], arrOrders[arrOrders.length - i]);
-						}
-					arrOrders.push(arrOrders.shift());
+						//animation.play();
+						animation.reverse();
+						console.log(animation.currentTime)
 					}
-					setTimeout(slider, 5000);
+					setTimeout(slider, 8000);
 				}
-		
 				slider();
+		
+				/*arr.forEach( function(element, i) {
+					keyframes.order = [ i, 10 ];
+					animateOptions.delay = 1000 * i;
+				});*/
+		
+				// let slider = () => {
+				// 	if(itemsWidth > parent.clientWidth) {
+				// 		for (var i = arr.length; i > 0; i--) {
+				// 			order(arr[i-1], arrOrders[arrOrders.length - i]);
+				// 		}
+				// 	arrOrders.push(arrOrders.shift());
+				// 	}
+				// 	setTimeout(slider, 10000);
+				// }
+				
 		
 		/*  for test  */		
 				var input = document.getElementById('r'),
 					inputZ = document.getElementById('z');
 		
-				input.oninput = (ev) => {
-					a.setCurrentValue(parseInt(input.value));
-					a.run(ev);
+				input.oninput = () => {
+					a.setCurrentValue(input.value);
+					a.run();
 				};
-				inputZ.oninput = (ev) => {
-					b.setCurrentValue(parseInt(inputZ.value));
-					b.run(ev);
+				inputZ.oninput = () => {
+					b.setCurrentValue(inputZ.value);
+					b.run();
 				};
 		/*  /for test  */	
-			
+					
 			})();
 		}, false);
 		</script>
@@ -104,12 +139,12 @@
 	</header>
 	<main>
 		<!-- for test -->
-	<form oninput="x.value=parseInt(r.value)">
-		<input id="r" type="range" min="0" max="10" step="1" value="0">
+	<form oninput="x.value=r.value">
+		<input id="r" type="range" min="0" max="1" step="0.01" value="0">
 		<output id="x" name="x" for="r">0</output>
 	</form>
-	<form oninput="y.value=parseInt(z.value)">
-		<input id="z" type="range" min="0" max="10" step="1" value="0">
+	<form oninput="y.value=z.value">
+		<input id="z" type="range" min="0" max="10" step="0.1" value="0">
 		<output id="y" name="y" for="z">0</output>
 	</form>
 	<!-- /for test -->

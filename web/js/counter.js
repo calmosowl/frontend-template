@@ -21,6 +21,7 @@ function JackPotCounter(options){
 		duration: 0
 	};
 	this.currentValue = options&&options.value ? options.value : 0;
+
 	this.ticker = [];
 	this.echoTicker = [];
 	this.jackName = options&&options.jackName ? options.jackName : 'new game';
@@ -45,13 +46,12 @@ function JackPotCounter(options){
 		return this;
 	};
 
-	this.run = (ev) => {
-		ev.preventDefault();
-		this.transform(this.elemArr);
-		this.buffer.splice(0, 0, this.currentValue);
-		this.buffer.length = 10;
-		return this;
-	};
+	this.run = () => {
+			this.transform(this.elemArr);
+			this.buffer.splice(0, 0, this.currentValue);
+			this.buffer.length = 10;
+			return this;
+		};
 
 	this.setCurrentValue = (v) => {
 		if(isNaN(v/2)) 
@@ -78,9 +78,9 @@ function JackPotCounter(options){
 		var arr = elemArr.slice(),
 			data = that.currentValue * 100;
 		for(var i = arr.length; i >= 0; i--) {
-			var multiplier = parseInt(data / Math.pow(10, 7 - i)),
+			var multiplier = parseInt(data / Math.pow(10, arr.length - i)),
 				rotate = multiplier * ANGLE;
-			if(i == 7) {that.controller(rotate);}
+			if(i == arr.length) {that.controller(rotate);}
 
 			this.coordinates.rBuffer[i] = this.coordinates.rBuffer[i] ? rotate - this.coordinates.rBuffer[i] : rotate;
 			
@@ -102,26 +102,33 @@ function JackPotCounter(options){
 	};
 
 	(this.drawOdometer = () => {
-		let parent = document.querySelector('.center');
+		let parent = document.querySelector('.jptb-center');
 			let jackpotItem = document.createElement('div');
-				jackpotItem.className = 'jackpot-item';
-				jackpotItem.id = that.jackName;
+				jackpotItem.className = 'jptb-jackpot-item';
 				jackpotItem.setAttribute('style', "order: " + that.jackOrder + ";");
-				jackpotItem.innerHTML = "<div class='jackpot-name'>" + that.jackName + "</div>";
+				jackpotItem.setAttribute('name', that.jackName);
+				jackpotItem.innerHTML = "<div class='jptb-jackpot-name'>" + that.jackName + "</div>";
 			
 			let jackpotCounter = document.createElement('div');
-			jackpotCounter.className = 'jackpot-counter';
+			jackpotCounter.className = 'jptb-jackpot-counter';
+			
+			let jackpotСurrency = document.createElement('div');
+			jackpotСurrency.className = 'jptb-jackpot-currency';
+			jackpotСurrency.textContent = '$';
 
-		let drawingCells = "<div class='jackpot-counter-cell'><div class='roller' data-rotate='0' data-duration='5000' style='transform: rotateX(0deg);transition-duration:5000ms'><div class='plane figure0'>0</div><div class='plane figure1'>1</div><div class='plane figure2'>2</div><div class='plane figure3'>3</div><div class='plane figure4'>4</div><div class='plane figure5'>5</div><div class='plane figure6'>6</div><div class='plane figure7'>7</div><div class='plane figure8'>8</div><div class='plane figure9'>9</div></div></div>";
+		let drawingCells = "<div class='jptb-jackpot-counter-cell'><div class='jptb-roller' data-rotate='0' data-duration='5000' style='transform: rotateX(0deg);transition-duration:5000ms'><div class='jptb-plane jptb-figure0'>0</div><div class='jptb-plane jptb-figure1'>1</div><div class='jptb-plane jptb-figure2'>2</div><div class='jptb-plane jptb-figure3'>3</div><div class='jptb-plane jptb-figure4'>4</div><div class='jptb-plane jptb-figure5'>5</div><div class='jptb-plane jptb-figure6'>6</div><div class='jptb-plane jptb-figure7'>7</div><div class='jptb-plane jptb-figure8'>8</div><div class='jptb-plane jptb-figure9'>9</div></div></div>";
 		let wrapper = document.createElement('div');
-		wrapper.className = 'jackpot-counter-wrapper';
+		wrapper.className = 'jptb-jackpot-counter-wrapper';
 		let collection = '';
 		for (let i = that.numRolls; i > 0; i--) collection += drawingCells;
 		wrapper.innerHTML=collection;
 		jackpotCounter.appendChild(wrapper);
 		jackpotItem.appendChild(jackpotCounter);
+		jackpotItem.appendChild(jackpotСurrency);
 		parent.appendChild(jackpotItem);
-		that.elemArr = Array.from(document.querySelectorAll('#' + that.jackName + ' .roller'));
+		var nameSelector = document.getElementsByName(that.jackName);
+		that.elemArr = Array.from(document.querySelectorAll("[name='" + that.jackName + "'] .jptb-roller"));
+		that.run();
 	})();
 
 	/*watch polyfill*/
