@@ -21,7 +21,7 @@ function JackPotCounter(options){
 		duration: 0
 	};
 	this.currentValue = options&&options.value ? options.value : 0;
-
+	this.win = false;
 	this.ticker = [];
 	this.echoTicker = [];
 	this.jackName = options&&options.jackName ? options.jackName : 'new game';
@@ -101,6 +101,11 @@ function JackPotCounter(options){
 		el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms; transition-delay:" + delay + "ms;transition-timing-function:" + bezier);
 	};
 
+	this.winpanelAnimate = () => {
+		//that.addClass(document.querySelector('.jptb-center'), 'jptb-win')
+		that.addClass(document.querySelector("[name='" + that.jackName + "']"), 'jptb-win');
+	};
+
 	(this.drawOdometer = () => {
 		let parent = document.querySelector('.jptb-center');
 			let jackpotItem = document.createElement('div');
@@ -130,6 +135,15 @@ function JackPotCounter(options){
 		that.elemArr = Array.from(document.querySelectorAll("[name='" + that.jackName + "'] .jptb-roller"));
 		that.run();
 	})();
+
+
+	this.addClass = (el, className) => {
+		if (el.classList)	el.classList.add(className);
+		else el.className += ' ' + className;
+	}
+
+
+
 
 	/*watch polyfill*/
 	if (!Object.prototype.watch) {

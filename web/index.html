@@ -67,57 +67,28 @@
 							return sum + current.clientWidth;
 						}, 0);
 		
-				var order = (el, int) => el.style.order = int;
-				var arrOrders = Array.from({ length: arr.length }, (v, k) => k); 
-		
-				var scrollHeight = parent.scrollHeight;
-				var endKey = 'translateY(-' + (scrollHeight - 34) + 'px)';
-				var animation = parent.animate({
-		  			transform: ['translateY(0%)', endKey],
-				}, {
-		  			duration: 2000,
-		  			fill: 'both',
-		  			//easing: 'steps(4, end)',
-				});
-		console.log(endKey);
-				// animation.play();
-				// animation.reverse();
-		var actions = {
-		  play: function() { animation.play(); },
-		  reverse: function() { animation.reverse(); },
-		  pause: function() { animation.pause(); },
-		  "seek halfway": function() { animation.currentTime = 2000; },
-		  "speed up": function() { animation.playbackRate += 0.25; },
-		  "slow down": function() { animation.playbackRate -= 0.25; },
-		  finish: function() { animation.finish(); },
-		  cancel: function() { animation.cancel(); },
-		};
-				let slider = () => {
-					if(itemsWidth > parent.clientWidth) {
-						//animation.play();
-						animation.reverse();
-						console.log(animation.currentTime)
-					}
-					setTimeout(slider, 8000);
-				}
-				slider();
-		
-				/*arr.forEach( function(element, i) {
-					keyframes.order = [ i, 10 ];
-					animateOptions.delay = 1000 * i;
-				});*/
-		
-				// let slider = () => {
-				// 	if(itemsWidth > parent.clientWidth) {
-				// 		for (var i = arr.length; i > 0; i--) {
-				// 			order(arr[i-1], arrOrders[arrOrders.length - i]);
-				// 		}
-				// 	arrOrders.push(arrOrders.shift());
-				// 	}
-				// 	setTimeout(slider, 10000);
-				// }
+				var scrollHeight = +parent.scrollHeight;
 				
+				let slider = (y) => {
+					if(itemsWidth > parent.clientWidth) {
+						if (y < scrollHeight) {
+							parent.style.transform = "translateY(-" + y + "px)";
+							y += 40;
+							setTimeout(slider, 8000, y);
+						} else goDown(y - 40);
+					}
+				}
+				//slider(0);
 		
+				function goDown(y) {
+					if ( y > 0 ) {
+						parent.style.transform = "translateY(-" + y + "px)";
+						y += -40;
+					setTimeout(goDown, 8000, y);	
+					} else slider(0);
+				}
+		/*	/slider	*/
+		b.winpanelAnimate();
 		/*  for test  */		
 				var input = document.getElementById('r'),
 					inputZ = document.getElementById('z');
