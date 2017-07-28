@@ -1,0 +1,6 @@
+{	
+"jackName"	: "JackPot 2",
+"tickLength"	: "5000",
+"value"  		: "0.1",
+"numRolls"	: "7"
+}

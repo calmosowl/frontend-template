@@ -1,0 +1,9 @@
+{
+        "@type": "Jackpot",
+        "action": "HIT",
+        "currency": "AED",
+        "id": 22,
+        "name": "Jackpot 1",
+        "winContainer": "some_element_ID",
+        "finishCallback": @some_callback
+}

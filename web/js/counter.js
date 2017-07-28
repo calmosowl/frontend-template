@@ -24,6 +24,8 @@ function JackPotCounter(options){
 	this.win = false;
 	this.ticker = [];
 	this.echoTicker = [];
+	this.left = options&&options.left ? options.left : '0.00 EUR';
+	this.right = options&&options.right ? options.right : 'this game';
 	this.jackName = options&&options.jackName ? options.jackName : 'new game';
 	this.jackOrder = options&&options.jackOrder ? options.jackOrder : 0;
 	this.numRolls = options&&options.numRolls ? options.numRolls : 7;

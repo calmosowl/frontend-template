@@ -12,37 +12,57 @@
 			</div>
 		</div>
 	</div>
+	<script>
+
+
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var a = new JackPotCounter(JSON.parse(this.responseText));
+        console.dir(a);
+    }
+};
+xmlhttp.open("GET", "json_demo.txt", true);
+xmlhttp.send();
+
+</script>
+
 <script>
 "use strict";
 document.addEventListener("DOMContentLoaded", (ev) => {
 	(()=>{
-		let a = new JackPotCounter({
-			jackName	: 'JackPot 🦉',
-			tickLength	: 5000,
-			value  		: 0.1,
-			numRolls	: 7
-		});
 
-		let b = new JackPotCounter({
-			jackName	: 'JackPot 🐧',
-			tickLength	: 10000,
-			value  		: 0,
-			numRolls	: 7
-		});
+// let a = new JackPotCounter({
+// 			myObj
+// 		});
 
-		let c = new JackPotCounter({
-			jackName	: 'JackPot 🐘',
-			tickLength	: 5000,
-			value  		: 0,
-			numRolls	: 7
-		});
+		// let a = new JackPotCounter({
+		// 	jackName	: 'JackPot 🦉',
+		// 	tickLength	: 5000,
+		// 	value  		: 0.1,
+		// 	numRolls	: 7
+		// });
 
-		let d = new JackPotCounter({
-			jackName	: 'JackPot 🎰',
-			tickLength	: 5000,
-			value  		: 0,
-			numRolls	: 7
-		});
+		// let b = new JackPotCounter({
+		// 	jackName	: 'JackPot 🐧',
+		// 	tickLength	: 10000,
+		// 	value  		: 0,
+		// 	numRolls	: 7
+		// });
+
+		// let c = new JackPotCounter({
+		// 	jackName	: 'JackPot 🐘',
+		// 	tickLength	: 5000,
+		// 	value  		: 0,
+		// 	numRolls	: 7
+		// });
+
+		// let d = new JackPotCounter({
+		// 	jackName	: 'JackPot 🎰',
+		// 	tickLength	: 5000,
+		// 	value  		: 0,
+		// 	numRolls	: 7
+		// });
 
 /*	slider	*/
 		const parent = document.querySelector('.jptb-center');
@@ -75,7 +95,7 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			} else slider(0);
 		}
 /*	/slider	*/
-b.winpanelAnimate();
+//b.winpanelAnimate();
 /*  for test  */		
 		var input = document.getElementById('r'),
 			inputZ = document.getElementById('z');
