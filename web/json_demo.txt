@@ -1,6 +1,28 @@
-{	
-"jackName"	: "JackPot 🦉",
-"tickLength"	: 5000,
-"value"  		: 1.1,
-"numRolls"	: 7
+{
+"counters": [
+	{
+		"jackName"	: "JackPot 🐧",
+		"tickLength"	: 10000,
+		"value"  		: 0,
+		"numRolls"	: 7
+	},
+	{
+		"jackName"	: "JackPot 🐘",
+		"tickLength"	: 10000,
+		"value"  		: 0,
+		"numRolls"	: 7
+	},
+	{
+		"jackName"	: "JackPot 🦉",
+		"tickLength"	: 10000,
+		"value"  		: 0,
+		"numRolls"	: 7
+	},
+	{
+		"jackName"	: "JackPot 🎰",
+		"tickLength"	: 10000,
+		"value"  		: 0,
+		"numRolls"	: 7
+	}
+	]
 }

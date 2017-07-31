@@ -1,99 +1,107 @@
-	<!-- Widget -->
-	<div class="jptb-top-panel-wrapper">
-		<div class="jptb-top-panel">
-			<div class="jptb-left">
-				535.98 EUR
-			</div>
-			<div class="jptb-center">
-				
-			</div>
-			<div class="jptb-right">
-				last jackpot: 07/05/17
-			</div>
-		</div>
-	</div>
-	<script>
-
-
-var xmlhttp = new XMLHttpRequest();
-xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        var a = new JackPotCounter(JSON.parse(this.responseText));
-        console.dir(a);
-    }
-};
-xmlhttp.open("GET", "json_demo.txt", true);
-xmlhttp.send();
-
-</script>
-
 <script>
 "use strict";
 document.addEventListener("DOMContentLoaded", (ev) => {
 	(()=>{
 
-// let a = new JackPotCounter({
-// 			myObj
-// 		});
+/*var myMessage = '{"counters":[\
+	{"jackName": "JackPot 1","tickLength": 10000,"value": 0, "numRolls": 7},\
+	{"jackName": "JackPot 2","tickLength": 10000,"value": 0, "numRolls": 7},\
+	{"jackName": "JackPot 3","tickLength": 10000,"value": 0, "numRolls": 7},\
+	{"jackName": "JackPot 4","tickLength": 10000,"value": 0, "numRolls": 7}\
+	]\
+}';
+
+var jsonData = JSON.parse(myMessage);
+for (var i = 0; i < jsonData.counters.length; i++) {
+    objFromArray(jsonData.counters[i]);
+}
+
+function objFromArray(obj) {
+	return new JackPotCounter(obj);
+}*/
+
+
+// var a;
+// var xmlhttp = new XMLHttpRequest();
+// var myObject = JSON.parse(this.responseText);
+// xmlhttp.onreadystatechange = function() {
+//     if (this.readyState == 4 && this.status == 200) {
+//         return new JackPotCounter(JSON.parse(this.responseText));
+//     }
+// };
+// xmlhttp.open("GET", "json_demo.txt", true);
+// xmlhttp.send();
+		new WidgetTopPanel({
+			container: 'header',
+			left: '0.00 EUR',
+			right: 'GO',
+			counters: '{\
+				"a": {"jackName": "JackPot 1", "amount": 0, "currency": "EUR", "tickLength": 10000, "numRolls": 7},\
+				"b": {"jackName": "JackPot 2", "amount": 0, "currency": "USD", "tickLength": 10000, "numRolls": 7},\
+				"c": {"jackName": "JackPot 3", "amount": 0, "currency": "EUR", "tickLength": 10000, "numRolls": 7},\
+				"d": {"jackName": "JackPot 4", "amount": 0, "currency": "EUR", "tickLength": 10000, "numRolls": 7}\
+				}'
+		}).init();
+		
 
 		// let a = new JackPotCounter({
 		// 	jackName	: 'JackPot 🦉',
 		// 	tickLength	: 5000,
 		// 	value  		: 0.1,
-		// 	numRolls	: 7
+		// 	currency	: 'EUR'
 		// });
 
 		// let b = new JackPotCounter({
 		// 	jackName	: 'JackPot 🐧',
 		// 	tickLength	: 10000,
 		// 	value  		: 0,
-		// 	numRolls	: 7
+		// 	currency	: 'USD'
 		// });
 
 		// let c = new JackPotCounter({
 		// 	jackName	: 'JackPot 🐘',
 		// 	tickLength	: 5000,
 		// 	value  		: 0,
-		// 	numRolls	: 7
+		// 	currency	: 'USD'
 		// });
 
 		// let d = new JackPotCounter({
 		// 	jackName	: 'JackPot 🎰',
 		// 	tickLength	: 5000,
 		// 	value  		: 0,
-		// 	numRolls	: 7
+		// 	currency	: 'USD'
 		// });
 
 /*	slider	*/
-		const parent = document.querySelector('.jptb-center');
-		const widgetHeight = parent.clientHeight;
+		// const parent = document.querySelector('.jptb-center');
+		// const widgetHeight = parent.clientHeight;
 
-			var	arr = Array.from(document.querySelectorAll('.jptb-jackpot-item')),
-				parentWidth = parent.clientWidth,
-				itemsWidth = arr.reduce(function(sum, current) {
-					return sum + current.clientWidth;
-				}, 0);
+		// 	var	arr = Array.from(document.querySelectorAll('.jptb-jackpot-item')),
+		// 		parentWidth = parent.clientWidth,
+		// 		itemsWidth = arr.reduce(function(sum, current) {
+		// 			return sum + current.clientWidth;
+		// 		}, 0);
 
-		var scrollHeight = +parent.scrollHeight;
+		// var scrollHeight = +parent.scrollHeight;
 		
-		let slider = (y) => {
-			if(itemsWidth > parent.clientWidth) {
-				if (y < scrollHeight) {
-					parent.style.transform = "translateY(-" + y + "px)";
-					y += 40;
-					setTimeout(slider, 8000, y);
-				} else goDown(y - 40);
-			}
-		}
+		// let slider = (y) => {
+		// 	if(itemsWidth > parent.clientWidth) {
+		// 		if (y < scrollHeight) {
+		// 			parent.style.transform = "translateY(-" + y + "px)";
+		// 			y += 40;
+		// 			setTimeout(slider, 8000, y);
+		// 		} else goDown(y - 40);
+		// 	}
+		// }
 		//slider(0);
 
-		function goDown(y) {
-			if ( y > 0 ) {
-				parent.style.transform = "translateY(-" + y + "px)";
-				y += -40;
-			setTimeout(goDown, 8000, y);	
-			} else slider(0);
-		}
+		// function goDown(y) {
+		// 	if ( y > 0 ) {
+		// 		parent.style.transform = "translateY(-" + y + "px)";
+		// 		y += -40;
+		// 	setTimeout(goDown, 8000, y);	
+		// 	} else slider(0);
+		// }
 /*	/slider	*/
 //b.winpanelAnimate();
 /*  for test  */		
@@ -113,4 +121,3 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 	})();
 }, false);
 </script>
-<!-- Widget -->

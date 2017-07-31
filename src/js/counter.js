@@ -1,4 +1,63 @@
 "use strict";
+function WidgetTopPanel(options){
+	let that = this;
+	this.elem = options&&options.container ? options.container : 'header';
+	this.left = options&&options.left ? options.left : '0.00 EUR';
+	this.right = options&&options.right ? options.right : 'this game';
+	this.counters = options&&options.counters ? options.counters : '{}';
+
+	this.jsonData = JSON.parse(that.counters);console.log(this.jsonData);
+	
+	function objFromArray(obj) {
+		return new JackPotCounter(obj);
+	}
+
+	let elem;
+	this.init = () => {
+    	if (!document.querySelector(that.elem)) that.render();
+    	that.renderItems();
+  	}
+
+  	this.render = () => {
+	    elem = document.createElement('div');
+		elem.className = that.elem;
+		document.body.appendChild(elem);
+	}
+
+	this.renderItems = () => {	
+		elem = document.querySelector(that.elem);
+		let innerElem = document.createElement('div');
+			elem.appendChild(innerElem);
+			innerElem.className = "jptb-top-panel";
+		let leftItem = document.createElement('div');
+			innerElem.appendChild(leftItem);
+			leftItem.className = "jptb-left";
+			leftItem.textContent = that.left;
+
+		let centerItem = document.createElement('div');
+			innerElem.appendChild(centerItem);
+			centerItem.className = "jptb-center";
+
+		let rightItem = document.createElement('div');
+			innerElem.appendChild(rightItem);
+			rightItem.className = "jptb-right";
+			rightItem.textContent = that.right;
+
+		if (document.querySelector('.jptb-center')){
+			console.log(document.querySelector('.jptb-center'));
+			that.renderCounters();	
+		} 
+	}
+
+	this.renderCounters = () => {
+		for (var counter in that.jsonData) {
+			console.log(that.jsonData[counter].jackName);
+   			return new JackPotCounter(that.jsonData[counter]);
+		}
+	}
+}
+
+
 function JackPotCounter(options){
 	let that = this;
 	const ANGLE = 36;
@@ -20,12 +79,11 @@ function JackPotCounter(options){
 		deviation: 0,
 		duration: 0
 	};
-	this.currentValue = options&&options.value ? options.value : 0;
+	this.currentValue = options&&options.amount ? options.amount : 0;
 	this.win = false;
 	this.ticker = [];
 	this.echoTicker = [];
-	this.left = options&&options.left ? options.left : '0.00 EUR';
-	this.right = options&&options.right ? options.right : 'this game';
+	this.currency = options&&options.currency ? options.currency : 'EUR';
 	this.jackName = options&&options.jackName ? options.jackName : 'new game';
 	this.jackOrder = options&&options.jackOrder ? options.jackOrder : 0;
 	this.numRolls = options&&options.numRolls ? options.numRolls : 7;
@@ -121,7 +179,7 @@ function JackPotCounter(options){
 			
 			let jackpotСurrency = document.createElement('div');
 			jackpotСurrency.className = 'jptb-jackpot-currency';
-			jackpotСurrency.textContent = '$';
+			jackpotСurrency.textContent = this.currency;
 
 		let drawingCells = "<div class='jptb-jackpot-counter-cell'><div class='jptb-roller' data-rotate='0' data-duration='5000' style='transform: rotateX(0deg);transition-duration:5000ms'><div class='jptb-plane jptb-figure0'>0</div><div class='jptb-plane jptb-figure1'>1</div><div class='jptb-plane jptb-figure2'>2</div><div class='jptb-plane jptb-figure3'>3</div><div class='jptb-plane jptb-figure4'>4</div><div class='jptb-plane jptb-figure5'>5</div><div class='jptb-plane jptb-figure6'>6</div><div class='jptb-plane jptb-figure7'>7</div><div class='jptb-plane jptb-figure8'>8</div><div class='jptb-plane jptb-figure9'>9</div></div></div>";
 		let wrapper = document.createElement('div');
