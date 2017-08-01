@@ -71,6 +71,7 @@ $angle: 36deg;
 	text-shadow: 1px 1px 1px rgba(251, 234, 94, 0.6);
 	text-transform: uppercase;
 	white-space: nowrap;
+	overflow: hidden;
 	.jptb-left, .jptb-right {flex: 0;}
 	.jptb-right {text-align: right;}
 	.jptb-center {

@@ -1,21 +1,21 @@
 "use strict";
 function WidgetTopPanel(options){
 	let that = this;
-	this.elem = options&&options.container ? options.container : 'header';
+	this.elem = options.container;
 	this.left = options&&options.left ? options.left : '0.00 EUR';
 	this.right = options&&options.right ? options.right : 'this game';
 	this.counters = options&&options.counters ? options.counters : '{}';
 
-	this.jsonData = JSON.parse(that.counters);console.log(this.jsonData);
+	this.jsonData = JSON.parse(that.counters);
 	
-	function objFromArray(obj) {
-		return new JackPotCounter(obj);
-	}
-
 	let elem;
 	this.init = () => {
-    	if (!document.querySelector(that.elem)) that.render();
+    	if ( !that.elem || !document.getElementById(that.elem) ) {
+    		console.warn('Container not defined or missing in document');
+    		return false;
+    	} 
     	that.renderItems();
+    	slider(0);
   	}
 
   	this.render = () => {
@@ -25,7 +25,7 @@ function WidgetTopPanel(options){
 	}
 
 	this.renderItems = () => {	
-		elem = document.querySelector(that.elem);
+		elem = document.getElementById(that.elem);
 		let innerElem = document.createElement('div');
 			elem.appendChild(innerElem);
 			innerElem.className = "jptb-top-panel";
@@ -44,18 +44,69 @@ function WidgetTopPanel(options){
 			rightItem.textContent = that.right;
 
 		if (document.querySelector('.jptb-center')){
-			console.log(document.querySelector('.jptb-center'));
-			that.renderCounters();	
+			that.renderCounters();
 		} 
 	}
 
+	/* counters generator */
+	this.stack = {
+		counter:[]
+	};
 	this.renderCounters = () => {
 		for (var counter in that.jsonData) {
-			console.log(that.jsonData[counter].jackName);
-   			return new JackPotCounter(that.jsonData[counter]);
+   			var counter = new JackPotCounter(options);
+   			this.stack.counter.push(counter);
 		}
 	}
-}
+   			console.log(that.stack);
+
+	function getCounter(key,obj) {
+		that.stack.push(key);
+		var key = new JackPotCounter(obj);
+		console.log(that.stack);
+		console.log(key);
+		return key;
+	}
+
+	this.update = (json) => {
+		let jsonData = JSON.parse(json);
+		for (var counter in jsonData) {
+			console.log('oldcount: ' + that.jsonData.a.amount + '  newcount: ' + jsonData[counter].amount);
+			that.jsonData.a.amount = jsonData.a.amount;
+			//let {id, amount} = jsonData[counter];
+		}
+	}
+
+	/* slider */
+	let parent;
+	let slider = (y) => {
+		parent = document.querySelector('.jptb-center');
+		let widgetHeight = parent.clientHeight;
+		let	arr = Array.from(document.querySelectorAll('.jptb-jackpot-item')),
+				parentWidth = parent.clientWidth,
+				itemsWidth = arr.reduce(function(sum, current) {
+					return sum + current.clientWidth;
+				}, 0);
+
+		let scrollHeight = +parent.scrollHeight;
+		if(itemsWidth > parent.clientWidth) {
+			if (y < scrollHeight) {
+				parent.style.transform = "translateY(-" + y + "px)";
+				y += 40;
+				setTimeout(slider, 8000, y);
+			} else goDown(y - 40);
+		}
+	}
+
+	function goDown(y) {
+		if ( y > 0 ) {
+			parent.style.transform = "translateY(-" + y + "px)";
+			y += -40;
+		setTimeout(goDown, 8000, y);	
+		} else slider(0);
+	}
+	return this;
+};
 
 
 function JackPotCounter(options){
@@ -80,12 +131,13 @@ function JackPotCounter(options){
 		duration: 0
 	};
 	this.currentValue = options&&options.amount ? options.amount : 0;
+	this.id = options&&options.id ? options.id : 0;
 	this.win = false;
 	this.ticker = [];
 	this.echoTicker = [];
 	this.currency = options&&options.currency ? options.currency : 'EUR';
 	this.jackName = options&&options.jackName ? options.jackName : 'new game';
-	this.jackOrder = options&&options.jackOrder ? options.jackOrder : 0;
+	this.jackOrder = options&&options.order ? options.order : 0;
 	this.numRolls = options&&options.numRolls ? options.numRolls : 7;
 	this.elemArr = options&&options.elemArr ? options.elemArr : [];
 	this.tickLength = options&&options.tickLength ? options.tickLength : 1000;
@@ -107,11 +159,11 @@ function JackPotCounter(options){
 	};
 
 	this.run = () => {
-			this.transform(this.elemArr);
-			this.buffer.splice(0, 0, this.currentValue);
-			this.buffer.length = 10;
-			return this;
-		};
+		this.transform(this.elemArr);
+		this.buffer.splice(0, 0, this.currentValue);
+		this.buffer.length = 10;
+		return this;
+	};
 
 	this.setCurrentValue = (v) => {
 		if(isNaN(v/2)) 

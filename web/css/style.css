@@ -33,6 +33,7 @@
     display: -webkit-flex;
     display: -ms-flexbox;
     display:         flex;
+    overflow: hidden;
     height: 34px;
     padding: 0 13px;
     white-space: nowrap;
