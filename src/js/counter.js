@@ -53,12 +53,12 @@ function WidgetTopPanel(options){
 		counter:[]
 	};
 	this.renderCounters = () => {
+			let map = new Map();
 		for (var counter in that.jsonData) {
-   			var counter = new JackPotCounter(options);
-   			this.stack.counter.push(counter);
+			map.set(counter, new JackPotCounter(that.jsonData));
 		}
+   			console.log(map);
 	}
-   			console.log(that.stack);
 
 	function getCounter(key,obj) {
 		that.stack.push(key);
