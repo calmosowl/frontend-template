@@ -2,8 +2,8 @@
 function WidgetTopPanel(options){
 	let that = this;
 	this.elem = options.container;
-	this.left = options&&options.left ? options.left : '0.00 EUR';
-	this.right = options&&options.right ? options.right : 'this game';
+	this.left = options&&options.left ? options.left : '';
+	this.right = options&&options.right ? options.right : '';
 	this.counters = options&&options.counters ? options.counters : '{}';
 
 	this.jsonData = JSON.parse(that.counters);
@@ -79,6 +79,7 @@ function WidgetTopPanel(options){
 		})
 	}
 
+	
 
 	/* slider */
 	let parent;
@@ -138,14 +139,13 @@ function JackPotCounter(options){
 	this.win = false;
 	this.ticker = [];
 	this.echoTicker = [];
-	this.currency = options&&options.currency ? options.currency : 'EUR';
-	this.jackName = options&&options.jackName ? options.jackName : 'new game';
-	this.jackOrder = options&&options.order ? options.order : 0;
+	this.currency = options&&options.currency ? options.currency : '';
+	this.jackName = options&&options.jackName ? options.jackName : '';
+	this.jackOrder = parseInt(that.currentValue * (-1));
 	this.numRolls = options&&options.numRolls ? options.numRolls : 7;
 	this.elemArr = options&&options.elemArr ? options.elemArr : [];
 	this.tickLength = options&&options.tickLength ? options.tickLength : 1000;
-	this.qtyPerTick = options&&options.qtyPerTick ? options.qtyPerTick : 1;
-
+	
 	this.tickPlay = () => {
 		if(this.ticker.length < 1){
 			this.ticker[0] = setInterval(()=>{
@@ -165,8 +165,12 @@ function JackPotCounter(options){
 		this.transform(this.elemArr);
 		this.buffer.splice(0, 0, this.currentValue);
 		this.buffer.length = 10;
+		this.sorting();
 		return this;
 	};
+
+	this.sorting = elem => elem.style.order = that.jackOrder + '';
+	
 
 	this.setCurrentValue = (v) => {
 		if(isNaN(v/2)) 
@@ -221,11 +225,16 @@ function JackPotCounter(options){
 		that.addClass(document.querySelector("[name='" + that.jackName + "']"), 'jptb-win');
 	};
 
+	this.sorting = () => {
+		let elem = document.querySelector("[name='" + that.jackName + "']");
+			elem.style.order = parseInt(-that.currentValue);
+	}
+
 	(this.drawOdometer = () => {
 		let parent = document.querySelector('.jptb-center');
 			let jackpotItem = document.createElement('div');
 				jackpotItem.className = 'jptb-jackpot-item';
-				jackpotItem.setAttribute('style', "order: " + that.jackOrder + ";");
+				jackpotItem.style.order = that.jackOrder + '';
 				jackpotItem.setAttribute('name', that.jackName);
 				jackpotItem.innerHTML = "<div class='jptb-jackpot-name'>" + that.jackName + "</div>";
 			
