@@ -49,33 +49,36 @@ function WidgetTopPanel(options){
 	}
 
 	/* counters generator */
-	this.stack = {
-		counter:[]
-	};
+	this.counterBuffer = new Map();
+
 	this.renderCounters = () => {
-			let map = new Map();
 		for (var counter in that.jsonData) {
-			map.set(counter, new JackPotCounter(that.jsonData));
+			let id = that.jsonData[counter].id ? that.jsonData[counter].id : false;
+			if(id)
+			that.counterBuffer.set(that.jsonData[counter].id, new JackPotCounter(that.jsonData[counter]));
 		}
-   			console.log(map);
+   			console.log(that.counterBuffer);
 	}
 
-	function getCounter(key,obj) {
-		that.stack.push(key);
-		var key = new JackPotCounter(obj);
-		console.log(that.stack);
-		console.log(key);
-		return key;
-	}
 
 	this.update = (json) => {
 		let jsonData = JSON.parse(json);
+		let newData = new Map();
 		for (var counter in jsonData) {
-			console.log('oldcount: ' + that.jsonData.a.amount + '  newcount: ' + jsonData[counter].amount);
-			that.jsonData.a.amount = jsonData.a.amount;
-			//let {id, amount} = jsonData[counter];
+			newData.set(jsonData[counter].id, jsonData[counter]);
 		}
+		that.counterBuffer.forEach(function(item){
+			let newval = newData.get(item.id) ? newData.get(item.id).amount : false;
+			if(newData.has(item.id)&&newval&&newval > item.currentValue) {
+				item.setCurrentValue(newval);
+				item.run();
+			}
+			if(!newData.has(item.id)) {
+				that.counterBuffer.set(jsonData[counter].id, new JackPotCounter(jsonData[counter]));
+			}
+		})
 	}
+
 
 	/* slider */
 	let parent;
