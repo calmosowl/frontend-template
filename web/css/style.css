@@ -226,10 +226,6 @@
     margin-right: auto;
     margin-left: auto;
 
-    -webkit-box-ordinal-group: 0 !important;
-    -webkit-order: -1 !important;
-    -ms-flex-order: -1 !important;
-            order: -1 !important;
     -webkit-flex-basis: 100%;
     -ms-flex-preferred-size: 100%;
             flex-basis: 100%;
@@ -259,6 +255,29 @@
     background:         linear-gradient(0% -15%, #655bef 0%, #fa28bf 20%, #ff4665 40%, #fbde4e 60%, #00fbea 80%, #555def 100%);
     background:    -moz-linear-gradient(0% -15%, #655bef 0%, #fa28bf 20%, #ff4665 40%, #fbde4e 60%, #00fbea 80%, #555def 100%);
     background: -webkit-gradient(linear, 0% -15%, 100% 100%, color-stop(0, #655bef), color-stop(.2, #fa28bf), color-stop(.4, #ff4665), color-stop(.6, #fbde4e), color-stop(.8, #00fbea), color-stop(1, #555def));
+}
+
+.fadeIn {
+    -webkit-animation-name: fadeIn;
+            animation-name: fadeIn;
+    -webkit-animation-duration: 2s;
+            animation-duration: 2s;
+    -webkit-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+}
+
+.aim {
+    font-size: 30vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+            transform: translate3d(-50%, -50%, 0);
+
+    -webkit-text-stroke: .1ch #966;
 }
 
 @-webkit-keyframes anime {
@@ -292,6 +311,34 @@
     100% {
         -webkit-transform: translateX(0%);
                 transform: translateX(0%);
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
     }
 }
 

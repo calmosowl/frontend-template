@@ -49,6 +49,7 @@ function WidgetTopPanel(options){
 	}
 
 	/* counters generator */
+
 	this.counterBuffer = new Map();
 
 	this.renderCounters = () => {
@@ -57,29 +58,31 @@ function WidgetTopPanel(options){
 			if(id)
 			that.counterBuffer.set(that.jsonData[counter].id, new JackPotCounter(that.jsonData[counter]));
 		}
-   			console.log(that.counterBuffer);
 	}
-
 
 	this.update = (json) => {
 		let jsonData = JSON.parse(json);
-		let newData = new Map();
+
 		for (var counter in jsonData) {
-			newData.set(jsonData[counter].id, jsonData[counter]);
-		}
-		that.counterBuffer.forEach(function(item){
-			let newval = newData.get(item.id) ? newData.get(item.id).amount : false;
-			if(newData.has(item.id)&&newval&&newval > item.currentValue) {
-				item.setCurrentValue(newval);
-				item.run();
-			}
-			if(!newData.has(item.id)) {
+			let id = jsonData[counter].id ? jsonData[counter].id : false;
+			let amount = jsonData[counter].amount ? jsonData[counter].amount : false;
+			let action = jsonData[counter].action ? jsonData[counter].action : false;
+			
+			console.log("\n" + "has(id): " + that.counterBuffer.has(id));
+
+			if(id && !that.counterBuffer.has(id))
 				that.counterBuffer.set(jsonData[counter].id, new JackPotCounter(jsonData[counter]));
+			if(id && amount && amount > that.counterBuffer.get(id).currentValue)
+				that.counterBuffer.get(id).setCurrentValue(amount);
+				that.counterBuffer.get(id).run();
+			if(id && action) {	
+				that.counterBuffer.get(id).actionPlay(action);
 			}
-		})
+		}
+		console.log('counterBuffer:');console.log(that.counterBuffer);		
 	}
 
-	
+	// 🔚 
 
 	/* slider */
 	let parent;
@@ -109,6 +112,9 @@ function WidgetTopPanel(options){
 		setTimeout(goDown, 8000, y);	
 		} else slider(0);
 	}
+
+	// 🔚 
+
 	return this;
 };
 
@@ -134,9 +140,9 @@ function JackPotCounter(options){
 		deviation: 0,
 		duration: 0
 	};
+	this.action = options&&options.action ? options.action : '';
 	this.currentValue = options&&options.amount ? options.amount : 0;
 	this.id = options&&options.id ? options.id : 0;
-	this.win = false;
 	this.ticker = [];
 	this.echoTicker = [];
 	this.currency = options&&options.currency ? options.currency : '';
@@ -167,6 +173,12 @@ function JackPotCounter(options){
 		this.buffer.length = 10;
 		this.sorting();
 		return this;
+	};
+
+	this.show = () => {
+		return {
+      		value: this
+    	}
 	};
 
 	this.sorting = elem => elem.style.order = that.jackOrder + '';
@@ -220,24 +232,55 @@ function JackPotCounter(options){
 		el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms; transition-delay:" + delay + "ms;transition-timing-function:" + bezier);
 	};
 
-	this.winpanelAnimate = () => {
-		//that.addClass(document.querySelector('.jptb-center'), 'jptb-win')
-		that.addClass(document.querySelector("[name='" + that.jackName + "']"), 'jptb-win');
+	/* actions */
+
+	let eventText = newElem('div', {class: 'fadeIn aim'});
+	this.win = () => {
+		eventText.textContent = "WIN";
+		append(eventText);
+		//that.addClass(document.getElementById('jptb' + that.id), 'jptb-win');
 	};
 
+	this.hit = () => {
+		eventText.textContent = "HIT";
+		append(eventText);
+	};
+	this.delete = () => {
+		eventText.textContent = "DEL";
+		append(eventText);
+	};
+
+	this.actionPlay = (action) => {
+		switch (action) {
+			case "WIN":	that.win();
+			break;
+			
+			case "HIT":	that.hit();
+			break;
+			
+			case "DELETE":	that.delete();
+			break;
+		}
+	}
+
+	// 🔚 
+	
 	this.sorting = () => {
-		let elem = document.querySelector("[name='" + that.jackName + "']");
+		let elem = document.getElementById('jptb' + that.id);
 			elem.style.order = parseInt(-that.currentValue);
 	}
+
 
 	(this.drawOdometer = () => {
 		let parent = document.querySelector('.jptb-center');
 			let jackpotItem = document.createElement('div');
 				jackpotItem.className = 'jptb-jackpot-item';
 				jackpotItem.style.order = that.jackOrder + '';
-				jackpotItem.setAttribute('name', that.jackName);
-				jackpotItem.innerHTML = "<div class='jptb-jackpot-name'>" + that.jackName + "</div>";
-			
+				jackpotItem.id = "jptb" + that.id;
+				if(options&&options.jackName){
+					jackpotItem.innerHTML = "<div class='jptb-jackpot-name'>" + that.jackName + "</div>";
+				} else jackpotItem.innerHTML = "<div class='jptb-jackpot-name'></div>";
+					
 			let jackpotCounter = document.createElement('div');
 			jackpotCounter.className = 'jptb-jackpot-counter';
 			
@@ -255,8 +298,8 @@ function JackPotCounter(options){
 		jackpotItem.appendChild(jackpotCounter);
 		jackpotItem.appendChild(jackpotСurrency);
 		parent.appendChild(jackpotItem);
-		var nameSelector = document.getElementsByName(that.jackName);
-		that.elemArr = Array.from(document.querySelectorAll("[name='" + that.jackName + "'] .jptb-roller"));
+		
+		that.elemArr = Array.from(document.querySelectorAll('#jptb' + that.id + ' .jptb-roller'));
 		that.run();
 	})();
 
@@ -319,3 +362,42 @@ this.watch("this.currentValue", function (id, oldval, newval) {
 
 	return this;
 };
+
+
+/* helpers */
+
+function newElem(tag, params) {
+    params = params || {};
+    var elem = document.createElementNS ?
+        document.createElementNS('http://www.w3.org/1999/xhtml', tag) :
+        document.createElement(tag);
+
+    for (var pr in params) {
+        attr(elem, pr, params[pr]);
+    }
+
+    return elem;
+}
+
+function attr(el, at, value) {
+    at = {
+        'for': 'htmlFor',
+        'class': 'className'
+    }[at] || at;
+    if (!value) {
+        return el[at] || el.getAttribute(at) || '';
+    } else {
+        if (at == 'style') {
+            el.style.cssText = value;
+            return;
+        }
+        el[at] = value;
+        if (el.setAttribute) el.setAttribute(at, value);
+    }
+}
+
+function append(el, where) {
+    (where || document.body).appendChild(el);
+}
+
+// 🔚

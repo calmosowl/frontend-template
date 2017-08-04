@@ -145,7 +145,7 @@ $angle: 36deg;
 /* win animation */
 
 .jptb-win  {
-	order: -1 !important;
+	//order: -1 !important;
 	flex-basis: 100%;
 	margin-left: auto;
 	margin-right: auto;
@@ -182,4 +182,34 @@ $angle: 36deg;
 	100%{
 		transform: translateX(0%);
 	}
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.aim {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%,-50%,0);
+	font-size: 30vh;
+	-webkit-text-stroke: 0.1ch #996666;
 }
