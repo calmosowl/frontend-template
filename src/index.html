@@ -20,11 +20,12 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 		left     : '0.00 EUR', // надпись слева
 		right    : 'GO', // надпись справа
 		
-		/* json, содержащий опции для счетчиков. Перечисленные счетчики будут добавлены в виджет при инициализации. */
+		/* json, содержащий опции для счетчиков. Перечисленные счетчики будут добавлены в виджет при инициализации. * /
 		counters : '[\
-				{"id": 1, "jackName": "", "amount": 0, "currency": "", "tickLength": 10000},\
-				{"id": 2, "jackName": "", "amount": 0, "currency": "", "tickLength": 10000}\
+				{"id": 1, "jackName": "j-1", "amount": 0, "currency": "", "tickLength": 10000},\
+				{"id": 2, "jackName": "j-2", "amount": 0, "currency": "", "tickLength": 10000}\
 				]'
+		// */
 
 	});panel.init();
 
@@ -32,44 +33,36 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 	//panel.update('[{"id": 1, "amount": 1.00}, {"id": 2, "amount": 2.00}, {"id": 9, "amount": 9.00}]');
 
 	function randomInteger(min, max) {
-    	let rand = min - 0.5 + Math.random() * (max - min + 1);
+    	let rand = min + Math.random()*(max-1); // 0.5 + Math.random() * (max - min + 1);
     	return Math.round(rand);
     	
 	}
-	let c1=0, c2=0, c3=0, counters;
+	let amount=[0,0,0,0,0], counters;
+
 	function updateTEST(num){
 		setTimeout(function(){
-			c1+=randomInteger(1, 100);
-			c2+=randomInteger(1, 100);
-			c3+=randomInteger(1, 100);
-			//console.log(c1,c2,c3);
+			amount[num-1]+=randomInteger(1, 10000);
+			console.log(amount);
 			counters = [
 						{	
 							"id": num,
-							"amount": c3
-						},
-						{
-							"id": randomInteger(1, 4),
-							"amount": c1
-						},
-						{
-							"id": randomInteger(5, 8),
-							"amount": c2,
-							"action": "HIT"
+							"amount": amount[num-1],
+							"action": "UPDATE",
+							"tickLength": 5000
 						}
 						]
 			
 			counters = JSON.stringify(counters);
-							console.log(counters);
+			//console.log(counters);
 			panel.update(counters);
 		
-			if(num<8) updateTEST(num+=1);
+			updateTEST(randomInteger(1,1));
 		},
 		//Math.round(Math.random()*10000));
-		11000);
+		2000);
 	}
 	
-updateTEST(4);
+//updateTEST(1);
 	})();
 }, false);
 </script>

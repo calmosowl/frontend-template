@@ -68,7 +68,7 @@ function WidgetTopPanel(options){
 			let amount = jsonData[counter].amount ? jsonData[counter].amount : false;
 			let action = jsonData[counter].action ? jsonData[counter].action : false;
 			
-			console.log("\n" + "has(id): " + that.counterBuffer.has(id));
+			//console.log("\n" + "has(id): " + that.counterBuffer.has(id));
 
 			if(id && !that.counterBuffer.has(id))
 				that.counterBuffer.set(jsonData[counter].id, new JackPotCounter(jsonData[counter]));
@@ -85,18 +85,25 @@ function WidgetTopPanel(options){
 	// 🔚 
 
 	/* slider */
-	let parent;
+	let parent, left, right;
 	let slider = (y) => {
 		parent = document.querySelector('.jptb-center');
+		left = document.querySelector('.jptb-left');
+		right = document.querySelector('.jptb-right');
+
+		if(window.innerWidth < 575 && left.parentElement !== parent){
+			parent.appendChild(left);
+			parent.appendChild(right);
+		}
 		let widgetHeight = parent.clientHeight;
-		let	arr = Array.from(document.querySelectorAll('.jptb-jackpot-item')),
+		let	arr = Array.from(parent.children),
 				parentWidth = parent.clientWidth,
 				itemsWidth = arr.reduce(function(sum, current) {
 					return sum + current.clientWidth;
 				}, 0);
 
 		let scrollHeight = +parent.scrollHeight;
-		if(itemsWidth > parent.clientWidth) {
+		if(itemsWidth > parent.clientWidth || window.innerWidth < 575) {
 			if (y < scrollHeight) {
 				parent.style.transform = "translateY(-" + y + "px)";
 				y += 40;
@@ -155,7 +162,6 @@ function JackPotCounter(options){
 	this.tickPlay = () => {
 		if(this.ticker.length < 1){
 			this.ticker[0] = setInterval(()=>{
-
 				this.buffer.splice(0, 0, this.currentValue);
 				this.buffer.length = 10;
 				this.data.diffBetweenLatests = +(this.buffer[0]-this.buffer[1]).toFixed(2);
@@ -168,9 +174,13 @@ function JackPotCounter(options){
 	};
 
 	this.run = () => {
+		/*👾		#1	Метод должент принимать this.buffer && this.timeBuffer 
+		  👾		Запускать transform по таймауту равному разнице между элементами массива
+		  👾
+		  👾		#2	buffer.indexOf(currentValue) -- можно не изменять currentValue (201), 
+		  👾		а записывать в buffer и по таймеру возвращать цепляя колбек run 
+		*/
 		this.transform(this.elemArr);
-		this.buffer.splice(0, 0, this.currentValue);
-		this.buffer.length = 10;
 		this.sorting();
 		return this;
 	};
@@ -187,8 +197,34 @@ function JackPotCounter(options){
 	this.setCurrentValue = (v) => {
 		if(isNaN(v/2)) 
 			return console.info('= waiting for integer =');
-		return this.currentValue = v;
+		if(v > Math.pow(10, that.numRolls-2)){ 
+			that.setNumRolls(v);
+		}
+		this.currentValue = v;
+		this.buffer.splice(0, 0, this.currentValue);
+		this.buffer.length = 10;
+		this.data.arrayStamp = this.buffer.join(', ');
+		console.log(this.data.arrayStamp);
+		return this.currentValue;
 	};
+
+	const drawingCells = "<div class='jptb-jackpot-counter-cell'><div class='jptb-roller' data-rotate='0' data-duration='5000' style='transform: rotateX(0deg);transition-duration:5000ms'><div class='jptb-plane jptb-figure0'>0</div><div class='jptb-plane jptb-figure1'>1</div><div class='jptb-plane jptb-figure2'>2</div><div class='jptb-plane jptb-figure3'>3</div><div class='jptb-plane jptb-figure4'>4</div><div class='jptb-plane jptb-figure5'>5</div><div class='jptb-plane jptb-figure6'>6</div><div class='jptb-plane jptb-figure7'>7</div><div class='jptb-plane jptb-figure8'>8</div><div class='jptb-plane jptb-figure9'>9</div></div></div>";
+
+	this.setNumRolls = (a) => {
+		let digits = that.numRolls-3,
+			str = a.toFixed(0),
+			rstr = Math.pow(10, digits).toFixed(0),
+			def = str.length - rstr.length;
+		console.log('str ' + str + ' - rstr ' + rstr + ' = ' + def);
+		that.numRolls += def;
+		console.log(that.numRolls);
+		let wrapper = document.querySelector('#jptb' + that.id + ' .jptb-jackpot-counter-wrapper');
+		let cell = wrapper.children[0];
+		for(let i = 0; i < def; i++) {
+			cell.insertAdjacentHTML("beforeBegin", drawingCells);
+		}
+		that.elemArr = Array.from(document.querySelectorAll('#jptb' + that.id + ' .jptb-roller'));
+	}
 
 	this.controller = (rotate) => {
 		this.coordinates.rotate.splice(0, 0, rotate);
@@ -206,6 +242,7 @@ function JackPotCounter(options){
 	}
 
 	this.transform = (elemArr) => {
+
 		var arr = elemArr.slice(),
 			data = that.currentValue * 100;
 		for(var i = arr.length; i >= 0; i--) {
@@ -234,7 +271,7 @@ function JackPotCounter(options){
 
 	/* actions */
 
-	let eventText = newElem('div', {class: 'fadeIn aim'});
+	let eventText = document.querySelector('.aim') ? document.querySelector('.aim') : newElem('div', {class: 'fadeIn aim'});
 	this.win = () => {
 		eventText.textContent = "WIN";
 		append(eventText);
@@ -288,7 +325,6 @@ function JackPotCounter(options){
 			jackpotСurrency.className = 'jptb-jackpot-currency';
 			jackpotСurrency.textContent = this.currency;
 
-		let drawingCells = "<div class='jptb-jackpot-counter-cell'><div class='jptb-roller' data-rotate='0' data-duration='5000' style='transform: rotateX(0deg);transition-duration:5000ms'><div class='jptb-plane jptb-figure0'>0</div><div class='jptb-plane jptb-figure1'>1</div><div class='jptb-plane jptb-figure2'>2</div><div class='jptb-plane jptb-figure3'>3</div><div class='jptb-plane jptb-figure4'>4</div><div class='jptb-plane jptb-figure5'>5</div><div class='jptb-plane jptb-figure6'>6</div><div class='jptb-plane jptb-figure7'>7</div><div class='jptb-plane jptb-figure8'>8</div><div class='jptb-plane jptb-figure9'>9</div></div></div>";
 		let wrapper = document.createElement('div');
 		wrapper.className = 'jptb-jackpot-counter-wrapper';
 		let collection = '';

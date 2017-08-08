@@ -73,7 +73,8 @@ $angle: 36deg;
 	white-space: nowrap;
 	overflow: hidden;
 	.jptb-left, .jptb-right {flex: 0;}
-	.jptb-right {text-align: right;}
+	.jptb-right {text-align: right; margin-left: 13px;}
+	.jptb-left {margin-right: 13px;}
 	.jptb-center {
 		flex: 1;
 		display: flex;
@@ -129,7 +130,7 @@ $angle: 36deg;
 			}
 		}
 }
-.jptb-jackpot-counter-cell:nth-child(6):before {
+.jptb-jackpot-counter-cell:nth-last-child(2):before {
 	content: "\002E";
 	display: block;
 	position: absolute;
@@ -213,3 +214,4 @@ $angle: 36deg;
 	font-size: 30vh;
 	-webkit-text-stroke: 0.1ch #996666;
 }
+

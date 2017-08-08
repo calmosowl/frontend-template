@@ -58,7 +58,12 @@
 }
 
 .jptb-top-panel .jptb-right {
+    margin-left: 13px;
     text-align: right;
+}
+
+.jptb-top-panel .jptb-left {
+    margin-right: 13px;
 }
 
 .jptb-top-panel .jptb-center {
@@ -161,7 +166,7 @@
             backface-visibility: hidden;
 }
 
-.jptb-jackpot-counter-cell:nth-child(6):before {
+.jptb-jackpot-counter-cell:nth-last-child(2):before {
     position: absolute;
     left: -3px;
     display: block;
