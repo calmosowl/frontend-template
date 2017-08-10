@@ -34,25 +34,27 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 
 	});panel.init();
 
+
+
 	/* Метод update(json) обновляет свойство "amount" существующих счетчиков, добавляет новый счетчик */
 	//panel.update('[{"id": 1, "amount": 1.00}, {"id": 2, "amount": 2.00}, {"id": 9, "amount": 9.00}]');
 
 	function randomInteger(min, max) {
     	let rand = min + Math.random()*(max-1); // 0.5 + Math.random() * (max - min + 1);
     	return Math.round(rand);
-    	
-	}
+ 	}
+
 	let amount=[0,0,0,0,0], counters;
 
 	function updateTEST(num){
 		setTimeout(function(){
-			amount[num-1]+=randomInteger(1, 10000);
+			amount[num-1]+=randomInteger(1, 10);
 			console.log(amount);
 			counters = [
 						{	
 							"id": num,
 							"amount": amount[num-1],
-							"action": "UPDATE",
+							//"action": "UPDATE",
 							"tickLength": 5000
 						}
 						]
@@ -67,7 +69,9 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 		2000);
 	}
 	
-//updateTEST(1);
+updateTEST(1);
+
+
 	})();
 }, false);
 </script>

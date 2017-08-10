@@ -18,12 +18,6 @@ function WidgetTopPanel(options){
     	slider(0);
   	}
 
-  	this.render = () => {
-	    elem = document.createElement('div');
-		elem.className = that.elem;
-		document.body.appendChild(elem);
-	}
-
 	this.renderItems = () => {	
 		elem = document.getElementById(that.elem);
 		let innerElem = document.createElement('div');
@@ -44,7 +38,7 @@ function WidgetTopPanel(options){
 			rightItem.textContent = that.right;
 
 		if (document.querySelector('.jptb-center')){
-			that.renderCounters();
+			that.update(that.json);
 		} 
 	}
 
@@ -52,34 +46,24 @@ function WidgetTopPanel(options){
 
 	this.counterBuffer = new Map();
 
-	this.renderCounters = () => {
-		for (var counter in that.jsonData) {
-			let id = that.jsonData[counter].id ? that.jsonData[counter].id : false;
-			if(id)
-			that.counterBuffer.set(that.jsonData[counter].id, new JackPotCounter(that.jsonData[counter]));
-		}
-	}
-
 	this.update = (json) => {
-		let jsonData = JSON.parse(json);
+		let jsonData = json ? JSON.parse(json) : false;
 
 		for (var counter in jsonData) {
 			let id = jsonData[counter].id ? jsonData[counter].id : false;
 			let amount = jsonData[counter].amount ? jsonData[counter].amount : false;
 			let action = jsonData[counter].action ? jsonData[counter].action : false;
-			
-			//console.log("\n" + "has(id): " + that.counterBuffer.has(id));
+			let jackSelf = that.counterBuffer.has(id) ? that.counterBuffer.get(id) : {};
 
 			if(id && !that.counterBuffer.has(id))
 				that.counterBuffer.set(jsonData[counter].id, new JackPotCounter(jsonData[counter]));
 			if(id && amount && amount > that.counterBuffer.get(id).currentValue)
-				that.counterBuffer.get(id).setCurrentValue(amount);
-				that.counterBuffer.get(id).run();
+				jackSelf.setCurrentValue(amount);
 			if(id && action) {	
 				that.counterBuffer.get(id).actionPlay(action);
 			}
 		}
-		console.log('counterBuffer:');console.log(that.counterBuffer);		
+		//console.log('counterBuffer:');console.log(that.counterBuffer);		
 	}
 
 	// 🔚 
@@ -130,7 +114,9 @@ function JackPotCounter(options){
 	let that = this;
 	const ANGLE = 36;
 	let bufferPrototype = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	this.buffer = bufferPrototype;
+	//this.buffer = bufferPrototype;
+	this.buffer = new Map();
+	let check = false;
 	this.timeBuffer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	this.data = {
 		diffBetweenLatests:0,
@@ -173,14 +159,32 @@ function JackPotCounter(options){
 		return this;
 	};
 
+	this.Once = function(){
+		that.run();
+    	that.Once = function(){};
+	}
+
+	this.OnceAgain = function(){
+		that.play();
+    	that.OnceAgain = function(){};
+	}
+	
+
+	this.bufferIter = this.buffer.entries();
+
+	this.play = () => {
+		if(this.buffer.size > 0){
+			let array = that.bufferIter.next().value;
+			this.ticker[0] = setInterval(()=>{
+				this.transform(this.elemArr, array[0]);
+			}, array[1]);
+		console.log(array);
+		};
+		return this;
+	}
+
 	this.run = () => {
-		/*👾		#1	Метод должент принимать this.buffer && this.timeBuffer 
-		  👾		Запускать transform по таймауту равному разнице между элементами массива
-		  👾
-		  👾		#2	buffer.indexOf(currentValue) -- можно не изменять currentValue (201), 
-		  👾		а записывать в buffer и по таймеру возвращать цепляя колбек run 
-		*/
-		this.transform(this.elemArr);
+		this.transform(this.elemArr, that.currentValue);
 		this.sorting();
 		return this;
 	};
@@ -201,12 +205,24 @@ function JackPotCounter(options){
 			that.setNumRolls(v);
 		}
 		this.currentValue = v;
-		this.buffer.splice(0, 0, this.currentValue);
-		this.buffer.length = 10;
-		this.data.arrayStamp = this.buffer.join(', ');
-		console.log(this.data.arrayStamp);
+		//this.dataController(v);
+		that.Once();
+		
+/*		that.Once();
+		this.last.removeEventListener('transitionend',  (ev) => {
+  			console.log( 'remove event' );
+  			that.run();
+		}, false);
+		this.last.addEventListener('transitionend',  (ev) => {
+  			that.run();
+		}, false);*/
 		return this.currentValue;
 	};
+
+	this.dataController = (param, dur) => {
+		that.buffer.set(param, dur);
+		console.log(that.buffer);
+	}
 
 	const drawingCells = "<div class='jptb-jackpot-counter-cell'><div class='jptb-roller' data-rotate='0' data-duration='5000' style='transform: rotateX(0deg);transition-duration:5000ms'><div class='jptb-plane jptb-figure0'>0</div><div class='jptb-plane jptb-figure1'>1</div><div class='jptb-plane jptb-figure2'>2</div><div class='jptb-plane jptb-figure3'>3</div><div class='jptb-plane jptb-figure4'>4</div><div class='jptb-plane jptb-figure5'>5</div><div class='jptb-plane jptb-figure6'>6</div><div class='jptb-plane jptb-figure7'>7</div><div class='jptb-plane jptb-figure8'>8</div><div class='jptb-plane jptb-figure9'>9</div></div></div>";
 
@@ -215,9 +231,9 @@ function JackPotCounter(options){
 			str = a.toFixed(0),
 			rstr = Math.pow(10, digits).toFixed(0),
 			def = str.length - rstr.length;
-		console.log('str ' + str + ' - rstr ' + rstr + ' = ' + def);
+		//console.log('str ' + str + ' - rstr ' + rstr + ' = ' + def);
 		that.numRolls += def;
-		console.log(that.numRolls);
+		//console.log(that.numRolls);
 		let wrapper = document.querySelector('#jptb' + that.id + ' .jptb-jackpot-counter-wrapper');
 		let cell = wrapper.children[0];
 		for(let i = 0; i < def; i++) {
@@ -241,10 +257,10 @@ function JackPotCounter(options){
 									this.tickLength;
 	}
 
-	this.transform = (elemArr) => {
+	this.transform = (elemArr, val) => {
 
 		var arr = elemArr.slice(),
-			data = that.currentValue * 100;
+			data = val * 100;
 		for(var i = arr.length; i >= 0; i--) {
 			var multiplier = parseInt(data / Math.pow(10, arr.length - i)),
 				rotate = multiplier * ANGLE;
@@ -261,6 +277,7 @@ function JackPotCounter(options){
 				that.setTransform(arr[i - 1], rotate, this.coordinates.duration, this.coordinates.delay, bezier);
 			}
 		}
+		that.dataController(val, that.coordinates.duration);that.OnceAgain();
 	};
 	
 	this.save = item => localStorage.setItem(that, JSON.stringify(item));
@@ -307,7 +324,7 @@ function JackPotCounter(options){
 			elem.style.order = parseInt(-that.currentValue);
 	}
 
-
+	
 	(this.drawOdometer = () => {
 		let parent = document.querySelector('.jptb-center');
 			let jackpotItem = document.createElement('div');
@@ -336,9 +353,14 @@ function JackPotCounter(options){
 		parent.appendChild(jackpotItem);
 		
 		that.elemArr = Array.from(document.querySelectorAll('#jptb' + that.id + ' .jptb-roller'));
+
+		
 		that.run();
+
 	})();
 
+		this.last = document.querySelector('#jptb' + that.id + ' div.jptb-jackpot-counter-cell:nth-child(7) > div:nth-child(1)');
+		
 
 	this.addClass = (el, className) => {
 		if (el.classList)	el.classList.add(className);
@@ -395,7 +417,7 @@ if (!Object.prototype.unwatch) {
 this.watch("this.currentValue", function (id, oldval, newval) {
     		return newval;
 		});
-
+console.log(this);
 	return this;
 };
 
