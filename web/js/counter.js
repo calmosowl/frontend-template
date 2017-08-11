@@ -58,7 +58,7 @@ function WidgetTopPanel(options){
 			if(id && !that.counterBuffer.has(id))
 				that.counterBuffer.set(jsonData[counter].id, new JackPotCounter(jsonData[counter]));
 			if(id && amount && amount > that.counterBuffer.get(id).currentValue)
-				jackSelf.setCurrentValue(amount);
+				that.counterBuffer.get(id).setCurrentValue(amount);
 			if(id && action) {	
 				that.counterBuffer.get(id).actionPlay(action);
 			}
@@ -115,7 +115,8 @@ function JackPotCounter(options){
 	const ANGLE = 36;
 	let bufferPrototype = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	//this.buffer = bufferPrototype;
-	this.buffer = new Map();
+	this.buffer = new Map([ [0, 5000] ]);
+	this.bufferIter = this.buffer.entries();
 	let check = false;
 	this.timeBuffer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	this.data = {
@@ -159,32 +160,35 @@ function JackPotCounter(options){
 		return this;
 	};
 
-	this.Once = function(){
-		that.run();
-    	that.Once = function(){};
-	}
+	// this.Once = function(){
+	// 	that.run();
+	// 	console.log('Once');
+ //    	that.Once = function(){};
+	// }
 
-	this.OnceAgain = function(){
-		that.play();
-    	that.OnceAgain = function(){};
-	}
+	// this.OnceAgain = function(){
+	// 	that.play();
+	// 	console.log('OnceAgain');
+ //    	that.OnceAgain = function(){};
+	// }
 	
 
-	this.bufferIter = this.buffer.entries();
 
-	this.play = () => {
-		if(this.buffer.size > 0){
-			let array = that.bufferIter.next().value;
-			this.ticker[0] = setInterval(()=>{
-				this.transform(this.elemArr, array[0]);
-			}, array[1]);
-		console.log(array);
-		};
-		return this;
-	}
+	// this.play = () => {
+	// 	if(that.buffer.size > 1) {
+	// 		stamp = that.bufferIter.next().value;
+	// 		t = that.buffer.get(stamp[1]);
+	// 		cv = that.buffer.get(stamp[0]);
+			
+	// 		this.transform(this.elemArr, cv);
+	// 		console.log('t: ' + t + 'cv: ' + cv)
+
+	// 		setTimeout( that.play, t );
+	// 	}
+	// }
 
 	this.run = () => {
-		this.transform(this.elemArr, that.currentValue);
+		this.transform(this.elemArr);
 		this.sorting();
 		return this;
 	};
@@ -205,8 +209,11 @@ function JackPotCounter(options){
 			that.setNumRolls(v);
 		}
 		this.currentValue = v;
+		that.dataController(that.currentValue, that.coordinates.duration);
+
+		return this.currentValue;
+		
 		//this.dataController(v);
-		that.Once();
 		
 /*		that.Once();
 		this.last.removeEventListener('transitionend',  (ev) => {
@@ -216,13 +223,9 @@ function JackPotCounter(options){
 		this.last.addEventListener('transitionend',  (ev) => {
   			that.run();
 		}, false);*/
-		return this.currentValue;
 	};
 
-	this.dataController = (param, dur) => {
-		that.buffer.set(param, dur);
-		console.log(that.buffer);
-	}
+	
 
 	const drawingCells = "<div class='jptb-jackpot-counter-cell'><div class='jptb-roller' data-rotate='0' data-duration='5000' style='transform: rotateX(0deg);transition-duration:5000ms'><div class='jptb-plane jptb-figure0'>0</div><div class='jptb-plane jptb-figure1'>1</div><div class='jptb-plane jptb-figure2'>2</div><div class='jptb-plane jptb-figure3'>3</div><div class='jptb-plane jptb-figure4'>4</div><div class='jptb-plane jptb-figure5'>5</div><div class='jptb-plane jptb-figure6'>6</div><div class='jptb-plane jptb-figure7'>7</div><div class='jptb-plane jptb-figure8'>8</div><div class='jptb-plane jptb-figure9'>9</div></div></div>";
 
@@ -257,8 +260,13 @@ function JackPotCounter(options){
 									this.tickLength;
 	}
 
-	this.transform = (elemArr, val) => {
+	this.dataController = (param, dur) => {
+		that.buffer.set(param, dur);
+		console.log(that.buffer);
+	}
 
+	this.transform = (elemArr, val) => {
+		val = val ? val : that.currentValue;
 		var arr = elemArr.slice(),
 			data = val * 100;
 		for(var i = arr.length; i >= 0; i--) {
@@ -277,7 +285,7 @@ function JackPotCounter(options){
 				that.setTransform(arr[i - 1], rotate, this.coordinates.duration, this.coordinates.delay, bezier);
 			}
 		}
-		that.dataController(val, that.coordinates.duration);that.OnceAgain();
+		//console.log('val: ' + that.currentValue + '  duration: ' + that.coordinates.duration);
 	};
 	
 	this.save = item => localStorage.setItem(that, JSON.stringify(item));
@@ -285,6 +293,27 @@ function JackPotCounter(options){
 	this.setTransform = (el, rotate, duration, delay, bezier) => {
 		el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms; transition-delay:" + delay + "ms;transition-timing-function:" + bezier);
 	};
+
+	this.stamp;
+	this.time;
+	this.val;  
+	let c = 0; 
+	this.play = () => {console.log(c < that.buffer.size);
+    	if(c < that.buffer.size) {
+	      	that.stamp = that.bufferIter.next().value;
+	      	that.time = that.buffer.get(that.stamp[0]);
+	      	that.val = that.stamp[0];
+	      	
+	      	that.transform(that.elemArr, that.val);
+	      	c+=1;
+	      	console.log('play::: c = ' + c + ' that.val : ' + that.val);
+    	} 
+	      	console.log('play::: that.time : ' + that.time);
+    
+                     setTimeout(that.play, that.time + 1000)
+	};
+  
+  	
 
 	/* actions */
 
@@ -355,7 +384,7 @@ function JackPotCounter(options){
 		that.elemArr = Array.from(document.querySelectorAll('#jptb' + that.id + ' .jptb-roller'));
 
 		
-		that.run();
+		//that.run();
 
 	})();
 
@@ -417,7 +446,8 @@ if (!Object.prototype.unwatch) {
 this.watch("this.currentValue", function (id, oldval, newval) {
     		return newval;
 		});
-console.log(this);
+
+this.play();
 	return this;
 };
 
