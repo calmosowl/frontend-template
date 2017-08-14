@@ -44,32 +44,23 @@ document.addEventListener("DOMContentLoaded", (ev) => {
     	return Math.round(rand);
  	}
 
-	let amount=[0,0,0,0,0], counters;
-
-	function updateTEST(num){
-		setTimeout(function(){
-			amount[num-1]+=randomInteger(1, 10);
-			//console.log(amount);
-			counters = [
-						{	
-							"id": num,
-							"amount": amount[num-1],
-							//"action": "UPDATE",
-							//"tickLength": 5000
-						}
-						]
+ let num=0;
+ let a = new JackPotCounter({
+     id: 1,
+     value: 0
+ });
+	function updateTEST(){
+		setTimeout(function(){console.log("\n=== " + num + " ===");
+			a.setCurrentValue(a.currentValue + randomInteger(1,100));
 			
-			counters = JSON.stringify(counters);
-			//console.log(counters);
-			panel.update(counters);
-		
-			updateTEST(randomInteger(1,1));
-		},
-		//Math.round(Math.random()*10000));
-		5000);
-	}
+			num+=1;
+			if(num<10)	
+				updateTEST();
+			
+		}, randomInteger(1000,3000));
+	};
 	
-//updateTEST(1);
+updateTEST();
 
 
 	})();

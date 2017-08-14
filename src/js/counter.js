@@ -144,7 +144,7 @@ function JackPotCounter(options){
 	this.jackOrder = parseInt(that.currentValue * (-1));
 	this.numRolls = options&&options.numRolls ? options.numRolls : 7;
 	this.elemArr = options&&options.elemArr ? options.elemArr : [];
-	this.tickLength = options&&options.tickLength ? options.tickLength : 1000;
+	this.tickLength = options&&options.tickLength ? options.tickLength : 5000;
 	
 	this.tickPlay = () => {
 		if(this.ticker.length < 1){
@@ -209,7 +209,9 @@ function JackPotCounter(options){
 			that.setNumRolls(v);
 		}
 		this.currentValue = v;
-		that.dataController(that.currentValue, that.coordinates.duration);
+		let dur = parseInt(that.currentValue * 100) * ANGLE;
+		that.controller(dur);		
+		
 
 		return this.currentValue;
 		
@@ -258,11 +260,14 @@ function JackPotCounter(options){
 		this.coordinates.duration = this.coordinates.deviation > 4 ? 
 									parseInt(dRotate / this.coordinates.speedAverage * 1000) :	
 									this.tickLength;
+		console.log(this.currentValue + "dur - " + that.coordinates.duration + "deviation" + this.coordinates.deviation);
+		that.dataController(that.currentValue, that.coordinates.duration);
 	}
 
 	this.dataController = (param, dur) => {
 		that.buffer.set(param, dur);
 		console.log(that.buffer);
+		
 	}
 
 	this.transform = (elemArr, val) => {
@@ -272,7 +277,7 @@ function JackPotCounter(options){
 		for(var i = arr.length; i >= 0; i--) {
 			var multiplier = parseInt(data / Math.pow(10, arr.length - i)),
 				rotate = multiplier * ANGLE;
-			if(i == arr.length) {that.controller(rotate);}
+			// if(i == arr.length) {that.controller(rotate);}
 
 			this.coordinates.rBuffer[i] = this.coordinates.rBuffer[i] ? rotate - this.coordinates.rBuffer[i] : rotate;
 			
@@ -298,19 +303,17 @@ function JackPotCounter(options){
 	this.time;
 	this.val;  
 	let c = 0; 
-	this.play = () => {console.log(c < that.buffer.size);
-    	if(c < that.buffer.size) {
+	this.play = () => {console.log(c+ " < " + that.buffer.size);//console.log(that.buffer);
+    	if(c==0||c < that.buffer.size) {
 	      	that.stamp = that.bufferIter.next().value;
 	      	that.time = that.buffer.get(that.stamp[0]);
 	      	that.val = that.stamp[0];
 	      	
 	      	that.transform(that.elemArr, that.val);
 	      	c+=1;
-	      	console.log('play::: c = ' + c + ' that.val : ' + that.val);
+	      	console.log('play::: c = ' + c + ' val: ' + that.val + ' time: ' + that.time);
     	} 
-	      	console.log('play::: that.time : ' + that.time);
-    
-                     setTimeout(that.play, that.time + 1000)
+	      	setTimeout(that.play, that.time + 1000);
 	};
   
   	
@@ -447,7 +450,7 @@ this.watch("this.currentValue", function (id, oldval, newval) {
     		return newval;
 		});
 
-this.play();
+that.play();
 	return this;
 };
 
