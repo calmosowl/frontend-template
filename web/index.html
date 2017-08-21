@@ -20,47 +20,78 @@
 document.addEventListener("DOMContentLoaded", (ev) => {
 	(()=>{
 
-	let panel = new WidgetTopPanel({
-		container: 'topPanel', // id элемента в который будет добавлен виджет
-		left     : '0.00 EUR', // надпись слева
-		right    : 'GO', // надпись справа
-		
-		/* json, содержащий опции для счетчиков. Перечисленные счетчики будут добавлены в виджет при инициализации. * /
-		counters : '[\
-				{"id": 1, "jackName": "j-1", "amount": 0, "currency": "", "tickLength": 10000},\
-				{"id": 2, "jackName": "j-2", "amount": 0, "currency": "", "tickLength": 10000}\
-				]'
-		// */
-
-	});panel.init();
-
-
-
-	/* Метод update(json) обновляет свойство "amount" существующих счетчиков, добавляет новый счетчик */
-	//panel.update('[{"id": 1, "amount": 1.00}, {"id": 2, "amount": 2.00}, {"id": 9, "amount": 9.00}]');
-
-	function randomInteger(min, max) {
-    	let rand = min + Math.random()*(max-1); // 0.5 + Math.random() * (max - min + 1);
-    	return Math.round(rand);
- 	}
-
- let num=0;
- let a = new JackPotCounter({
-     id: 1,
-     value: 0
- });
-	function updateTEST(){
-		setTimeout(function(){console.log("\n=== " + num + " ===");
-			a.setCurrentValue(a.currentValue + randomInteger(1,100));
+		let panel = new WidgetTopPanel({
+			container: 'topPanel', // id элемента в который будет добавлен виджет
+			left     : '100.00 EUR', // надпись слева
+			right    : 'GO', // надпись справа
 			
-			num+=1;
-			if(num<10)	
-				updateTEST();
+			/* json, содержащий опции для счетчиков. Перечисленные счетчики будут добавлены в виджет при инициализации. * /
+			counters : '[\
+					{"id": 1, "jackName": "j-1", "amount": 0, "currency": "", "tickLength": 10000},\
+					{"id": 2, "jackName": "j-2", "amount": 0, "currency": "", "tickLength": 10000}\
+					]'
+			// */
+
+		});
+		panel.init();
+
+		/* Метод update(json) обновляет свойство "amount" существующих счетчиков или добавляет новый счетчик */
+		//panel.update('[{"id": 1, "amount": 1.00}, {"id": 2, "amount": 2.00}, {"id": 9, "amount": 9.00}]');
+
+
+
+
+		/* TESTS */
+
+		function randomInteger(min, max) {
+	    	return Math.round(min + Math.random()*(max-1));
+	 	}
+
+		let counterAmount=[], counters;
+		let tickLength = 4000,
+			maxIncome = 100,
+			countersCount = 5;
+
+		//for (var i = 0; i < countersCount; i++)UPDATE(i);
+
+		updateTEST(0);
+
+		function updateTEST(counterNumber){
+			setTimeout(function(){
+				UPDATE(counterNumber);
+				updateTEST(
+					0
+					//randomInteger(0,countersCount-1)
+				);
+			},
+				randomInteger(Math.round(tickLength/2),tickLength)
+			);
+		}
+
+		function UPDATE(counterNumber){
+			if(typeof counterAmount[counterNumber] === 'undefined'){
+				counterAmount[counterNumber]=0;
+			}
+			counterAmount[counterNumber]+=randomInteger(1, maxIncome);		
+			console.log("Counter #"+counterNumber+" should be update to "+counterAmount[counterNumber]);
+			console.log(counterAmount);
+
+
 			
-		}, randomInteger(1000,3000));
-	};
-	
-updateTEST();
+			
+			panel.update(JSON.stringify(
+					[
+						{
+							"id": 1,
+							"jackName": "№"+counterNumber,
+							"amount": counterAmount[counterNumber]
+						}
+					]
+				));	
+			// 		
+		}
+		/* TESTS */
+
 
 
 	})();

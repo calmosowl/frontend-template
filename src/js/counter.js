@@ -50,7 +50,7 @@ function WidgetTopPanel(options){
 		let jsonData = json ? JSON.parse(json) : false;
 
 		for (var counter in jsonData) {
-			let id = jsonData[counter].id ? jsonData[counter].id : false;
+			let id = jsonData[counter].id;
 			let amount = jsonData[counter].amount ? jsonData[counter].amount : false;
 			let action = jsonData[counter].action ? jsonData[counter].action : false;
 			let jackSelf = that.counterBuffer.has(id) ? that.counterBuffer.get(id) : {};
@@ -63,7 +63,6 @@ function WidgetTopPanel(options){
 				that.counterBuffer.get(id).actionPlay(action);
 			}
 		}
-		//console.log('counterBuffer:');console.log(that.counterBuffer);		
 	}
 
 	// 🔚 
@@ -125,7 +124,7 @@ function JackPotCounter(options){
 		duration: 0
 	};
 	this.coordinates = {
-		time: [],
+		time: [0],
 		rotate: [0],
 		rBuffer: [],
 		speed: [],
@@ -145,7 +144,8 @@ function JackPotCounter(options){
 	this.numRolls = options&&options.numRolls ? options.numRolls : 7;
 	this.elemArr = options&&options.elemArr ? options.elemArr : [];
 	this.tickLength = options&&options.tickLength ? options.tickLength : 5000;
-	
+	this.transitionState = false;
+
 	this.tickPlay = () => {
 		if(this.ticker.length < 1){
 			this.ticker[0] = setInterval(()=>{
@@ -160,35 +160,13 @@ function JackPotCounter(options){
 		return this;
 	};
 
-	// this.Once = function(){
-	// 	that.run();
-	// 	console.log('Once');
- //    	that.Once = function(){};
-	// }
-
-	// this.OnceAgain = function(){
-	// 	that.play();
-	// 	console.log('OnceAgain');
- //    	that.OnceAgain = function(){};
-	// }
-	
-
-
-	// this.play = () => {
-	// 	if(that.buffer.size > 1) {
-	// 		stamp = that.bufferIter.next().value;
-	// 		t = that.buffer.get(stamp[1]);
-	// 		cv = that.buffer.get(stamp[0]);
-			
-	// 		this.transform(this.elemArr, cv);
-	// 		console.log('t: ' + t + 'cv: ' + cv)
-
-	// 		setTimeout( that.play, t );
-	// 	}
-	// }
+	this.Once = function(){
+		that.run();
+    	that.Once = function(){};
+	}
 
 	this.run = () => {
-		this.transform(this.elemArr);
+		this.transform(this.elemArr, that.currentValue);
 		this.sorting();
 		return this;
 	};
@@ -201,7 +179,6 @@ function JackPotCounter(options){
 
 	this.sorting = elem => elem.style.order = that.jackOrder + '';
 	
-
 	this.setCurrentValue = (v) => {
 		if(isNaN(v/2)) 
 			return console.info('= waiting for integer =');
@@ -209,22 +186,11 @@ function JackPotCounter(options){
 			that.setNumRolls(v);
 		}
 		this.currentValue = v;
+		let tt = new Date();
+		that.coordinates.time.splice(0, 0, tt);
 		let dur = parseInt(that.currentValue * 100) * ANGLE;
 		that.controller(dur);		
-		
-
 		return this.currentValue;
-		
-		//this.dataController(v);
-		
-/*		that.Once();
-		this.last.removeEventListener('transitionend',  (ev) => {
-  			console.log( 'remove event' );
-  			that.run();
-		}, false);
-		this.last.addEventListener('transitionend',  (ev) => {
-  			that.run();
-		}, false);*/
 	};
 
 	
@@ -236,9 +202,8 @@ function JackPotCounter(options){
 			str = a.toFixed(0),
 			rstr = Math.pow(10, digits).toFixed(0),
 			def = str.length - rstr.length;
-		//console.log('str ' + str + ' - rstr ' + rstr + ' = ' + def);
+
 		that.numRolls += def;
-		//console.log(that.numRolls);
 		let wrapper = document.querySelector('#jptb' + that.id + ' .jptb-jackpot-counter-wrapper');
 		let cell = wrapper.children[0];
 		for(let i = 0; i < def; i++) {
@@ -260,14 +225,15 @@ function JackPotCounter(options){
 		this.coordinates.duration = this.coordinates.deviation > 4 ? 
 									parseInt(dRotate / this.coordinates.speedAverage * 1000) :	
 									this.tickLength;
-		console.log(this.currentValue + "dur - " + that.coordinates.duration + "deviation" + this.coordinates.deviation);
-		that.dataController(that.currentValue, that.coordinates.duration);
+	
+//	      	console.info(" controller::: " + this.currentValue + "  /  " + (that.coordinates.duration+that.coordinates.delay)*1 + "ms  /  dev " + parseInt(this.coordinates.deviation));
+		that.dataController(that.currentValue, +that.coordinates.duration+that.coordinates.delay);
 	}
 
 	this.dataController = (param, dur) => {
 		that.buffer.set(param, dur);
-		console.log(that.buffer);
-		
+//		console.log(that.buffer);
+		that.Once();
 	}
 
 	this.transform = (elemArr, val) => {
@@ -290,33 +256,14 @@ function JackPotCounter(options){
 				that.setTransform(arr[i - 1], rotate, this.coordinates.duration, this.coordinates.delay, bezier);
 			}
 		}
-		//console.log('val: ' + that.currentValue + '  duration: ' + that.coordinates.duration);
 	};
 	
 	this.save = item => localStorage.setItem(that, JSON.stringify(item));
 
-	this.setTransform = (el, rotate, duration, delay, bezier) => {
+	this.setTransform = (el, rotate, duration, delay, bezier) => { 
+
 		el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms; transition-delay:" + delay + "ms;transition-timing-function:" + bezier);
 	};
-
-	this.stamp;
-	this.time;
-	this.val;  
-	let c = 0; 
-	this.play = () => {console.log(c+ " < " + that.buffer.size);//console.log(that.buffer);
-    	if(c==0||c < that.buffer.size) {
-	      	that.stamp = that.bufferIter.next().value;
-	      	that.time = that.buffer.get(that.stamp[0]);
-	      	that.val = that.stamp[0];
-	      	
-	      	that.transform(that.elemArr, that.val);
-	      	c+=1;
-	      	console.log('play::: c = ' + c + ' val: ' + that.val + ' time: ' + that.time);
-    	} 
-	      	setTimeout(that.play, that.time + 1000);
-	};
-  
-  	
 
 	/* actions */
 
@@ -391,8 +338,36 @@ function JackPotCounter(options){
 
 	})();
 
-		this.last = document.querySelector('#jptb' + that.id + ' div.jptb-jackpot-counter-cell:nth-child(7) > div:nth-child(1)');
-		
+	this.stamp;
+	this.time;
+	this.val;  
+	let c = 0; 
+	this.play = () => {//console.log(c+ " < " + that.buffer.size);console.log(that.buffer);
+	   	if(c < that.buffer.size && !that.transitionState) {
+	      	that.stamp = that.bufferIter.next().value;
+	      	//that.time = that.buffer.get(that.stamp[0]) > that.tickLength ? that.buffer.get(that.stamp[0]) : that.tickLength;
+	      	that.time = that.buffer.get(that.stamp[0]);
+	      	that.val = that.stamp[0];
+	      	
+	      	that.transform(that.elemArr, that.val);
+	      	c+=1;
+	      	//console.warn(' play::: val:' + that.val + ' time: ' + that.time);
+    	} 
+	    setTimeout(that.play, that.time);
+	};
+
+		let last = document.querySelector('#jptb' + that.id + ' div.jptb-jackpot-counter-cell:nth-child(7) > div:nth-child(1)');
+			last.ontransitionrun = function(event) {
+				let rt = new Date();
+				that.coordinates.time.splice(0, 0, rt.getTime());
+				return that.transitionState = true;
+			} 
+			last.ontransitionend = function(event) {
+				let rt = new Date();
+				let Δ = that.coordinates.time[0] - that.coordinates.time[1];
+//	  			console.log('event end after ' + Δ);
+				return that.transitionState = false;
+			}
 
 	this.addClass = (el, className) => {
 		if (el.classList)	el.classList.add(className);
@@ -450,7 +425,7 @@ this.watch("this.currentValue", function (id, oldval, newval) {
     		return newval;
 		});
 
-that.play();
+	this.play();
 	return this;
 };
 

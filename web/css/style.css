@@ -135,7 +135,6 @@
 }
 
 .jptb-top-panel .jptb-center .jptb-jackpot-item .jptb-jackpot-counter .jptb-jackpot-counter-wrapper .jptb-jackpot-counter-cell > div {
-    width: 20px;
     height: 34px;
     margin: 0 auto;
     -webkit-transition-delay: 500ms;
@@ -157,7 +156,7 @@
 .jptb-top-panel .jptb-center .jptb-jackpot-item .jptb-jackpot-counter .jptb-jackpot-counter-wrapper .jptb-jackpot-counter-cell .jptb-plane {
     line-height: 1;
     position: absolute;
-    width: 20px;
+    width: 100%;
     height: 34px;
     text-align: center;
     color: #fbea5e;
@@ -174,53 +173,53 @@
 }
 
 .jptb-jackpot-counter .jptb-figure0 {
-    -webkit-transform: rotate3d(1, 0, 0, 0deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, 0deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, 0deg) translate3d(0, 0, 30px);
+            transform: rotate3d(1, 0, 0, 0deg) translate3d(0, 0, 30px);
 }
 
 .jptb-jackpot-counter .jptb-figure1 {
-    -webkit-transform: rotate3d(1, 0, 0, -36deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, -36deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -36deg) translate3d(0, 0, 30px);
+            transform: rotate3d(1, 0, 0, -36deg) translate3d(0, 0, 30px);
 }
 
 .jptb-jackpot-counter .jptb-figure2 {
-    -webkit-transform: rotate3d(1, 0, 0, -72deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, -72deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -72deg) translate3d(0, 0, 30px);
+            transform: rotate3d(1, 0, 0, -72deg) translate3d(0, 0, 30px);
 }
 
 .jptb-jackpot-counter .jptb-figure3 {
-    -webkit-transform: rotate3d(1, 0, 0, -108deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, -108deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -108deg) translate3d(0, 0, 30px);
+            transform: rotate3d(1, 0, 0, -108deg) translate3d(0, 0, 30px);
 }
 
 .jptb-jackpot-counter .jptb-figure4 {
-    -webkit-transform: rotate3d(1, 0, 0, -144deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, -144deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -144deg) translate3d(0, 0, 30px);
+            transform: rotate3d(1, 0, 0, -144deg) translate3d(0, 0, 30px);
 }
 
 .jptb-jackpot-counter .jptb-figure5 {
-    -webkit-transform: rotate3d(1, 0, 0, -180deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, -180deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -180deg) translate3d(0, 0, 30px);
+            transform: rotate3d(1, 0, 0, -180deg) translate3d(0, 0, 30px);
 }
 
 .jptb-jackpot-counter .jptb-figure6 {
-    -webkit-transform: rotate3d(1, 0, 0, -216deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, -216deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -216deg) translate3d(0, 0, 30px);
+            transform: rotate3d(1, 0, 0, -216deg) translate3d(0, 0, 30px);
 }
 
 .jptb-jackpot-counter .jptb-figure7 {
-    -webkit-transform: rotate3d(1, 0, 0, -252deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, -252deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -252deg) translate3d(0, 0, 30px);
+            transform: rotate3d(1, 0, 0, -252deg) translate3d(0, 0, 30px);
 }
 
 .jptb-jackpot-counter .jptb-figure8 {
-    -webkit-transform: rotate3d(1, 0, 0, -288deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, -288deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -288deg) translate3d(0, 0, 30px);
+            transform: rotate3d(1, 0, 0, -288deg) translate3d(0, 0, 30px);
 }
 
 .jptb-jackpot-counter .jptb-figure9 {
-    -webkit-transform: rotate3d(1, 0, 0, -324deg) translate3d(0, 0, 31px);
-            transform: rotate3d(1, 0, 0, -324deg) translate3d(0, 0, 31px);
+    -webkit-transform: rotate3d(1, 0, 0, -324deg) translate3d(0, 0, 30px);
+            transform: rotate3d(1, 0, 0, -324deg) translate3d(0, 0, 30px);
 }
 
 /* win animation */

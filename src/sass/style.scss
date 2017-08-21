@@ -18,7 +18,7 @@
 $top-panel-height: 34px;
 $font-family: DinPro, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 $con: 20px;
-$deep: 31px;
+$deep: $top-panel-height - 4px;
 $angle: 36deg;
 
 @mixin transform($transforms) {
@@ -52,7 +52,7 @@ $angle: 36deg;
 	}
 .jptb-top-panel-wrapper {
 	position: relative;
-	height: 34px;
+	height: $top-panel-height;
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
@@ -109,7 +109,7 @@ $angle: 36deg;
 						& > div  {
 							margin: 0 auto;
 							height: $top-panel-height;
-							width: $con;
+							// width: $con;
 							transform-style: preserve-3d;
 							will-change: transform;
 							@include transition(transform, 0ms, cubic-bezier(.7,.16,.3,.84), 500ms);
@@ -117,7 +117,7 @@ $angle: 36deg;
 							.jptb-plane {
 								position: absolute;
 								height: $top-panel-height;
-								width: $con;
+								width: 100%;
 								text-align: center;
 								// font-size: $con;
 								line-height: 1;
