@@ -49,6 +49,12 @@ function WidgetTopPanel(options){
 	this.update = (json) => {
 		let jsonData = json ? JSON.parse(json) : false;
 
+		let event = new CustomEvent("update", {
+			detail: { data: jsonData }
+  		});
+	
+		document.dispatchEvent(event);
+
 		for (var counter in jsonData) {
 			let id = jsonData[counter].id;
 			let amount = jsonData[counter].amount ? jsonData[counter].amount : false;
@@ -64,6 +70,8 @@ function WidgetTopPanel(options){
 			}
 		}
 	}
+
+	
 
 	// 🔚 
 
@@ -145,40 +153,13 @@ function JackPotCounter(options){
 	this.elemArr = options&&options.elemArr ? options.elemArr : [];
 	this.tickLength = options&&options.tickLength ? options.tickLength : 5000;
 	this.transitionState = false;
-
-	this.tickPlay = () => {
-		if(this.ticker.length < 1){
-			this.ticker[0] = setInterval(()=>{
-				this.buffer.splice(0, 0, this.currentValue);
-				this.buffer.length = 10;
-				this.data.diffBetweenLatests = +(this.buffer[0]-this.buffer[1]).toFixed(2);
-				/*-*/this.data.time = Date.now();
-				this.data.arrayStamp = this.buffer.join(', ');
-			}, this.tickLength);
-
-		};
-		return this;
-	};
-
-	this.Once = function(){
-		that.run();
-    	that.Once = function(){};
-	}
+	const drawingCells = "<div class='jptb-jackpot-counter-cell'><div class='jptb-roller' data-rotate='0' data-duration='5000' style='transform: rotateX(0deg);transition-duration:5000ms'><div class='jptb-plane jptb-figure0'>0</div><div class='jptb-plane jptb-figure1'>1</div><div class='jptb-plane jptb-figure2'>2</div><div class='jptb-plane jptb-figure3'>3</div><div class='jptb-plane jptb-figure4'>4</div><div class='jptb-plane jptb-figure5'>5</div><div class='jptb-plane jptb-figure6'>6</div><div class='jptb-plane jptb-figure7'>7</div><div class='jptb-plane jptb-figure8'>8</div><div class='jptb-plane jptb-figure9'>9</div></div></div>";
 
 	this.run = () => {
 		this.transform(this.elemArr, that.currentValue);
-		this.sorting();
 		return this;
 	};
 
-	this.show = () => {
-		return {
-      		value: this
-    	}
-	};
-
-	this.sorting = elem => elem.style.order = that.jackOrder + '';
-	
 	this.setCurrentValue = (v) => {
 		if(isNaN(v/2)) 
 			return console.info('= waiting for integer =');
@@ -192,11 +173,7 @@ function JackPotCounter(options){
 		that.controller(dur);		
 		return this.currentValue;
 	};
-
-	
-
-	const drawingCells = "<div class='jptb-jackpot-counter-cell'><div class='jptb-roller' data-rotate='0' data-duration='5000' style='transform: rotateX(0deg);transition-duration:5000ms'><div class='jptb-plane jptb-figure0'>0</div><div class='jptb-plane jptb-figure1'>1</div><div class='jptb-plane jptb-figure2'>2</div><div class='jptb-plane jptb-figure3'>3</div><div class='jptb-plane jptb-figure4'>4</div><div class='jptb-plane jptb-figure5'>5</div><div class='jptb-plane jptb-figure6'>6</div><div class='jptb-plane jptb-figure7'>7</div><div class='jptb-plane jptb-figure8'>8</div><div class='jptb-plane jptb-figure9'>9</div></div></div>";
-
+		
 	this.setNumRolls = (a) => {
 		let digits = that.numRolls-3,
 			str = a.toFixed(0),
@@ -232,8 +209,6 @@ function JackPotCounter(options){
 
 	this.dataController = (param, dur) => {
 		that.buffer.set(param, dur);
-//		console.log(that.buffer);
-		that.Once();
 	}
 
 	this.transform = (elemArr, val) => {
@@ -243,7 +218,6 @@ function JackPotCounter(options){
 		for(var i = arr.length; i >= 0; i--) {
 			var multiplier = parseInt(data / Math.pow(10, arr.length - i)),
 				rotate = multiplier * ANGLE;
-			// if(i == arr.length) {that.controller(rotate);}
 
 			this.coordinates.rBuffer[i] = this.coordinates.rBuffer[i] ? rotate - this.coordinates.rBuffer[i] : rotate;
 			
@@ -258,10 +232,7 @@ function JackPotCounter(options){
 		}
 	};
 	
-	this.save = item => localStorage.setItem(that, JSON.stringify(item));
-
 	this.setTransform = (el, rotate, duration, delay, bezier) => { 
-
 		el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms; transition-delay:" + delay + "ms;transition-timing-function:" + bezier);
 	};
 
@@ -338,11 +309,22 @@ function JackPotCounter(options){
 
 	})();
 
+
+
+	document.addEventListener("update", function(event) {
+		console.log( event.type, event.detail.data );
+		//that.play();
+	}, false);
+
 	this.stamp;
 	this.time;
 	this.val;  
 	let c = 0; 
 	this.play = () => {//console.log(c+ " < " + that.buffer.size);console.log(that.buffer);
+	   	let event = new Event("trasitionend");
+		let last = document.querySelector('#jptb' + that.id + ' div.jptb-jackpot-counter-cell:nth-child(7) > div:nth-child(1)');
+		last.dispatchEvent(event);
+
 	   	if(c < that.buffer.size && !that.transitionState) {
 	      	that.stamp = that.bufferIter.next().value;
 	      	//that.time = that.buffer.get(that.stamp[0]) > that.tickLength ? that.buffer.get(that.stamp[0]) : that.tickLength;
@@ -350,13 +332,14 @@ function JackPotCounter(options){
 	      	that.val = that.stamp[0];
 	      	
 	      	that.transform(that.elemArr, that.val);
+	      	that.sorting();
 	      	c+=1;
-	      	//console.warn(' play::: val:' + that.val + ' time: ' + that.time);
+	    
     	} 
-	    setTimeout(that.play, that.time);
+	    //setTimeout(that.play, that.time);
 	};
 
-		let last = document.querySelector('#jptb' + that.id + ' div.jptb-jackpot-counter-cell:nth-child(7) > div:nth-child(1)');
+		/*let last = document.querySelector('#jptb' + that.id + ' div.jptb-jackpot-counter-cell:nth-child(7) > div:nth-child(1)');
 			last.ontransitionrun = function(event) {
 				let rt = new Date();
 				that.coordinates.time.splice(0, 0, rt.getTime());
@@ -365,9 +348,9 @@ function JackPotCounter(options){
 			last.ontransitionend = function(event) {
 				let rt = new Date();
 				let Δ = that.coordinates.time[0] - that.coordinates.time[1];
-//	  			console.log('event end after ' + Δ);
+	  			console.log('event end after ' + Δ);
 				return that.transitionState = false;
-			}
+			}*/
 
 	this.addClass = (el, className) => {
 		if (el.classList)	el.classList.add(className);
