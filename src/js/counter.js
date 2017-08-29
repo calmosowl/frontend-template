@@ -50,7 +50,7 @@ function WidgetTopPanel(options){
 		let jsonData = json ? JSON.parse(json) : false;
 
 		let event = new CustomEvent("update", {
-			detail: { data: jsonData }
+			detail: jsonData 
   		});
 	
 		document.dispatchEvent(event);
@@ -120,17 +120,6 @@ function WidgetTopPanel(options){
 function JackPotCounter(options){
 	let that = this;
 	const ANGLE = 36;
-	let bufferPrototype = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	//this.buffer = bufferPrototype;
-	this.buffer = new Map([ [0, 5000] ]);
-	this.bufferIter = this.buffer.entries();
-	let check = false;
-	this.timeBuffer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	this.data = {
-		diffBetweenLatests:0,
-		time: 0,
-		duration: 0
-	};
 	this.coordinates = {
 		time: [0],
 		rotate: [0],
@@ -144,21 +133,14 @@ function JackPotCounter(options){
 	this.action = options&&options.action ? options.action : '';
 	this.currentValue = options&&options.amount ? options.amount : 0;
 	this.id = options&&options.id ? options.id : 0;
-	this.ticker = [];
-	this.echoTicker = [];
 	this.currency = options&&options.currency ? options.currency : '';
 	this.jackName = options&&options.jackName ? options.jackName : '';
 	this.jackOrder = parseInt(that.currentValue * (-1));
 	this.numRolls = options&&options.numRolls ? options.numRolls : 7;
-	this.elemArr = options&&options.elemArr ? options.elemArr : [];
 	this.tickLength = options&&options.tickLength ? options.tickLength : 5000;
-	this.transitionState = false;
+	this.elemArr;
+	this.$;
 	const drawingCells = "<div class='jptb-jackpot-counter-cell'><div class='jptb-roller' data-rotate='0' data-duration='5000' style='transform: rotateX(0deg);transition-duration:5000ms'><div class='jptb-plane jptb-figure0'>0</div><div class='jptb-plane jptb-figure1'>1</div><div class='jptb-plane jptb-figure2'>2</div><div class='jptb-plane jptb-figure3'>3</div><div class='jptb-plane jptb-figure4'>4</div><div class='jptb-plane jptb-figure5'>5</div><div class='jptb-plane jptb-figure6'>6</div><div class='jptb-plane jptb-figure7'>7</div><div class='jptb-plane jptb-figure8'>8</div><div class='jptb-plane jptb-figure9'>9</div></div></div>";
-
-	this.run = () => {
-		this.transform(this.elemArr, that.currentValue);
-		return this;
-	};
 
 	this.setCurrentValue = (v) => {
 		if(isNaN(v/2)) 
@@ -199,16 +181,7 @@ function JackPotCounter(options){
 			var dev = b - that.coordinates.speedAverage;
 			return a+dev*dev;
 		})/this.coordinates.speed.length))/1000;
-		this.coordinates.duration = this.coordinates.deviation > 4 ? 
-									parseInt(dRotate / this.coordinates.speedAverage * 1000) :	
-									this.tickLength;
-	
-//	      	console.info(" controller::: " + this.currentValue + "  /  " + (that.coordinates.duration+that.coordinates.delay)*1 + "ms  /  dev " + parseInt(this.coordinates.deviation));
-		that.dataController(that.currentValue, +that.coordinates.duration+that.coordinates.delay);
-	}
-
-	this.dataController = (param, dur) => {
-		that.buffer.set(param, dur);
+		this.coordinates.duration = this.coordinates.deviation > 4 ? parseInt(dRotate / this.coordinates.speedAverage * 1000) :	this.tickLength;
 	}
 
 	this.transform = (elemArr, val) => {
@@ -303,116 +276,31 @@ function JackPotCounter(options){
 		parent.appendChild(jackpotItem);
 		
 		that.elemArr = Array.from(document.querySelectorAll('#jptb' + that.id + ' .jptb-roller'));
-
-		
-		//that.run();
-
+		that.$ = that.elemArr[that.elemArr.length-1];
 	})();
 
-
-
+	let event = new Event("trasitionend");
+	this.stack = [];
 	document.addEventListener("update", function(event) {
-		console.log( event.type, event.detail.data );
-		//that.play();
+		let update = event.detail[0];  
+		
+		if(update.id && update.id == that.id) {
+			that.stack.splice(0, 0, update.amount);
+			if(that.stack.length == 1) {
+				that.transform(that.elemArr);
+			}
+		}
 	}, false);
 
-	this.stamp;
-	this.time;
-	this.val;  
-	let c = 0; 
-	this.play = () => {//console.log(c+ " < " + that.buffer.size);console.log(that.buffer);
-	   	let event = new Event("trasitionend");
-		let last = document.querySelector('#jptb' + that.id + ' div.jptb-jackpot-counter-cell:nth-child(7) > div:nth-child(1)');
-		last.dispatchEvent(event);
-
-	   	if(c < that.buffer.size && !that.transitionState) {
-	      	that.stamp = that.bufferIter.next().value;
-	      	//that.time = that.buffer.get(that.stamp[0]) > that.tickLength ? that.buffer.get(that.stamp[0]) : that.tickLength;
-	      	that.time = that.buffer.get(that.stamp[0]);
-	      	that.val = that.stamp[0];
-	      	
-	      	that.transform(that.elemArr, that.val);
-	      	that.sorting();
-	      	c+=1;
-	    
-    	} 
-	    //setTimeout(that.play, that.time);
-	};
-
-		/*let last = document.querySelector('#jptb' + that.id + ' div.jptb-jackpot-counter-cell:nth-child(7) > div:nth-child(1)');
-			last.ontransitionrun = function(event) {
-				let rt = new Date();
-				that.coordinates.time.splice(0, 0, rt.getTime());
-				return that.transitionState = true;
-			} 
-			last.ontransitionend = function(event) {
-				let rt = new Date();
-				let Δ = that.coordinates.time[0] - that.coordinates.time[1];
-	  			console.log('event end after ' + Δ);
-				return that.transitionState = false;
-			}*/
-
-	this.addClass = (el, className) => {
-		if (el.classList)	el.classList.add(className);
-		else el.className += ' ' + className;
+	this.$.ontransitionend = function(event) {
+		that.transform(that.elemArr, that.stack.pop());
+		that.sorting();
+		console.log('stack: ' + that.stack.toString() );
 	}
 
 
-
-
-	/*watch polyfill*/
-	if (!Object.prototype.watch) {
-  	Object.defineProperty(Object.prototype, "watch", {
-    enumerable: false
-    , configurable: true
-    , writable: false
-    , value: function (prop, handler) {
-      var
-      oldval = this[prop]
-      , newval = oldval
-      , getter = function () {
-        return newval;
-      }
-      , setter = function (val) {
-        oldval = newval;
-        return newval = handler.call(this, prop, oldval, val);
-      }
-      ;
-
-      if (delete this[prop]) { 
-        Object.defineProperty(this, prop, {
-          get: getter
-          , set: setter
-          , enumerable: true
-          , configurable: true
-        });
-      }
-    }
-  });
-}
-
-if (!Object.prototype.unwatch) {
-  Object.defineProperty(Object.prototype, "unwatch", {
-    enumerable: false
-    , configurable: true
-    , writable: false
-    , value: function (prop) {
-      var val = this[prop];
-      delete this[prop]; 
-      this[prop] = val;
-    }
-  });
-}
-
-this.watch("this.currentValue", function (id, oldval, newval) {
-    		return newval;
-		});
-
-	this.play();
 	return this;
 };
-
-
 /* helpers */
 
 function newElem(tag, params) {
@@ -448,6 +336,4 @@ function attr(el, at, value) {
 function append(el, where) {
     (where || document.body).appendChild(el);
 }
-
 // 🔚
-

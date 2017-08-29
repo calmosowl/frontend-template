@@ -17,6 +17,7 @@ var del          = require('del');
 var buffer       = require('vinyl-buffer');
 var imageminPngquant = require('imagemin-pngquant');
 var imageminJpegRecompress = require('imagemin-jpeg-recompress');
+var babel        = require("gulp-babel");
 var reload       = browserSync.reload;
 
 // =============================
@@ -207,6 +208,7 @@ gulp.task('build:js', function () {
     return gulp.src(path.src.js)
         .pipe($.plumber(option.plumber))
         .pipe($.rigger())
+        .pipe(babel())
         .pipe(gulp.dest(path.build.js));
 });
 
