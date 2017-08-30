@@ -38,25 +38,21 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 
 		/* TESTS */
 
-		function randomInteger(min, max) {
-	    	return Math.round(min + Math.random()*(max-1));
-	 	}
+		function randomInteger(min, max) { return Math.round(min + Math.random()*(max-1)); }
 
-		let counterAmount=[], counters;
-		let tickLength = 4000,
-			maxIncome = 10,
-			countersCount = 5;
-		let n = 0;	
+		let counterAmount=[], counters; let tickLength = 4000, maxIncome = 100, countersCount = 5;
+
 		//for (var i = 0; i < countersCount; i++)UPDATE(i);
 
 		updateTEST(0);
 
 		function updateTEST(counterNumber){
 			setTimeout(function(){
-				n+=1;
 				UPDATE(counterNumber);
-			if(n>16) return;	
-			else updateTEST(0);
+				updateTEST(
+					0
+					//randomInteger(0,countersCount-1)
+				);
 			},
 				randomInteger(Math.round(tickLength/2),tickLength)
 			);
@@ -68,7 +64,7 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 			}
 			counterAmount[counterNumber]+=randomInteger(1, maxIncome);		
 			console.log("Counter #"+counterNumber+" should be update to "+counterAmount[counterNumber]);
-			//console.log(counterAmount);
+			console.log(counterAmount);
 
 
 			
@@ -77,7 +73,7 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 					[
 						{
 							"id": 1,
-							"jackName": "№0",
+							"jackName": "№"+counterNumber,
 							"amount": counterAmount[counterNumber]
 						}
 					]

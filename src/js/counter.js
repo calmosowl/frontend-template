@@ -116,6 +116,8 @@ function WidgetTopPanel(options){
 	return this;
 };
 
+window.WidgetTopPanel = WidgetTopPanel;
+window.JackPotCounter = JackPotCounter;
 
 function JackPotCounter(options){
 	let that = this;
@@ -206,7 +208,7 @@ function JackPotCounter(options){
 	};
 	
 	this.setTransform = (el, rotate, duration, delay, bezier) => { 
-		el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms; transition-delay:" + delay + "ms;transition-timing-function:" + bezier);
+		el.setAttribute('style', "transform: rotateX(" + rotate  + "deg);transition-duration:" + duration + "ms; transition-delay:" + delay + "ms;transition-timing-function:" + bezier + ";transform: rotateX(" + rotate  + "deg);-webkit-transition-duration:" + duration + "ms; -webkit-transition-delay:" + delay + "ms;-webkit-transition-timing-function:" + bezier);
 	};
 
 	/* actions */
@@ -286,17 +288,19 @@ function JackPotCounter(options){
 		
 		if(update.id && update.id == that.id) {
 			that.stack.splice(0, 0, update.amount);
+			console.log('stack: ' + that.stack);
 			if(that.stack.length == 1) {
 				that.transform(that.elemArr);
 			}
 		}
 	}, false);
 
-	this.$.ontransitionend = function(event) {
-		that.transform(that.elemArr, that.stack.pop());
-		that.sorting();
-		console.log('stack: ' + that.stack.toString() );
-	}
+	this.$.addEventListener("webkitTransitionEnd", function(event) {
+		setTimeout(()=>{
+			that.transform(that.elemArr, that.stack.pop());
+			that.sorting();
+		}, 1000)
+	}, false);
 
 
 	return this;

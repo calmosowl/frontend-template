@@ -141,12 +141,13 @@
             transition-delay: 500ms;
     -webkit-transition-timing-function: cubic-bezier(.7, .16, .3, .84);
             transition-timing-function: cubic-bezier(.7, .16, .3, .84);
-    -webkit-transition-duration: 0ms;
-            transition-duration: 0ms;
+    -webkit-transition-duration: 2000ms;
+            transition-duration: 2000ms;
     -webkit-transition-property: -webkit-transform;
             transition-property: -webkit-transform;
             transition-property:         transform;
             transition-property:         transform, -webkit-transform;
+            transition-property:         transform,-webkit-transform;
 
     -webkit-transform-style: preserve-3d;
             transform-style: preserve-3d;

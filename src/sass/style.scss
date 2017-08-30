@@ -112,7 +112,17 @@ $angle: 36deg;
 							// width: $con;
 							transform-style: preserve-3d;
 							will-change: transform;
-							@include transition(transform, 0ms, cubic-bezier(.7,.16,.3,.84), 500ms);
+							//@include transition(transform, 0ms, cubic-bezier(.7,.16,.3,.84), 500ms);
+							-webkit-transition-delay: 500ms;
+							transition-delay: 500ms;
+							-webkit-transition-timing-function: cubic-bezier(.7, .16, .3, .84);
+							transition-timing-function: cubic-bezier(.7, .16, .3, .84);
+							-webkit-transition-duration: 2000ms;
+							transition-duration: 2000ms;
+							-webkit-transition-property: -webkit-transform;
+							transition-property: -webkit-transform;
+							transition-property : transform;
+							transition-property : transform,-webkit-transform;
 						}
 							.jptb-plane {
 								position: absolute;
